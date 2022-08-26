@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>投票：{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="keywords" content="{@keyword}"/>
+<meta name="description" content="{@description}"/>
+<link href="{@domain}{@tpldir}/poll.css" rel="stylesheet" type="text/css"/>
+<link href="{@domain}misc/css/common.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{@domain}misc/js/common.js"></script>
+</head>
+<body onkeydown="if(event.keyCode==27) return false;">
+<div class="pollhead">
+	<h1>{@webname} - 投票调查</h1>
+</div>
+<div class="pollwrap"><div class="pollbox">
+	<h2><a href="{$url}">$polltitle</a></h2>
+	<div class="pollabout">共有 <em class="c1">$voters</em> 人参与投票 &nbsp; <a href="{$url}">我要投票</a></div>
+	<form id="pollvoteform" name="pollvoteform" method="post" autocomplete="off" action="{$pollurl}">
+	<input type="hidden" name="chanid" value="{$chanid}" />
+	<div class="polltable"><table cellspacing="0" cellpadding="0">
+		<caption><span>$polltitle</span></caption>
+		<tr>
+			<th style="width:35px"></th>
+			<th>选项</th>
+			<th style="width:305px">比例</th>
+			<th style="width:50px"></th>
+			<th style="width:80px">票数</th>
+		</tr>
+		<phpcom:for-each select="$polloptions" value="$poll">
+		<tr>
+			<td class="choicebox">{$poll.input}</td>
+			<td class="voteoption">{$poll.voteoption}</td>
+			<td class="percentbox"><div class="percentbg"><div class="percentbar" style="width:{$poll.width}"></div></div></td>
+			<td>{$poll.percent}%</td>
+			<td style="text-align:center;">{$poll.votes}</td>
+		</tr>
+		</phpcom:for-each>
+		<!--{phpcom:if test="!$isvote"}-->
+		<tr>
+			<td colspan="5" class="pollbutton"><button class="btnsubmit" type="submit" name="pollsubmit" id="pollsubmit" value="true">提交</button></td>
+		</tr>
+		<!--{/phpcom:if}-->
+	</table></div>
+	</form>
+	<div class="pollfoot">投票进行中，当前时间：{phpcom:value-of select="time()" output-date-value="yes" format="Y-m-d H:i:s"}</div>
+</div></div>
+</body>
+</html>

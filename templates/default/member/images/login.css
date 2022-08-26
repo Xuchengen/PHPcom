@@ -1,0 +1,95 @@
+*{margin:0;padding:0;outline:none;}
+html{background-color:#fff;border:none;margin:0;padding:0;}
+body{background:#fff;margin:0 auto;font-size:12px;font-family:Arial,tahoma,Verdana; color:#333;}
+* html,* html body {background-image:url(about:blank);background-attachment:fixed;}
+ul, dl {list-style: none;}
+img {border:none;}
+form{display:inline;margin:0;padding:0;}
+img{border:0;}
+table {border-collapse:collapse;border-spacing:0;empty-cells:show;}
+h1,h2,h3,h4,h5,h6 {font:12px Verdana;font-weight:400;}
+button::-moz-focus-inner{border:none;padding:0;}
+a{text-decoration:none;color:#333333;font-size:12px;}
+a:hover{text-decoration:underline;}
+.links a{text-decoration:none;color:#333333;font-size:12px;}
+.links a:hover{text-decoration:underline;}
+
+textarea,input,select,button{font:12px/1.5 Arial;vertical-align:middle;}
+textarea{border: 1px solid;border-color:#999 #e1e1e1 #e1e1e1 #999;padding:3px;background:#fff;line-height:1.5;}
+select{padding:1px;}
+.input{border:1px solid;border-color:#999 #e1e1e1 #e1e1e1 #999;background:#fff;font-size:1em;color:#333;}
+.input:hover,.textarea:hover{border:1px solid #23a6dd;}
+.txt35{width:200px;}
+.txt20{width:200px;}
+.txt15{width:150px;}
+.txt10{width:100px;}
+.txt05{width:50px;}
+.captcha input{font:14px/1.5 Verdana, Arial;}
+.captcha img{border:none;vertical-align:middle;}
+.captcha a{margin-left:8px;color:#336699;text-decoration:none;}
+.captcha a:hover{color:#336699;text-decoration:none;}
+.f10{font:normal 10px/1 Verdana, Arial,sans-serif,Tahoma;-webkit-text-size-adjust:none;}
+.f12{font-size:12px;}
+.f14{font-size:14px;}
+.f16{font-size:16px;}
+h3{font:14px/1.5 Verdana, Arial;font-weight:700;}
+.termsbox{padding:5px;}
+.termstext{font:12px/1.5 Verdana, Arial;border:1px solid #ddd;padding:5px 0 5px 5px;width:460px;height:230px;overflow:auto;overflow-x:hidden;}
+.bbd{border-bottom:1px dashed #ddd;}
+.tablestyle{vertical-align:top;margin-top:10px;}
+.btn-login{font:12px/1.5 Arial,Simsun,Verdana;height:21px;text-align:center;vertical-align:middle;cursor:pointer;color:#333;background:url(pic-login.png) no-repeat;border:none;text-decoration:none;}
+.btn-login span{display:block;}
+.btn-login{background-position:left top;height:23px;width:68px;color:#fff;}
+.header, .container, .footer{width:992px;margin: 0 auto;}
+.header{border-bottom:3px solid #333;overflow:hidden;}
+	.header table td{padding:0px 0;}
+	.header .logo{width:200px;}
+	.header .banner{text-align:right;vertical-align:middle;}
+	.header .banner div {background:#f7f7f7;line-height:28px;padding:0 5px;}
+.container{margin:10px auto;overflow:hidden;}
+	.container .td-login {width:320px;}
+	.container .td-login .login-box{border-right:2px solid #eee;border-bottom:2px solid #eee;overflow:hidden;}
+	.container .loginbox{border:1px solid #ddd;background:#f7f7f7;padding:5px;}
+	.container .loginbox ul{border:1px solid #ccc;border-top:1px solid #e7e7e7;background:#fefefe;padding:8px 15px;}
+	.container .loginbox ul h2{font:16px/1.5 Verdana, Arial;font-weight:700;border-bottom:1px solid #ddd;}
+	.container .loginbox ul h2 em{font:normal 12px/1.5 Verdana, Arial;float:right;}
+	.container .loginbox ul li{padding-top:8px;}
+	.container .loginbox ul span{font:14px/1.5 Verdana, Arial;}
+	.container .loginbox .uid, .container .loginbox .pwd, .container .loginbox .iw{font:14px/1.5 Verdana, Arial;height:21px;width:200px;}
+	.container .loginbox .sw{font:13px/1.5 Verdana, Arial;padding:2px;width:200px;}
+	.container .loginbox .chkcode{font:14px/1.5 Verdana, Arial;height:21px;width:50px;}
+	.container .loginbox .zt,.container .loginbox .lb{padding-left:56px;font:12px/2 Verdana, Arial;}
+	.container .loginbox .yzm img{border:none;vertical-align:middle;}
+	.container .loginbox .yzm a{margin-left:8px;color:#336699;text-decoration:none;}
+	.container .loginbox .yzm a:hover{color:#336699;text-decoration:none;}
+	.container .loginbox .divide{height:12px;border-bottom:1px solid #ddd;}
+	.container .loginbox .otherlogin{font:12px/1.5 Verdana, Arial;padding-top:5px;_padding-bottom:5px;overflow:hidden;}
+	.container .loginbox .qq-login,.container .loginbox .weibo-login{display:block;float:left;text-indent:-200px;height:24px;background:url(pic-login.png) no-repeat;}
+	.container .loginbox .qq-login{background-position:left -51px;width:126px;}
+	.container .loginbox .weibo-login{background-position:left -25px;width:126px;}
+	.container .user-icon{background:url(login_reg.png) no-repeat center center;width:128px;height:128px;}
+	.container .user-text h3{font:14px/1.5 Verdana, Arial;font-weight:700;}
+	.container .user-text p{font:12px/2.0 Verdana, Arial;color:#808080;}
+	.container .user-text a{color:#b00;font-size:14px;text-decoration:none;}
+	.container .pwsend{margin:5px 15px;width:370px;}
+	.container .pwsend th, .pwsend td{line-height:180%;vertical-align:top;padding:7px 0;background:transparent;font-weight:400;}
+	.container .pwsend th{padding-top:9px;padding-right:5px;width:80px;text-align:right;}
+	.container .pwsend input{width:230px;height:21px;}
+
+.reg-content{width:70%;}
+.reg-login{width:30%;}
+
+.intip{display:block;font:normal 12px/1.5 Verdana, Arial;padding:2px;border:1px solid #dfdfdf;background:#f9f9f9;}
+.ertip{display:block;font:normal 12px/1.5 Verdana, Arial;padding:2px;border:1px solid #ff9999;background:#ffeeee;}
+.inschk{display:block;font:normal 12px/1.5 Verdana, Arial;padding:2px;border:1px solid #ff9999;background:#ffeeee;}
+
+.tipmsg, .errmsg, .sucmsg{display:block;font:normal 12px/1.5 Verdana, Arial;padding:2px;text-indent:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tipmsg{background:#f9f9f9 url(tip.gif) no-repeat 8px 6px;border:1px solid #dfdfdf;}
+.errmsg{background:#ffeeee url(err.gif) no-repeat 3px 4px;border:1px solid #ff9999;}
+.sucmsg{background:url(suc.gif) no-repeat 3px 4px;height:20px;width:50px;}
+
+.regtable input{font:14px/1.5 Verdana, Arial;height:21px;}
+.regtable td{padding-top:20px;padding-left:8px;}
+
+.footer{border-top:1px solid #ccc;overflow:hidden;}
+	.footer .td-info{text-align:center;}

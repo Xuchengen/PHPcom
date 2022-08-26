@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="keywords" content="{@keyword}"/>
+<meta name="description" content="{@description}"/>
+<meta name="author" content="PHPcom Team and cnxinyun UI Team" />
+<meta name="copyright" content="2003-2012 cnxinyun Inc." />
+<link href="{@domain}{@tpldir}/common.css" rel="stylesheet" type="text/css"/>
+<link href="{@domain}misc/css/common.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{@domain}misc/js/common.js"></script>
+</head>
+<body onkeydown="if(event.keyCode==27) return false;">
+<div class="topstrap" id="navigation">
+	<table width="100%" align="center">
+		<tr>
+			<td class="t1"><div class="searchword"><span>热搜：</span><span id="searchword"></span></div></td>
+			<td class="t2">
+			<phpcom:hotandnewmenu value="$result" caption="热门和最近更新菜单">
+				<a href="{$result.url}">{phpcom:value-of select="$result.title" disable-output-escaping="yes"}</a> | 
+			</phpcom:hotandnewmenu>
+			<a href="{@submissionurl}">投稿</a> | 
+			关于我们 | 帮助</td>
+		</tr>
+	</table>
+</div>
+<div class="header">
+	<table width="100%" align="center">
+		<tr>
+			<td class="hd-logo"><a href="{@domain}">PHPcom</a></td>
+			<td class="hd-banner"><form id="searchform" method="post" autocomplete="off" onsubmit="checkSearchFocus('searchtxt')" action="{@domain}search.php" target="_blank">
+				<div class="shbox">
+					<ul>
+						<li class="shtxt"><input type="text" id="searchtxt" name="word" autocomplete="off" /></li>
+						<li class="shbtn"><button type="submit" name="submit" value="yes"><span>搜索</span></button></li>
+						<li class="shlst"></li>
+					</ul>
+				</div>
+				<div style="clear:both"></div>
+			</form></td>
+			<td class="hd-login"><div id="loginbox"></div></td>
+		</tr>
+	</table>
+</div>
+<div class="menu">
+	<table width="100%" align="center">
+		<tr>
+			<td class="home"><a href="{@domain}">首 页</a></td>
+			<td class="content">
+			<ul>
+			<!--{phpcom:channel value="$menu" chanid="@chanid" menu="1"}-->
+				<!--{phpcom:if test="$menu.current"}-->
+				<li><a href="{$menu.url}"{$menu.target}{$menu.color} class="current">{$menu.name}</a></li>
+				<!--{phpcom:else}-->
+				<li><a href="{$menu.url}"{$menu.target}{$menu.color}>{$menu.name}</a></li>
+				<!--{/phpcom:if}-->
+			<!--{/phpcom:channel}-->
+			</ul>
+			</td>
+			<td class="last"><span><a href="{@memberurl}">个人中心</a></span></td>
+		</tr>
+	</table>
+</div>
+<div class="navmenu">
+	<ul>
+		<li style="color:#ff8f00;"><b>栏目分类</b></li>
+		<phpcom:basecategory value="$cat" chanid="@chanid" limit="12">
+		{phpcom:if test="$cat.catid == $this->rootid"}
+			<li>| <a href="{$cat.url}"{$cat.target}><strong>{$cat.name}</strong></a></li>
+		{phpcom:else}
+			<li>| <a href="{$cat.url}"{$cat.target}{$cat.color}>{$cat.name}</a></li>
+		{/phpcom:if}
+		</phpcom:basecategory>
+	</ul>
+</div>
+<script type="text/javascript">
+ajaxget('{@instdir}apps/ajax.php?action=login&type=1','loginbox');
+ajaxget('{@instdir}apps/ajax.php?action=searchword','searchword');
+</script>
+<div class="d992">{phpcom:advert name="NavBanner"}</div>

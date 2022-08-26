@@ -1,0 +1,22 @@
+<phpcom:if test="$datalist">
+	<table class="imgtable" cellspacing="2" cellpadding="2">
+		<tr>
+		<phpcom:for-each select="$datalist" key="$attachid" value="$attach" in="$i" count="$count">
+			<td id="imagebox_{$attachid}" width="25%" valign="bottom"><a id="imageattach{$attachid}" title="{$attach.filename}" href="javascript:;"><img id="uploadimage_$attachid" width="{if $attach.width < 110}{$attach.width}{else}110{/if}" onclick="insertAttachimgTag('$attachid');"
+					src="{$siteurl}{phpcom:echo getattachimgurl($attachid, 300, 300, 1, 'geom', 1, $chanid)}" /> </a>
+				<p style="margin:5px 0"> 
+					<a title="…Ë÷√‘§¿¿Àı¬‘Õº" onclick="setThreadImage($attachid);return false;" href="javascript:;">…Ë÷√</a>
+					<span class="sep"> | </span> 
+					<a onclick="deleteImage($attachid,'{$attach.key}',$chanid);return false;" href="javascript:;">…æ≥˝</a>
+				</p>
+				<p class="fi">
+					<input id="imagesort_$attachid" class="input" type="text" style="width:20px;" name="attachnew[$attachid][sortord]" value="{$attach.sortord}" title="≈≈–Ú" />
+					<input class="input gray" style="width:90px" type="text" onclick="this.disabled=true;this.style.display='none';$('imagedesc_$attachid').style.display='';$('imagedesc_$attachid').focus();" value="√Ë ˆ" /> 
+					<input id="imagedesc_$attachid" class="input" type="text" style="width:90px;display:none" name="attachnew[$attachid][description]" />
+				</p></td>
+			<!--{phpcom:if test="$i % 4 == 0 && $i < $count"}--></tr><tr><!--{/phpcom:if}-->
+		</phpcom:for-each>
+		<!--{phpcom:if test="($p = $i % 4) > 0"}--><!--{phpcom:echo str_repeat('<td width="25%">&nbsp;</td>', 4 - $p)}--><!--{/phpcom:if}-->
+		</tr>
+	</table>
+</phpcom:if>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="keywords" content="{@keyword}"/>
+<meta name="description" content="{@description}"/>
+<meta name="author" content="PHPcom Team and cnxinyun UI Team" />
+<meta name="copyright" content="2003-2012 cnxinyun Inc." />
+<link href="{@domain}{@tpldir}/common.css" rel="stylesheet" type="text/css"/>
+<link href="{@domain}misc/css/common.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{@domain}misc/js/jquery-min.js"></script>
+<script type="text/javascript" src="{@domain}misc/js/common.js"></script>
+</head>
+<body onkeydown="if(event.keyCode==27) return false;">
+<div class="topstrap" id="navigation">
+	<table width="100%" align="center">
+		<tr>
+			<td class="t1"><div class="searchword"><span>热搜：</span><span id="searchword"></span></div></td>
+			<td class="t2">
+			<phpcom:hotandnewmenu value="$result" caption="热门和最近更新菜单">
+				<a href="{$result.url}">{phpcom:value-of select="$result.title" disable-output-escaping="yes"}</a> | 
+			</phpcom:hotandnewmenu>
+			关于我们 | 帮助</td>
+		</tr>
+	</table>
+</div>
+<div class="header">
+	<table width="100%" align="center">
+		<tr>
+			<td class="hd-logo"><a href="{@website}">PHPcom</a></td>
+			<td class="hd-banner"><form id="searchform" method="post" autocomplete="off" onsubmit="checkSearchFocus('searchtxt')" action="{@domain}search.php" target="_blank">
+				<div class="shbox">
+					<ul>
+						<li class="shtxt"><input type="text" id="searchtxt" name="word" autocomplete="off" /></li>
+						<li class="shbtn"><button type="submit" name="submit" value="yes"><span>搜索</span></button></li>
+						<li class="shlst"></li>
+					</ul>
+				</div>
+				<div style="clear:both"></div>
+			</form></td>
+			<td class="hd-login"><div id="loginbox"></div></td>
+		</tr>
+	</table>
+</div>
+<div class="menu">
+	<table width="100%" align="center">
+		<tr>
+			<td class="home"><a href="{@domain}">首 页</a></td>
+			<td class="content">
+			<ul>
+			<!--{phpcom:channel value="$menu" chanid="@chanid"}-->
+				<!--{phpcom:if test="$menu.current"}-->
+				<li><a href="{$menu.url}"{$menu.target}{$menu.color} class="current">{$menu.name}</a></li>
+				<!--{phpcom:else}-->
+				<li><a href="{$menu.url}"{$menu.target}{$menu.color}>{$menu.name}</a></li>
+				<!--{/phpcom:if}-->
+			<!--{/phpcom:channel}-->
+			</ul>
+			</td>
+			<td class="last"><span><a href="{@memberurl}">个人中心</a></span></td>
+		</tr>
+	</table>
+</div>
+<div class="navmenu">
+	<ul>
+		<li style="color:#ff8f00;"><b>栏目分类</b></li>
+		<phpcom:basecategory value="$cat" chanid="@chanid" limit="12">
+			<li>| <a href="{$cat.url}"{$cat.target}{$cat.color}>{$cat.name}</a></li>
+		</phpcom:basecategory>
+	</ul>
+</div>
+<script type="text/javascript">
+ajaxget('{@instdir}apps/ajax.php?action=login&type=1','loginbox');
+ajaxget('{@instdir}apps/ajax.php?action=searchword','searchword');
+</script>
+<script type="text/javascript">
+var player = {
+	$: function(id){return !id ? null : document.getElementById(id);},
+	url: '{$addresses.playurl}',
+	width: '100%',
+	height: '460',
+	domain: '{@domain}',
+	html: null,
+	loadscript: function(src){
+		var script = document.createElement('script');
+		script.type = "text/javascript";
+		script.src = src;
+		script.charset = '{@charset}';
+		document.getElementsByTagName("head")[0].appendChild(script);
+	},
+	load: function(id, url){
+		this.url = url;
+		this.loadscript(this.domain + 'misc/player/' + id + '.js');
+	},
+	show: function(html){this.$('playercontent').innerHTML = html;}
+};
+setTimeout(function(){player.load('{$player.name}', '{$addresses.playurl}')}, 500);
+</script>
+<div class="player">
+	<div id="playercontent" class="container"></div>
+</div>
+<div class="container video">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-680">
+				<h2 class="h680">播放地址</h2>
+				<div class="b3">
+				<ul class="playitem">
+				<!--{phpcom:for-each select="$playaddress" key="$key" value="$address"}-->
+					<li><a{phpcom:if test="$key==$page"} class="current"{/phpcom:if} href="{$address.url}">{$address.title}</a></li>
+				<!--{/phpcom:for-each}-->
+				</ul>
+				<div style="clear:both;"></div>
+				</div>
+				<div class="high10"></div>
+				<h2 class="h680">热播{$catname}</h2>
+				<div class="b3">
+					<ul class="hotvodimg">
+					<!--{phpcom:fetchthread value="$row" chanid="@chanid" rootid="@rootid" top="hot" limit="5" length="20"}-->
+						<li><a class="img-a1" href="{$row.purl}"><img onerror="javascript:this.src='{@domain}misc/images/noimage.jpg';" src="{$row.thumburl}" width="115" height="150" /></a><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					<!--{/phpcom:fetchthread}-->
+					</ul>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="high10"></div>
+				<h2 class="h680"><span class="y"><a href="$commenturl" class="f12">已有 <span class="c1">$commentnum</span> 人参与评论</a>&nbsp;&nbsp;</span>视频评论</h2>
+				<div class="comment">
+					<div class="list">
+						<table width="100%">
+						<!--{phpcom:for-each select="@threadComments($tid)" key="$commentid" value="$comment"}-->
+							<tr>
+								<td width="100" class="ca"><span class="c2">{$comment.author}</span></td>
+								<td class="ct">
+									{$comment.content}
+									<p class="cb">
+										<span class="x">{$comment.date}</span>
+										<span class="y">
+											<a href="javascript:void(0)" onclick="ajaxget('{@instdir}comment.php?operation=voteup&tid=$tid&commentid=$commentid&id={$comment.id}','c.voteup_{$comment.id}')">支持(<span id="c.voteup_{$comment.id}" class="c1">{$comment.voteup}</span>)</a> &nbsp;
+											<a href="javascript:void(0)" onclick="showWindow('{@instdir}apps/ajax.php?action=comment&tid=$tid&commentid=$commentid', 'comment', 'get', 0);">回复</a>
+										</span>
+									</p>
+								</td>
+							</tr>
+						<!--{/phpcom:for-each}-->
+						</table>
+					<div class="clb"><a href="$commenturl" class="f14">查看所有评论 共 <span class="c1">$commentnum</span> 条</a></div>
+					</div>
+					<div id="postcomment">
+					<div style="padding:10px 0;">请自觉遵守互联网相关政策法规，评论内容只代表网友观点，与本站立场无关！</div>
+					<form id="pmform" name="pmform" method="post" autocomplete="off" action="{@instdir}apps/comment.php" onsubmit="ajaxpost(this, null, 'btnsubmitcomment');return false;">
+						<input type="hidden" name="postsubmit" value="true" />
+						<input type="hidden" name="operation" value="post" />
+						<input type="hidden" name="tid" value="$tid" />
+						<input type="hidden" name="formtoken" value="{@formtoken}" />
+						<div style="overflow:auto;vertical-align:top;"><textarea cols="60" name="content" rows="5" style="width:648px;height:80px;position:relative;" class="textarea"></textarea></div>
+						<div style="margin-top:8px;line-height:26px;">
+							<button type="submit" id="btnsubmitcomment" class="btn b1"><strong>发表评论</strong></button> &nbsp;
+							<!--{phpcom:if test="@iscaptcha"}-->
+							验证码：
+							<input type="text" size="5" name="verifycode" id="verifycode" onblur="checkCaptcha(this.id, '{@instdir}')" class="input vm" />
+							<img id="captcha" src="{@instdir}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@instdir}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+							&nbsp; <span id="checkCaptcha" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span>
+							<!--{/phpcom:if}-->
+							&nbsp; <a href="{@loginurl}">登录</a> &nbsp; <a href="{@registerurl}">注册</a>
+						</div>
+					</form>
+					</div>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-302">
+				<h2 class="h302-1">视频评分</h2>
+				<div class="b3">
+					<ul class="rating">
+						<li id="rating" class="big"><span class="star"><span class="rate" style="width:{$percent}"></span></span>
+						<span id="rategrade" class="grade">
+							<em rate="1" title="很差" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=1&type=video','rating')"></em>
+							<em rate="2" title="较差" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=2&type=video','rating')"></em>
+							<em rate="3" title="一般" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=3&type=video','rating')"></em>
+							<em rate="4" title="推荐" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=4&type=video','rating')"></em>
+							<em rate="5" title="力荐" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=5&type=video','rating')"></em>
+						</span>
+						<strong class="score">{$scores}</strong>分 (<span class="c1">{$voters}</span>人评价)</li>
+						<li class="share">分享：
+							<!-- Baidu Button BEGIN -->
+							<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+								<a class="bds_qzone"></a>
+								<a class="bds_tsina"></a>
+								<a class="bds_tqq"></a>
+								<a class="bds_renren"></a>
+								<a class="bds_kaixin001"></a>
+								<a class="bds_qq"></a>
+								<a class="bds_hi"></a>
+								<a class="bds_copy"></a>
+								<span class="bds_more"></span>
+								<a class="shareCount"></a>
+							</div>
+						<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6438692" ></script>
+						<script type="text/javascript" id="bdshell_js"></script>
+						<script type="text/javascript">
+							document.getElementById("bdshell_js").src = "http://share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+						</script>
+						<!-- Baidu Button END -->
+						</li>
+					</ul>
+				</div>
+				<div class="high10"></div>
+				<h2 class="h302-2">视频信息</h2>
+				<div class="b3">
+				<ul class="pvinfo">
+					<li class="vimg"><!--{phpcom:if test="$picurl"}--><a href="{$url}"><img src="{$picurl}" /></a><!--{else}--><img src="{@domain}misc/images/noimage.jpg" /><!--{/phpcom:if}--></li>
+					<li class="vinf">
+						<h2>{$title}</h2>
+						<p>类型：{phpcom:for-each select="@fetchTypeName($tid, 3)" value="$tn"}
+						<a target="_blank" class="c2" href="{$tn.url}">{$tn.name}</a> &nbsp; 
+						{/phpcom:for-each}</p>
+						<p>演员：$starring</p>
+						<p>导演：<span class="c2">$director</span></p>
+						<p>地区：<span class="c3"><a target="_blank" href="{phpcom:echo @getMiscOfUrl($country, 'country', 2)}">$country</a></span></p>
+						<p>年代：<a target="_blank" href="{phpcom:echo @getMiscUrl($chanid, $catid, 0, 0, $years)}">$years</a></p>
+						<p>时间：$date</p>
+					</li>
+					<li class="vsmy">剧情：{$summary} [<a href="{$url}">详情...</a>]</li>
+				</ul>
+				</div>
+				</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="keywords" content="{@keyword}"/>
+<meta name="description" content="{@description}"/>
+<meta name="author" content="PHPcom Team and cnxinyun UI Team" />
+<meta name="copyright" content="2003-2011 cnxinyun Inc." />
+<link href="{@instdir}{@tpldir}/member/images/login.css" rel="stylesheet" type="text/css"/>
+<link href="{@instdir}misc/css/common.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{@instdir}misc/js/common.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	if (document.loginform.username.value=="")
+		document.loginform.username.focus();
+	else
+		document.loginform.username.select();
+};
+
+function checkLogin(form1) {
+    if(form1.username.value=="")
+	{
+		showMessage("请输入您的用户名！");
+		form1.username.focus();
+		return false;
+	}
+	if(form1.password.value == "")
+	{
+		showMessage("请输入您的密码！");
+		form1.password.focus();
+		return false;
+	}
+}
+
+</script>
+</head>
+<body onkeydown="if(event.keyCode==27) return false;">
+</body>
+<div class="header">
+	<table width="100%" align="center">
+		<tr>
+			<td class="logo"><a href="{@website}"><img src="{@instdir}{@tpldir}/images/logo.gif"></a></td>
+			<td class="banner"><div><a href="/">网站首页</a> | <a href="{@registerurl}">注册</a> | 帮助</div></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-content"><table align="center">
+				<tr>
+				<td class="user-icon"></td>
+				<td class="user-text">
+					<div>
+						<h3>还没有注册吗?</h3>
+						<p>如果您还没有本站的帐号，请先注册一个帐号吧。</p>
+					</div>
+					<div style="padding-top:10px;"><a href="{@registerurl}">立即注册</a></div>
+					<div id="sendpasswd" style="display: none">
+					<form name="pwsendform" id="pwsendform" action="{@domain}member.php?action=sendpasswd" method="post">
+					<input type="hidden" name="formtoken" value="{@formtoken}">
+					<input type="hidden" name="ok" value="1">
+						<table class="pwsend">
+							<tr>
+								<th class="bbd">&nbsp;</th>
+								<td class="bbd"><strong class="f14">取回密码</strong></td>
+							</tr>
+							<tr>
+								<th class="bbd">&nbsp;</th>
+								<td class="bbd c1">请在下面填写您的用户名和注册时的邮箱</td>
+							</tr>
+							<tr>
+								<th class="bbd">用户名：</th>
+								<td class="bbd"><input type="text" name="username" class="input" /></td>
+							</tr>
+							<tr>
+								<th class="bbd">Email：</th>
+								<td class="bbd"><input type="text" name="email" class="input" /></td>
+							</tr>
+							<tr>
+								<th>&nbsp;</th>
+								<td><button type="submit" name="btnsubmit" value="true" class="btn bn2" /><strong>提 交</strong></button></td>
+							</tr>
+						</table>
+					</form>
+					</div>
+				</td>
+				</tr>
+			</table></td>
+			<td class="td-login"><form name="loginform" id="loginform" action="member.php?action=login" method="post" target="_self" onsubmit="return checkLogin(this);">
+    			<input type="hidden" name="action" value="login">
+				<div class="login-box"><div class="loginbox">
+				<ul>
+					<li><h2><em>如果没有账号，请先<a href="{@registerurl}" style="color:red;">注册一个</a></em>用户登录</h2></li>
+					<li><span>登录名：</span><input type="text" name="username" id="username" class="input uid" onfocus="this.select();"/></li>
+					<li><span>密　码：</span><input type="password" name="password" id="password" class="input pwd"/></li>
+					<li><span>提　问：</span><select name="questionid" id="user_questionid" class="select sw">$questionoption</select></li>
+					<li><span>回　答：</span><input type="text" name="answer" id="answer" class="input iw"/></li>
+					<!--{phpcom:if test="phpcom::$setting['captchastatus'][1]"}-->
+					<li class="yzm captcha"><span>验证码：</span><input type="text" name="checkcode" id="checkcode" class="input chkcode"/>
+					<img id="captcha" src="apps/misc.php?action=captcha" onclick="updateCaptcha(this)" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" /><a href="javascript:void(0)" onclick="updateCaptcha(this.previousSibling);">换一个</a></li>
+					<!--{/phpcom:if}-->
+					<li class="zt"><input type="checkbox" name="cookietime" value="1" checked/><label>记住登录状态</label></li>
+					<li class="lb"><button class="btn-login" name="btnlogin" type="submit" value="true">登录</button> &nbsp; &nbsp; <a href="javascript:void(0)" onclick="display('sendpasswd')">忘记密码？</a></li>
+					<li class="divide"></li>
+					<li style="font:normal 12px/2.0 Verdana, Arial;">用其它账号登录：</li>
+					<li class="otherlogin"><a class="qq-login" href="">QQ</a> <a class="weibo-login" href="">weibo</a></li>
+				</ul>
+				</div></div>
+			</form>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="footer">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-info">
+				<p>{phpcom::$setting['copyright']} <a class="icp" href="http://www.miibeian.gov.cn" target="_blank">{phpcom::$setting['icp']}</a></p>
+				<p class="f10">{phpcom:value-of select="@processedTime()" disable-output-escaping="yes"}</p>
+			</td>
+		</tr>
+	</table>
+</div>
+<img src="{@domain}apps/cron.php?{@time}" width="1" height="1" style="display: none" />
+</body>
+</html>

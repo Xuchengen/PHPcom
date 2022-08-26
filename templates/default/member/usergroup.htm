@@ -1,0 +1,224 @@
+<!--{phpcom:if test="$inajax"}-->
+	<!--{phpcom:ajaxheader}-->
+<!--{phpcom:else}-->
+	<!--{phpcom:template include="member/header"}-->
+<!--{/phpcom:if}-->
+<!--{phpcom:if test="!in_array($do, array('buy', 'exit', 'switch'))"}-->
+<div class="pagetab">
+	<dl>
+		<dt>用户组</dt>
+		<dd{$docurrents.basic}><a href="member.php?action=usergroup">我的用户组</a></dd>
+		<dd{$docurrents.apply}><a href="member.php?action=usergroup&do=apply">购买用户组</a></dd>
+		<dd><a href="member.php?action=credit&do=buy&card=1">积分充值</a></dd>
+		<dd class="last"><ul class="dm cl">
+		<li id="gpmember" class="y showmenu{phpcom:if test="$currentgroup=='member'"} a{/phpcom:if}" onmouseover="showMenu(this.id)"><a>晋级用户组</a></li>
+		<li id="gpuser" class="y showmenu{phpcom:if test="in_array($currentgroup, array('default','special'))"} a{/phpcom:if}" onmouseover="showMenu(this.id)"><a>普通用户组</a></li>
+		<li id="gpadmin" class="y showmenu{phpcom:if test="$currentgroup=='system'"} a{/phpcom:if}" onmouseover="showMenu(this.id)"><a>站点管理组</a></li>
+		</ul></dd>
+	</dl>
+</div>
+<div id="gpmember_menu" class="popmenu" style="display:none">
+	<!--{phpcom:for-each select="$usergroups.member" value="$key => $val"}-->
+	<a href="member.php?action=usergroup&groupid=$key">$val</a>
+	<!--{phpcom:if test="$key==14 || $key==19"}--><em class="sep"></em><!--{/phpcom:if}-->
+	<!--{/phpcom:for-each}-->
+</div>
+<div id="gpuser_menu" class="popmenu" style="display:none">
+	<!--{phpcom:for-each select="$usergroups.default" value="$key => $val"}-->
+	<a href="member.php?action=usergroup&groupid=$key">$val</a>
+	<!--{/phpcom:for-each}-->
+	<em class="sep"></em>
+	<!--{phpcom:for-each select="$usergroups.special" value="$key => $val"}-->
+	<a href="member.php?action=usergroup&groupid=$key">$val</a>
+	<!--{/phpcom:for-each}-->
+</div>
+<div id="gpadmin_menu" class="popmenu" style="display:none">
+	<!--{phpcom:for-each select="$usergroups.system" value="$key => $val"}-->
+	<a href="member.php?action=usergroup&groupid=$key">$val</a>
+	<!--{phpcom:if test="$key==1"}--><em class="sep"></em><!--{/phpcom:if}-->
+	<!--{/phpcom:for-each}-->
+</div>
+<!--{/phpcom:if}-->
+<div>
+<!--{phpcom:if test="$do == 'buy'"}-->
+	<h3 class="fld">
+		<em>购买用户组 - {$group['grouptitle']}</em>
+		<!--{phpcom:if test="$inajax"}--><span><a href="javascript:;" onclick="hideWindow('group');" class="fclose" title="关闭">关闭</a></span><!--{/phpcom:if}-->
+	</h3>
+	<form id="groupbuyform_{$groupid}" name="groupbuyform_{$groupid}" method="post" autocomplete="off" action="member.php?action=usergroup&do=$do&groupid=$groupid"{phpcom:if test="!empty($inajax)"} onsubmit="ajaxpost(this.id);return false;"{/phpcom:if}>
+		<input type="hidden" name="buysubmit" value="true" />
+		<!--{phpcom:if test="$inajax"}--><input type="hidden" name="handlekey" value="group" /><!--{/phpcom:if}-->
+		<input type="hidden" name="formtoken" value="{@formtoken}" />
+		<div class="flc">
+			<table cellspacing="0" cellpadding="0" class="ftld" style="margin-top:0px;width:350px">
+				<tr>
+					<td colspan="2"><p class="ftip"><strong class="tip">说明: </strong>本组是收费用户组，您可以根据日价格按天购买，但是不能少于 {$group.mindays} 天。请注意，本操作会扣除你相应的积分，购买后不能退款。</p></td>
+				</tr>
+				<tr>
+					<td>用户组日价格</td><td class="c1">{$group.price} $creditstransunit(每天)</td>
+				</tr>
+				<tr>
+					<td>您目前可以购买</td><td>$usermaxdays 天</td>
+				</tr>
+				<tr>
+					<td>购买天数</td><td><input type="text" size="10" class="input" name="days" value="{$group['mindays']}" /> 天</td>
+				</tr>
+				
+			</table>
+		</div>
+		<p class="flbtn">
+			<button type="button" name="btnCancel" onclick="hideWindow('group');" class="btn b3"><strong>取 消</strong></button> &nbsp; 
+			<button type="submit" name="btnsubmit" value="true" class="btn b2"><strong>提交</strong></button>
+		</p>
+	</form>
+<!--{phpcom:elseif test="$do == 'switch'"}-->
+	<h3 class="fld">
+		<em>切换用户组 - {$group.grouptitle}</em>
+		<!--{phpcom:if test="$inajax"}--><span><a href="javascript:;" onclick="hideWindow('group');" class="fclose" title="关闭">关闭</a></span><!--{/phpcom:if}-->
+	</h3>
+	<form id="groupswitchform_{$groupid}" name="groupswitchform_{$groupid}" method="post" autocomplete="off" action="member.php?action=usergroup&do=switch&groupid=$groupid"{phpcom:if test="!empty($inajax)"} onsubmit="ajaxpost(this.id);return false;"{/phpcom:if}>
+		<input type="hidden" name="groupsubmit" value="true" />
+		<input type="hidden" name="gid" value="" />
+		<!--{phpcom:if test="$inajax"}--><input type="hidden" name="handlekey" value="group" /><!--{/phpcom:if}-->
+		<input type="hidden" name="formtoken" value="{@formtoken}" />
+		<div class="flc">
+			<table cellspacing="0" cellpadding="0" class="ftld" style="margin-top:0px;width:300px">
+				<tr>
+					<td>原用户组</td><td>{phpcom::$G['group']['grouptitle']}</td>
+				</tr>
+				<tr>
+					<td>新用户组</td><td>{$group.grouptitle}</td>
+				</tr>
+			</table>
+		</div>
+		<p class="flbtn">
+			<button type="button" name="btnCancel" onclick="hideWindow('group');" class="btn b3"><strong>取 消</strong></button> &nbsp; 
+			<button type="submit" name="btnsubmit" value="true" class="btn b2"><strong>提交</strong></button>
+		</p>
+	</form>
+<!--{phpcom:elseif test="$do == 'exit'"}-->
+	<h3 class="fld">
+		<em>退出用户组 - 荣誉会员</em>
+		<!--{phpcom:if test="$inajax"}--><span><a href="javascript:;" onclick="hideWindow('group');" class="fclose" title="关闭">关闭</a></span><!--{/phpcom:if}-->
+	</h3>
+	<form id="groupexitform_{$groupid}" name="groupexitform_{$groupid}" method="post" autocomplete="off" action="member.php?action=usergroup&do=exit&groupid=$groupid"{phpcom:if test="!empty($inajax)"} onsubmit="ajaxpost(this.id);return false;"{/phpcom:if}>
+	<input type="hidden" name="formtoken" value="{@formtoken}" />
+	<input type="hidden" name="buysubmit" value="true" />
+	<div class="flc" style="width:300px">
+		<p class="ftip"><strong class="tip">说明: </strong>本操作不可恢复，当您退出收费用户组后，如需再次加入，将重新支付相应的费用，因此请在提交前仔细确定是否退出本组 </p>
+	</div>
+	<p class="flbtn">
+		<button type="button" name="btnCancel" onclick="hideWindow('group');" class="btn b3"><strong>取 消</strong></button> &nbsp; 
+		<button type="submit" name="btnsubmit" value="true" class="btn b1"><strong>提 交</strong></button>
+	</p>
+	</form>
+<!--{phpcom:elseif test="$do == 'apply'"}-->
+	<p class="bbd pb10 mb10 mt10"><span class="y">您目前有<!--{phpcom::$setting['creditstrans']['title']}--> <span class="c1"><!--{$tracredits}--> <!--{phpcom::$setting['creditstrans']['unit']}--></span>
+	</span>当前用户组: <!--{phpcom::$G['group']['grouptitle']}--></p>
+	<!--{phpcom:if test="$expirylist"}-->
+	<table cellspacing="0" cellpadding="0" class="tlb">
+		<tr>
+			<th>用户组</th>
+			<th>日价格</th>
+			<th>您目前可以购买</th>
+			<th>到期时间</th>
+			<th></th>
+		</tr>
+		
+		<!--{phpcom:for-each select="$expirylist" value="$groupid => $group" var="$index = 1"}-->
+		<tr{phpcom:if test="$index++%2 == 0"} class="alt"{/phpcom:if}>
+			<td><a href="member.php?action=usergroup&groupid={$groupid}" class="c2">{$group['grouptitle']}</a></td>
+			<td><!--{phpcom:if test="phpcom::$G['usergroup'][$groupid]['buyable'] == '1' &&  $group.usermaxdays"}-->{$group.dailyprice} {$creditstransunit}<!--{/phpcom:if}--></td>
+			<td><!--{phpcom:if test="$group.usermaxdays"}-->{$group.usermaxdays} 天<!--{/phpcom:if}--></td>
+			<td>{$group.time}</td>
+			<td>
+				<span class="fb c6">
+				<!--{phpcom:if test="in_array($groupid, $groupextids) || $groupid == phpcom::$G['groupid']"}-->
+					<!--{phpcom:if test="$groupid != phpcom::$G['groupid']"}-->
+						<a href="member.php?action=usergroup&do=switch&groupid={$groupid}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">切换</a>&nbsp;
+						<!--{phpcom:if test="!$group['maingroup'] && $group['time']"}-->
+							<!--{phpcom:if test="phpcom::$G['usergroup'][$groupid]['buyable'] == '1'"}-->
+								<a href="member.php?action=usergroup&do=buy&groupid={$groupid}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">续费</a>&nbsp;
+							<!--{/phpcom:if}-->
+							<a href="member.php?action=usergroup&do=exit&groupid={$groupid}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">退出</a>
+						<!--{/phpcom:if}-->
+					<!--{phpcom:else}-->
+						主用户组
+					<!--{/phpcom:if}-->
+				<!--{phpcom:elseif test="phpcom::$G['usergroup'][$groupid]['buyable'] == '1'"}-->
+					<a href="member.php?action=usergroup&do=buy&groupid={$groupid}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">立即购买</a>&nbsp; 
+				<!--{/phpcom:if}-->
+				<span>
+			</td>
+		</tr>
+		<!--{/phpcom:for-each}-->
+	</table>
+	<!--{phpcom:else}-->
+	<p class="pem">抱歉！本站尚未开通可供购买的用户组</p>
+	<!--{/phpcom:if}-->
+<!--{phpcom:else}-->
+	<table cellspacing="0" cellpadding="0" class="tld">
+		<tr>
+			<th width="180"><h5><strong>用户组权限</strong></h5></th>
+			<td class="tm"></td>
+			<th width="35%"><h3><strong>我的用户组 - {$maingroup.grouptitle}</strong></h3></th>
+			<td class="tm"></td>
+			<th><h4><strong><!--{phpcom:if test="$sidegroup.type == 'system'"}-->管理用户组<!--{phpcom:else}-->普通用户组<!--{/phpcom:if}--> - {$sidegroup.grouptitle}</strong></h4></th>
+		</tr>
+		<tr>
+			<td class="alt"><span class="tip"><a class="c2" href="member.php?action=usergroup&do=apply">购买用户组&raquo;</a><span></td>
+			<td class="tm"></td>
+			<td class="alt2"><strong class="tip">当前积分 {phpcom::$G['member']['credits']}</strong></td>
+			<td class="tm"></td>
+			<td class="alt">
+			<!--{phpcom:if test="in_array($sidegroup.groupid, $groupextids)"}-->
+				<strong class="tip">过期时间：$groupexpiry</strong> &nbsp;
+				<span class="fb c6">
+					<a href="member.php?action=usergroup&do=switch&groupid={$sidegroup['groupid']}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">切换</a>&nbsp; 
+					<!--{phpcom:if test="$sidegroup.buyable"}-->
+						<a href="member.php?action=usergroup&do=buy&groupid={$sidegroup['groupid']}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">续费</a>&nbsp; 
+						<a href="member.php?action=usergroup&do=exit&groupid={$sidegroup['groupid']}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">退出</a>
+					<!--{/phpcom:if}-->
+				<span>
+			<!--{phpcom:elseif test="$sidegroup.buyable"}-->
+				<span class="fb c6 tip">
+					<a href="member.php?action=usergroup&do=buy&groupid={$sidegroup['groupid']}&handlekey=group" onclick="showWindow(this.href, 'group', 'get', 0);">立即购买</a>&nbsp; 
+				</span>
+			<!--{/phpcom:if}-->&nbsp;
+			</td>
+		</tr>
+		<!--{phpcom:for-each select="$permlist" value="$key => $perms"}-->
+		<tr{$perms.alt}>
+			<td>{$perms.title}</td>
+			<td class="tm"></td>
+			<td class="alt{phpcom:if test="$perms.alt"}2{phpcom:else}1{/phpcom:if}">
+				<!--{phpcom:if test="$perms.main === '1'"}-->
+				<img src="misc/images/common/icon_valid.gif" class="vam" />
+				<!--{phpcom:elseif test="$perms.main === '0'"}-->
+				<img src="misc/images/common/icon_invalid.gif" class="vam" />
+				<!--{phpcom:else}-->
+				{$perms.main}
+				<!--{/phpcom:if}-->
+			</td>
+			<td class="tm"></td>
+			<td>
+				<!--{phpcom:if test="$perms.side === '1'"}-->
+				<img src="misc/images/common/icon_valid.gif" class="vam" />
+				<!--{phpcom:elseif test="$perms.side === '0'"}-->
+				<img src="misc/images/common/icon_invalid.gif" class="vam" />
+				<!--{phpcom:else}-->
+				{$perms.side}
+				<!--{/phpcom:if}-->
+			</td>
+		</tr>
+		<!--{/phpcom:for-each}-->
+	</table>
+	<p class="pb10 mt10"><img src="misc/images/common/icon_valid.gif" class="vam" /> 表示有权操作&nbsp;
+	<img src="misc/images/common/icon_invalid.gif" class="vam" /> 表示无权操作</p>
+<!--{/phpcom:if}-->
+</div>
+<!--{phpcom:if test="$inajax"}-->
+	<!--{phpcom:ajaxfooter}-->
+<!--{phpcom:else}-->
+	<!--{phpcom:template include="member/footer"}-->
+<!--{/phpcom:if}-->

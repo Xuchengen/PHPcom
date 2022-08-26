@@ -1,0 +1,91 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="container video">
+	<table width="100%" align="center" class="tablestyle tu">
+		<caption class="h992-1"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> <!--{phpcom:categorynav value="$nav"}-->
+			&rsaquo;&rsaquo; <a href="{$nav.url}">{$nav.name}</a> 
+			<!--{/phpcom:categorynav}--></em></caption>
+		<tr>
+			<td width="180" class="preview"><!--{phpcom:if test="$picurl"}--><a href="{$previewurl}"><img src="{$picurl}" /></a><!--{else}--><img src="{@domain}misc/images/noimage.jpg" /><!--{/phpcom:if}--></td>
+			<td class="tvm">
+				<ul class="vinfo">
+					<li class="vtitle">{$title} {$version} <strong id="score_result_1" class="scores">{$scores}</strong></li>
+					<li><span>视频类型：</span>
+					{phpcom:for-each select="@fetchTypeName($tid)" value="$tn"}
+						<a class="c2" href="{$tn.url}">{$tn.name}</a> &nbsp; 
+					{/phpcom:for-each}</li>
+					<li class="actor"><span>主要演员：</span>{phpcom:echo @getPersonAnchor($starring)}</li>
+					<li><span>执行导演：</span>{phpcom:echo @getPersonAnchor($director)}</li>
+					<li class="vl"><span>发行年代：</span><a href="{phpcom:echo @getListAnchor($years, 'years')}">$years</a></li>
+					<li class="vl"><span>上映日期：</span>$release</li>
+					<li class="vl"><span>出产地区：</span>{phpcom:echo @getListAnchor($country, 'country', 1)}</li>
+					<li class="vl"><span>对白语言：</span>{phpcom:echo @getListAnchor($dialogue, 'dialogue', 1)}</li>
+					<li class="vl"><span>影片质量：</span>{$qualitystr}</li>
+					<li class="vl"><span>影片时长：</span>$mins 分钟</li>
+					<li class="vl"><span>更新时间：</span>$date</li>
+					<li class="vl"><span>影片人气：</span>$hits &nbsp; 影评：<a href="{$commenturl}"><span style="color:red">$commentnum</span></a></li>
+				</ul>
+				<div style="clear:both;"></div>
+				<div class="vdigg">
+					<div id="diggbury" class="diggwrap">
+						<div class="diggbox digg" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=up&tid=$tid&type=video&score=5','diggbury')">
+							<div class="act">顶一下<em>($voteup)</em></div>
+							<div class="progress">
+								<div class="bar"><span style="width:$percentup"></span></div>
+								<div class="percent">$percentup</div>
+							</div>
+						</div>
+						<div class="diggbox bury" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=down&tid=$tid&type=video&score=2','diggbury')">
+							<div class="act">踩一下<em>($votedown)</em></div>
+							<div class="progress">
+								<div class="bar"><span style="width:$percentdown"></span></div>
+								<div class="percent">$percentdown</div>
+							</div>
+						</div>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+			</td>
+			<td class="tvr">{phpcom:advert name="Rectangle"}</td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+<!--{phpcom:for-each select="$videoaddress" value="$row"}-->
+	<table width="100%" align="center" class="tablestyle tu">
+		<caption class="h992-1"><a href="{$row.url}" target="_blank">{$row.player.subject}播放</a> <span class="c2">{$row.caption}</span></caption>
+		<tr>
+			<td class="playlist">
+				<ul>
+				<!--{phpcom:for-each select="$row.address" value="$address"}-->
+					<li><a href="{$address.url}" target="_blank">{$address.title}</a></li>
+				<!--{/phpcom:for-each}-->
+				</ul>
+			</td>
+		</tr>
+	</table>
+<!--{/phpcom:for-each}-->
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle tu">
+		<caption class="h992-1">本类热播</caption>
+		<tr>
+			<td>
+				<ul class="hotvodbox">
+				<phpcom:fetchthread value="$row" chanid="@chanid" rootid="@rootid" top="hot" limit="7" length="20">
+					<li><a class="img-a1" href="{$row.url}"><img onerror="javascript:this.src='{@domain}misc/images/noimage.jpg';" src="{$row.thumburl}" width="115" height="150" /></a><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+				</phpcom:fetchthread>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle tu">
+		<caption class="h992-1">剧情介绍</caption>
+		<tr>
+			<td class="videotext"><div class="textcontent" id="textcontent">$content</div></td>
+		</tr>
+	</table>
+</div>
+<img src="{@domain}apps/count.php?image=yes&tid={$tid}" width="1" height="1" style="display: none" />
+<!--{phpcom:template include="common/footer"}-->

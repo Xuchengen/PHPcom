@@ -1,0 +1,192 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="pagetab">
+	<dl>
+		<dt>$subject</dt>
+		<dd{$docurrents.basic}><a href="member.php?action=credit&do=basic">我的积分</a></dd>
+		<dd{$docurrents.buy}><a href="member.php?action=credit&do=buy">积分充值</a></dd>
+		<dd{$docurrents.rule}><a href="member.php?action=credit&do=rule">积分规则</a></dd>
+		<dd><a href="member.php?action=usergroup&do=apply">购买用户组</a></dd>
+	</dl>
+</div>
+<div>
+	<ul class="creditl mt10 bbd cl">
+		<!--{phpcom:if test="$do == 'basic'"}--><li class="c1 cl"><em> {$creditstrans_title}:</em>$tracredits $creditstrans_unit &nbsp; <a href="member.php?action=credit&do=buy" class="c2">立即充值&raquo;</a></li><!--{/phpcom:if}-->
+		<!--{phpcom:for-each select="$creditdata" value="$credit"}-->
+		<li><em> {$credit.title}:</em>{$credit.value} {$credit.unit}</li>
+		<!--{/phpcom:for-each}-->
+		<!--{phpcom:if test="$do == 'basic'"}--><li class="cl"><em>积分:</em>{@usercredits}</li><!--{/phpcom:if}-->
+	</ul>
+<!--{phpcom:if test="$do == 'basic'"}-->
+	<table cellspacing="0" cellpadding="0" class="tlb tm10">
+	<caption>积分记录</caption>
+	<tr>
+		<th width="100">操作</th>
+		<th width="100">积分变更</th>
+		<th>详情</th>
+		<th width="120">变更时间</th>
+	</tr>
+	<!--{phpcom:if test="$count"}-->
+		<!--{phpcom:for-each select="$creditlogs" value="$log"}-->
+		<tr{$log.alt}>
+			<td>{$log.operate}</td>
+			<td>{$log.credit}</td>
+			<td>{$log.detail}</td>
+			<td>{$log.dateline}</td>
+		</tr>
+		<!--{/phpcom:for-each}-->
+	<!--{phpcom:else}-->
+		<tr><td colspan="4"><p class="pem">目前没有积分交易记录</p></td></tr>
+	<!--{/phpcom:if}-->
+	</table>
+<!--{phpcom:elseif test="$do == 'buy'"}-->
+	<form id="buyform" name="memberform" method="post" autocomplete="off" action="member.php?action=credit&amp;do=buy" onsubmit="ajaxpost(this.id,'return_payonlienform');">
+	<input type="hidden" name="formtoken" value="{@formtoken}" />
+	<input type="hidden" name="buysubmit" value="true" />
+	<input type="hidden" name="handlekey" value="buycredit" />
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>支付方式</th>
+			<td colspan="2">
+				<ul id="banklist" class="banklist">
+				<!--{phpcom:for-each select="$payapilist" value="$key => $value"}-->
+					<!--{phpcom:if test="$key!='card'"}-->
+					<li><input onclick="togglePayapi(this)" type="radio" class="radio" name="payapi" id="payapi_$key" value="$key"{$value.checked} /><label for="payapi_$key" class="bankiconbox"><em class="$key">{$value.name}</em></label></li>
+					<!--{phpcom:else}-->
+					<li><input onclick="togglePayapi(this)" type="radio" class="radio" name="payapi" id="payapi_$key" value="$key"{$value.checked} /><label for="payapi_$key" class="bankiconbox"><em class="$key">{$value.name}</em></label></li>
+					<!--{/phpcom:if}-->
+				<!--{/phpcom:for-each}-->
+				</ul>
+			</td>
+		</tr>
+		<tbody id="paybox"{if $cardchecked} style="display:none"{/if}>
+		<tr>
+			<th>支付金额</th>
+			<td class="pns">
+				<input type="text" size="10" class="input" style="width: auto;" id="payprice" name="price" value="0" onkeyup="exchangecredit(this)" />
+				&nbsp;元&nbsp;
+				兑换&nbsp;$creditstitle <span class="c1" id="creditamount">0</span> $creditsunit
+			</td>
+			<td width="300" class="d">
+			人民币现金 <strong>1</strong> 元 =  <strong>$creditsratio</strong> $creditsunit $creditstitle<br />
+			单次最高充值  <strong>$maxcredits</strong> $creditsunit $creditstitle<br />
+			单次最小充值  <strong>$mincredits</strong> $creditsunit $creditstitle
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td colspan="2"><button type="submit" name="paysubmit" value="true" class="btnhigh" /><span><strong>去网上银行支付</strong></span></button></td>
+		</tr>
+		</tbody>
+		<tbody id="cardbox"{phpcom:if test="!$cardchecked"} style="display:none;"{/phpcom:if}>
+		<tr>
+			<th>充值卡序号</th>
+			<td colspan="2">
+				<input type="text" class="input iw" name="cardid" />
+				<p class="d">在此填写您的充值卡号码</p>
+			</td>
+		</tr>
+		<!--{phpcom:if test="phpcom::$setting['card']['cipher']"}-->
+		<tr>
+			<th>充值卡密码</th>
+			<td colspan="2">
+				<input type="text" class="input iw" name="password" />
+				<p class="d">在此填写 8 位数充值卡密码</p>
+			</td>
+		</tr>
+		<!--{/phpcom:if}-->
+		<!--{phpcom:if test="phpcom::$setting['captchastatus'][5]"}-->
+		<tr>
+			<th><span class="fr" title="必填">*</span>验证码</th>
+			<td class="captcha" colspan="2">
+				<input type="text" name="verifycode" id="verifycode" onblur="checkVerifyCode(this.id)" class="input" />
+				<img id="captcha" src="apps/misc.php?action=captcha" onclick="updateCaptcha(this)" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" /><a href="javascript:void(0)" onclick="updateCaptcha(this.previousSibling);">刷新验证码</a>
+				&nbsp; <span id="checkCaptcha" style="display:none"><img src="misc/images/none.gif" width="16" height="16" class="vam" /></span>
+			</td>
+		</tr>
+		<!--{/phpcom:if}-->
+		<tr>
+			<th>&nbsp;</th>
+			<td colspan="2"><button type="submit" name="cardsubmit" value="true" class="btnhigh bl" /><span><strong>开始充值</strong></span></button></td>
+		</tr>
+		</tbody>
+		<tr>
+			<th>&nbsp;</th>
+			<td colspan="2">
+				<div id="tip_alipay" class="bank_info" style="display:none;">
+					<p class="cl"><label class="bankiconbox"><em class="alipay"></em></label> 支付需知  本次支付通过<span class="c1">支付宝</span>接口支付</p>
+					<p class="cl"><span class="tip">特别提醒：</span>如果您没有开通网上支付功能请带齐您的开户资料到银行柜台申请办理。</p>
+				</div>
+				<div id="tip_tenpay" class="bank_info" style="display:none;">
+					<p class="cl"><label class="bankiconbox"><em class="tenpay"></em></label> 支付需知  本次支付通过<span class="c1">财付通</span>接口支付</p>
+					<p class="cl"><span class="tip">特别提醒：</span>如果您没有开通网上支付功能请带齐您的开户资料到银行柜台申请办理。</p>
+				</div>
+				<div id="tip_chinabank" class="bank_info" style="display:none;">
+					<p class="cl"><label class="bankiconbox"><em class="chinabank"></em></label> 支付需知  本次支付通过<span class="c1">网银在线</span>接口支付</p>
+					<p class="cl"><span class="tip">特别提醒：</span>如果您没有开通网上支付功能请带齐您的开户资料到银行柜台申请办理。</p>
+				</div>
+				<div id="tip_card" class="bank_info"{phpcom:if test="!$cardchecked"} style="display:none;"{/phpcom:if}>
+					<p class="cl"><label class="bankiconbox"><em class="card"></em></label> 支付需知  本次支付通过<span class="c1">充值卡</span>直接充值</p>
+					<p class="cl"><span class="tip">特别提醒：</span>如果您还没有充值卡请联系我们购买积分充值卡。</p>
+				</div>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<span style="display: none" id="return_payonlienform"> style="width:170px"</span>
+<script type="text/javascript">
+function exchangecredit(obj) {
+	var price = parseInt(obj.value.replace(/^0/, ''));
+	\$('creditamount').innerHTML = !isNaN(price) ? Math.ceil(price*$creditsratio) : 0;
+}
+function togglePayapi(obj){
+	if(obj.value == 'card'){
+		\$('paybox').style.display = 'none';
+		\$('cardbox').style.display = '';
+	}else{
+		\$('cardbox').style.display = 'none';
+		\$('paybox').style.display = '';
+	}
+	\$('tip_alipay').style.display = 'none';
+	\$('tip_tenpay').style.display = 'none';
+	\$('tip_chinabank').style.display = 'none';
+	\$('tip_card').style.display = 'none';
+	\$('tip_'+obj.value).style.display = '';
+}
+
+var blist = \$("banklist").getElementsByTagName('INPUT');
+if(blist){
+	for(var i = 0; i < blist.length; i++) {
+		if(blist[i].checked == true){
+			\$('tip_'+blist[i].value).style.display = '';
+		}else{
+			\$('tip_'+blist[i].value).style.display = 'none';
+		}
+	}
+}
+</script>
+<!--{phpcom:else}-->
+	<table cellspacing="0" cellpadding="0" class="tlb tm10">
+	<caption>积分规则</caption>
+	<tr>
+		<th>积分操作</th>
+		<th>周期范围</th>
+		<th>周期奖励数</th>
+		<!--{phpcom:for-each select="$usablecredits" value="$credit"}-->
+		<th>$credit[title]</th>
+		<!--{/phpcom:for-each}-->
+	</tr>
+	<!--{phpcom:for-each select="$rulelist" value="$rule"}-->
+	<tr{$rule.alt}>
+		<td>{$rule.rulename}</td>
+		<td>{$rule.timecycle}</td>
+		<td>{$rule.rewnum}</td>
+		<!--{phpcom:for-each select="$usablecredits" value="$key => $credit"}-->
+		<td><!--{phpcom:if test="$rule[$key] > 0"}-->+$rule[$key]<!--{phpcom:else}-->$rule[$key]<!--{/phpcom:if}--></td>
+		<!--{/phpcom:for-each}-->
+	</tr>
+	<!--{/phpcom:for-each}-->
+	</table>
+
+<!--{/phpcom:if}-->
+</div>
+<!--{phpcom:template include="member/footer"}-->

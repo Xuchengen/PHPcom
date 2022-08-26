@@ -1,0 +1,23 @@
+body, td, pre {color:#000; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; margin:8px;}
+body {background:#FFF;margin:0px;}
+body.mceForceColors {background:#FFF; color:#000;}
+h1 {font-size: 2em}
+h2 {font-size: 1.5em}
+h3 {font-size: 1.17em}
+h4 {font-size: 1em}
+h5 {font-size: .83em}
+h6 {font-size: .75em}
+/*============ blockquote css ============*/
+.blockcodeStyle {display:block;border:1px solid; border-color: #c0c0c0 #cccccc #cccccc #c0c0c0;margin:0px auto;padding:0 0 0 2em;line-height:2em;overflow:hidden;background:#ededed;margin-left:2px;}
+.blockcodeStyle ol {margin:0 0 0 1.5em;padding:0;}
+.blockcodeStyle ol li {border-left:1px solid #ccc;background:#f7f7f7;line-height:1.8em;padding-left:10px;font-size:12px;font-family:Monaco,Consolas,"Courier New" serif;list-style-type:decimal-leading-zero;padding-right:1em;}
+.blockcodeStyle ol li:hover {background:#ffffff;color:#008ef1;}
+.blockcodeStyle ol li {list-style-type:decimal-leading-zero;}
+
+.htmlcodeStyle {display:block;padding:10px;margin-bottom:.5em;border:1px solid #cadcea;border-left-width:3px;margin:10px 0;background:#f8f8f8;font-size:100%;}
+pre.htmlcodeStyle {margin:0px;margin-bottom:.5em;width:100%;min-height:1em;overflow:auto;line-height:normal;white-space:pre;padding:0 0 1.5em 0;/*for IE*/overflow-y:hidden;/*for IE*/}
+pre>/**/.htmlcodeStyle{padding:0;overflow-y:auto;}
+
+.blockquoteStyle, blockquote {display:block;margin:0px;padding:5px;border:1px dashed #d2ebb2;background:#f6ffdd;margin-bottom:.5em;font-size:90%;font-style:italic;}
+* html blockquote {height:1%;}
+/*============ blockquote end ============*/

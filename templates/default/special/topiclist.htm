@@ -1,0 +1,74 @@
+<!--{phpcom:template include="special/header"}-->
+<div class="headwrap">
+	<div class="header">
+		<table width="100%" align="center">
+			<tr>
+				<td{phpcom:if test="$banner"} style="background:url({$banner}) repeat;"{/phpcom:if}><h1>{@title}</h1></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{phpcom:if test="$existclass"}-->
+<div class="mainwrap nav">
+	<ul>
+		<li class="home"><a href="$homeurl">×¨ÌâÊ×Ò³</a></li>
+		<!--{phpcom:specialclass value="$class" tid="$tid" domain="$domain" urlargs="$defurlargs" variable="specialclass"}-->
+		<li><a target="{$class.target}" href="{$class.url}"{phpcom:if test="$class.classid == $classid"} class="fb"{/phpcom:if}>{$class.name}</a></li>
+		<!--{/phpcom:specialclass}-->
+		<li class="last"></li>
+	</ul>
+</div>
+<!--{/phpcom:if}-->
+<div class="mainwrap">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="tw992">
+			<!--{phpcom:if test="$alias=='video'"}-->
+				<h2 class="hbg-1">{$title}</h2>
+				<div class="videobox">
+					<div class="picitem">
+					<!--{phpcom:for-each select="$datalist" value="$result"}-->
+						<div class="imgbox"> 
+							<a href="{$result.url}" target="_blank"><img src="{$result.thumburl}" width="135" height="90" alt="{$result.title}" /></a> 
+							<p><a href="{$result.url}" target="_blank">{phpcom:value-of select="$result.title" length="30" ellipsis="" disable-output-escaping="yes"}</a></p> 
+						</div>
+					<!--{/phpcom:for-each}-->
+					</div>
+					<!--{phpcom:if test="$showpage"}-->
+					<div class="pagebox"><p>{$showpage}</p></div>
+					<!--{/phpcom:if}-->
+				</div>
+			<!--{phpcom:elseif test="$alias=='pic'"}-->
+				<h2 class="hbg-1">{$title}</h2>
+				<div class="photobox">
+					<div class="picitem">
+					<!--{phpcom:for-each select="$datalist" value="$result"}-->
+						<div class="imgbox"> 
+							<a href="{$result.url}" target="_blank"><img src="{$result.thumburl}" width="135" height="90" alt="{$result.title}" /></a> 
+							<p><a href="{$result.url}" target="_blank">{phpcom:value-of select="$result.title" length="30" ellipsis="" disable-output-escaping="yes"}</a></p> 
+						</div>
+					<!--{/phpcom:for-each}-->
+					</div>
+					<!--{phpcom:if test="$showpage"}-->
+					<div class="pagebox"><p>{$showpage}</p></div>
+					<!--{/phpcom:if}-->
+				</div>
+			<!--{phpcom:else}-->
+				<h2 class="hbg-1">{$title}</h2>
+				<div class="lstbox">
+					<ul>
+					<!--{phpcom:for-each select="$datalist" value="$result"}-->
+						<li><span title="hits: {$result.hits}">[<a href="{$result.curl}">{$result.catname}</a>] &nbsp; {$result.topic}</span> {$result.date}</li>
+					<!--{/phpcom:for-each}-->
+					</ul>
+					<!--{phpcom:if test="$showpage"}-->
+					<div class="pagebox"><p>{$showpage}</p></div>
+					<!--{/phpcom:if}-->
+				</div>
+			<!--{/phpcom:if}-->
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="high10"></div>
+<!--{phpcom:template include="special/footer"}-->

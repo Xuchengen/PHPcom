@@ -1,0 +1,95 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; {$catname}</em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-270">
+			<div class="slide270">
+				<script language="javascript" src="{@domain}misc/js/slideutil.js"></script>
+				<div class="slidebox">
+					<ul class="slideshow" id="slideshowA"></ul>
+					<div class="slidefade"></div>
+					<ul class="slidenav" id="slidenavA"></ul>
+				</div>
+			</div>
+			<dl id="slideDataA" style="display:none">
+			<phpcom:threadlist value="$img" chanid="@chanid" rootid="@rootid" top="img" limit="5" length="32">
+				<dt><a href="{$img.url}">{$img.title}</a></dt>
+				<dd>{$img.previewurl}</dd>
+			</phpcom:threadlist>
+			</dl>
+			<script>playslide('slideDataA','slideshowA','slidenavA',6,'current',266,240);</script>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-450">
+			<div class="newarea">
+				<div class="hotarea">
+				<phpcom:threadlist value="$row" module="article" rootid="@rootid" in="$i" limit="9" length="46" ellipsis="" format="Y-m-d">
+				<!--{phpcom:if test="$i==1"}-->
+					<h1><a href="{$row.url}" target="_blank">{$row.title}</a></h1>
+					<div class="hotabout">{phpcom:value-of select="$row.summary" length="112" ellipsis="..."} <span><a href="{$row.url}" target="_blank">[阅读全文]</a></span></div>
+				</div>
+				<ul class="listnew datlst">
+				<!--{phpcom:else}-->
+					<li><span><a href="{$row.caturl}"{$row.target}{$row.color}>{$row.subname}</a></span> | <a href="{$row.url}"{$row.highlight}>{$row.title}</a> {$row.date}</li>
+				<!--{/phpcom:if}-->
+				</phpcom:threadlist>
+				</ul>
+			</div></td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252">推荐</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="rcmd" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				</td>
+		</tr>
+	</table>
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-740">
+				<!--{phpcom:for-each select="$datalist" key="$cid" value="$cat"}-->
+				<div class="d360">
+					<h2 class="h360-2"><em class="more"><a href="{$cat.curl}" target="_blank">more</a></em><a href="{$cat.curl}">{$cat.catname}</a></h2>
+					<ul class="u datlst">
+						<phpcom:threadlist value="$row" chanid="@chanid" catid="$cid" limit="10" length="45" ellipsis="..." format="m-d">
+						<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+						</phpcom:threadlist>
+					</ul>
+				</div>
+				<!--{/phpcom:for-each}-->
+			</td>
+			<td class="td-252">
+				<h2 class="h252">栏目导航</h2>
+				<ul class="catmenu">
+					<phpcom:category value="$cat" rootid="@rootid" limit="0">
+					<li><a href="{$cat.url}"{$cat.color}>{$cat.name}</a></li>
+					</phpcom:category>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">本周排行</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="w" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">热门排行</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="hot" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

@@ -1,0 +1,57 @@
+<!--{phpcom:template include="special/header"}-->
+<div class="headwrap">
+	<div class="headers">
+		<table width="100%" align="center">
+			<tr>
+				<td><h1>{@title}</h1></td>
+			</tr>
+		</table>
+		<div class="menu">
+			<a href="{@channelurl}">Ê×Ò³</a> 
+			<!--{phpcom:basecategory value="$cat" chanid="@chanid" limit="12" variable="basecategory"}-->
+			<!--{phpcom:if test="$cat.catid == $this->rootid"}-->
+			| <a href="{$cat.url}"{$cat.target}><strong>{$cat.name}</strong></a>
+			<!--{phpcom:else}-->
+			| <a href="{$cat.url}"{$cat.target}{$cat.color}>{$cat.name}</a>
+			<!--{/phpcom:if}-->
+			<!--{/phpcom:basecategory}-->
+		</div>
+		<div class="hdbtm"></div>
+	</div>
+</div>
+<!--{phpcom:if test="!empty($basecategory)"}-->
+<div class="mainwrap">
+	<div class="spechotbox">
+		<ul class="lst d1">
+		<!--{phpcom:fetchthread value="$row" chanid="@chanid" limit="10" length="56" ellipsis="..." format="Y-m-d"}-->
+			<li><a target="_blank" href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>	
+		<!--{/phpcom:fetchthread}-->
+		</ul>
+	</div>
+</div>
+<div class="mainwrap">
+	<!--{phpcom:for-each select="$basecategory" value="$cat"}-->
+	<div class="listbox{$cat.alt}">
+		<h2 class="hbg"><em class="more"><a href="{$cat.url}">more</a></em>{$cat.catname}</h2>
+		<ul class="u lst d2">
+		<!--{phpcom:fetchthread value="$row" rootid="$cat.rootid" limit="10" length="56" ellipsis="..." format="Y-m-d"}-->
+			<li><a target="_blank" href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+		<!--{/phpcom:fetchthread}-->
+		</ul>
+	</div>
+	<!--{phpcom:if test="$cat.alt == 2"}--><div style="clear:both;"></div><!--{/phpcom:if}-->
+	<!--{/phpcom:for-each}-->
+</div>
+<!--{phpcom:else}-->
+<div class="mainwrap">
+	<div class="listbox">
+		<h2 class="hbg">{$title}</h2>
+		<ul class="u lst d2">
+		<!--{phpcom:fetchthread value="$row" chanid="@chanid" limit="10" length="56" ellipsis="..." format="Y-m-d"}-->
+			<li><a target="_blank" href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+		<!--{/phpcom:fetchthread}-->
+		</ul>
+	</div>
+</div>
+<!--{/phpcom:if}-->
+<!--{phpcom:template include="special/footer"}-->

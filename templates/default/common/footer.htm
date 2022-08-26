@@ -1,0 +1,19 @@
+<div class="d992" style="clear:both;margin-bottom:-10px;padding:5px 0;line-height:0;">{phpcom:advert name="FootBanner"}</div>
+<div class="footer">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="ftd-l">
+				<p>{phpcom:value-of select="@version" disable-output-escaping="yes"}</p>
+				<p class="f10">{phpcom:value-of select="@processedTime()" disable-output-escaping="yes"} <a class="icp f10" href="http://www.miitbeian.gov.cn/" target="_blank">{phpcom::$setting['icp']}</a> <span class="stat">{phpcom::$setting['statcode']}</span></p>
+			</td>
+			<td class="ftd-r">
+				<p class="ftac"><a href="{@sitemapurl}">网站地图</a> | <a href="mailto:{phpcom::$setting['adminmail']}">联系我们</a> | <a href="{@domain}member.php?action=admin">管理中心</a> | <a href="{@domain}member.php?action=clearcookies">清除Cookies</a> | <a href="#navigation">返回顶端</a></p>
+				<p class="fcop">{phpcom::$setting['copyright']}</p>
+			</td>
+		</tr>
+	</table>
+</div>
+{phpcom:advert name="FixedBottomRight"}
+<img src="{@domain}apps/cron.php?{@time}" width="1" height="1" style="display: none" />
+</body>
+</html>

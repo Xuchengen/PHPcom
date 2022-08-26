@@ -1,0 +1,39 @@
+<phpcom:eval>
+$this->title = $this->title . ' 标签';
+</phpcom:eval>
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; 标签 &rsaquo;&rsaquo; {$title}</em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<h2 class="h730">Tags：{$tagname}</h2>
+				<div class="lstbox">
+					<ul>
+					<phpcom:for-each select="$datalist" value="$result">
+						<li><span title="hits: {$result.hits}"><a href="{$result.curl}">{$result.catname}</a> | {$result.topic}</span> {$result.date}</li>
+					</phpcom:for-each>
+					</ul>
+					<div class="pagebox"><p>{$showpage}</p></div>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252-1">热门的</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="0" catid="0" type="0" limit="10" length="30" ellipsis="..." format="m-d">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

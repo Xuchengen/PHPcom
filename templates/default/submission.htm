@@ -1,0 +1,223 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; {$title}</em></td>
+		</tr>
+	</table>
+</div>
+<script src="misc/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script type="text/javascript">
+phpcom.tid = 0;
+phpcom.chanid = {$chanid};
+
+if(typeof tinyMCE == "object") {
+	tinyMCE.init({
+		language : "zh-cn",
+		mode : "exact",
+		elements : "editor_content",
+		theme : "advanced",
+
+		plugins : "remoteupload,blockcode,noneditable,safari,pagebreak,table,save,advhr,advimage,advlink,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,nonbreaking,xhtmlxtras,wordcount",
+		theme_advanced_buttons1 : "code,|,bold,italic,underline,|,justifyleft,justifycenter,justifyright,|,blockquote,blockcode,image,|,link,unlink,selectall,removeformat,|,forecolor,backcolor,fontsizeselect",
+		theme_advanced_buttons2 : "",
+		theme_advanced_buttons3 : "",
+		theme_advanced_buttons4 : "",
+
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",
+		theme_advanced_resizing : true,
+		remove_linebreaks : false,
+		convert_urls : false,
+		relative_urls : true
+
+	});
+}
+
+function changeRunSystem(s){
+	if(!s) return false;
+	var runsystem = document.getElementById('runsystemtext');
+	var curvalue = runsystem.value;
+	if(curvalue == ''){
+		runsystem.value = s;
+	}else{
+		if(curvalue.indexOf(s) == -1){
+			runsystem.value += ', '+s;
+		}
+	}
+	runsystem.focus();
+	return false;
+}
+
+function formSubmit(form) {
+	if (form.title.value.trim() == '') {
+	{phpcom:if test="$do == 'soft'"}
+		showMessage("软件名称不能为空!");
+	{phpcom:else}
+		showMessage("文章标题不能为空!");
+	{/phpcom:if}
+		form.title.focus();
+		return false;
+	}
+	var iLength = tinyMCE.get('editor_content').getContent().length;
+	if (iLength == 0) {
+		showMessage("内容不能为空!");
+		return false;
+	}
+	return true;
+}
+</script>
+<div class="container">
+	<form action="{@domain}index.php?action=submission&do={$do}&chinaid={$chanid}" onsubmit="return formSubmit(this);" method="post" name="form1" autocomplete="off">
+	<input type="hidden" name="formtoken" value="{@formtoken}" />
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-992">
+				<h2 class="h992" style="font-size:14px">{@title}</h2>
+				<div class="lstbox">
+					<table width="100%" cellspacing="0" cellpadding="0" class="submission">
+					<!--{phpcom:if test="$do == 'soft' || $do == 'code'"}-->
+						<tr>
+							<th>软件名称</th>
+							<td><input type="text" name="title" id="title" class="input t60" /></td>
+							<th>运行环境</th>
+							<td><input type="text" name="runsystem" id="runsystemtext" value="WinXP, Win7, Win8" class="input t50" />
+							<select class="select" name="selrunsystem" onChange="changeRunSystem(this.value)">
+								<option value="">请选择运行环境</option>
+								<option value="WinXP">WinXP</option>
+								<option value="Win2003">Win2003</option>
+								<option value="Vista">Vista</option>
+								<option value="Win7">Win7</option>
+								<option value="Win8">Win8</option>
+								<option value="Win2008">Win2008</option>
+								<option value="Dos">Dos</option>
+								<option value="Unix">Unix</option>
+								<option value="Linux">Linux</option>
+								<option value="Java">Java</option>
+								<option value="Android">Android</option>
+								<option value="Symbian">Symbian</option>
+								<option value="WinPhone">WinPhone</option>
+							</select></td>
+						</tr>
+						<tr>
+							<th>指定栏目</th>
+							<td><select class="select t60" name="catid">
+							{$select_category}
+							</select></td>
+							<th>软件属性</th>
+							<td><select class="select" name="softlang" title="请选择软件语言"><optgroup label="请选择软件语言">
+								<option value="简体中文" SELECTED>简体中文</option>
+								<option value="繁体中文">繁体中文</option>
+								<option value="英文">英文</option>
+								<option value="多国语言">多国语言</option>
+							</optgroup></select>
+							<select class="select" name="softtype" title="请选择软件类型"><optgroup label="请选择软件类型">
+								<option value="国产软件" SELECTED>国产软件</option>
+								<option value="国外软件">国外软件</option>
+								<option value="汉化补丁">汉化补丁</option>
+							</optgroup></select>
+							<select class="select" name="license" title="请选择授权方式"><optgroup label="请选择授权方式">
+								<option value="共享软件">共享软件</option>
+								<option value="免费软件" SELECTED>免费软件</option>
+								<option value="试用软件">试用软件</option>
+								<option value="商业软件">商业软件</option>
+								<option value="特别软件">特别软件</option>
+								<option value="绿色软件">绿色软件</option>
+							</optgroup></select>
+							<select class="select" name="star" title="推荐星级"><optgroup label="推荐星级">
+								<option value="5">★★★★★</option>
+								<option value="4">★★★★</option>
+								<option value="3" SELECTED>★★★</option>
+								<option value="2">★★</option>
+								<option value="1">★</option>
+							</optgroup></select></td>
+						</tr>
+						<tr>
+							<th>软件大小</th>
+							<td><input type="text" name="softsize" value="0" class="input t15" /> &nbsp;
+							<label><input class="radio" type="radio" name="sizeunit" value="0" checked />&nbsp;KB&nbsp;</label>
+							<label><input class="radio" type="radio" name="sizeunit" value="1" />&nbsp;MB&nbsp;</label>
+							<label><input class="radio" type="radio" name="sizeunit" value="2" />&nbsp;GB&nbsp;</label>
+							</td>
+							<th>官方主页</th>
+							<td><input type="text" name="homepage" class="input t50" /></td>
+						</tr>
+						<tr>
+							<th>预 览 图</th>
+							<td><input type="text" name="imageurl" class="input t60" /></td>
+							<th>更新页面</th>
+							<td><input type="text" name="url" class="input t50" /></td>
+						</tr>
+					<!--{phpcom:else}-->
+						<tr>
+							<th>文章标题</th>
+							<td><input type="text" name="title" id="title" class="input t60" /></td>
+							<th>文章作者</th>
+							<td><input type="text" name="author" id="authortext" class="input t35" />
+							<select class="select" name="selauthortext" onChange="authortext.value=this.value;">
+								<option value="选择文章作者" SELECTED>选择文章作者</option>
+								<option value="佚名">佚名</option>
+								<option value=" 本站"> 本站</option>
+								<option value=" 不详"> 不详</option>
+								<option value=" 未知"> 未知</option>
+							</select></td>
+						</tr>
+						<tr>
+							<th>指定栏目</th>
+							<td><select class="select t60" name="catid">
+							{$select_category}
+							</select></td>
+							<th>文章来源</th>
+							<td><input type="text" name="source" id="sourcetext" class="input t35" />
+							<select class="select" name="selsourcetext" onChange="sourcetext.value=this.value;">
+								<option value="选择文章来源" SELECTED>选择文章来源</option>
+								<option value=" 原创"> 原创</option>
+								<option value=" 不详"> 不详</option>
+								<option value=" 转载"> 转载</option>
+							</select></td>
+						</tr>
+						<tr>
+							<th>相关标签</th>
+							<td><input type="text" name="tags" class="input t60" /></td>
+							<th>引用网址</th>
+							<td><input type="text" name="trackback" class="input t60" /></td>
+						</tr>
+					<!--{/phpcom:if}-->
+						<tr>
+							<td colspan="4"><textarea id="editor_content" name="content" style="width:99%;height:300px;"></textarea></td>
+						</tr>
+						<!--{phpcom:if test="$do == 'soft' || $do == 'code'"}-->
+						<tr>
+							<th>下载地址一</th>
+							<td colspan="3"><input type="text" name="download[0][downurl]" class="input t60" />
+							&nbsp; 下载说明：<input type="text" name="download[0][dname]" value="官方下载地址" class="input t20" />
+							<input type="hidden" name="download[0][id]" value="0" /></td>
+						</tr>
+						<tr>
+							<th>下载地址二</th>
+							<td colspan="3"><input type="text" name="download[1][downurl]" class="input t60" />
+							&nbsp; 下载说明：<input type="text" name="download[1][dname]" value="其它下载地址" class="input t20" />
+							<input type="hidden" name="download[1][id]" value="0" /></td>
+						</tr>
+						<!--{/phpcom:if}-->
+					</table>
+					<table cellspacing="0" cellpadding="0" class="submission">
+						<tr>
+							<th>验证码</th>
+							<td class="captcha"><input type="text" name="verifycode" id="verifycode" class="input" />
+							<img id="captcha" src="apps/misc.php?action=captcha" onclick="updateCaptcha(this)" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" /><a href="javascript:void(0)" onclick="updateCaptcha(this.previousSibling);">刷新验证码</a>
+							&nbsp; <span id="checkCaptcha" style="display:none"><img src="misc/images/none.gif" width="16" height="16" class="vam" /></span></td>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<td><button type="submit" name="btnsubmit" value="true" class="btn bn2" /><strong>提 交</strong></button></td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
+	</form>
+</div>
+<!--{phpcom:template include="common/footer"}-->

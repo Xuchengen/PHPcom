@@ -1,0 +1,212 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-270">
+			<div class="slide270">
+				<script language="javascript" src="{@domain}misc/js/slideutil.js"></script>
+				<div class="slidebox">
+					<ul class="slideshow" id="slideshowA"></ul>
+					<div class="slidefade"></div>
+					<ul class="slidenav" id="slidenavA"></ul>
+				</div>
+			</div>
+			<dl id="slideDataA" style="display:none">
+			<phpcom:threadlist value="$img" chanid="@chanid" image="1" limit="5" length="32">
+				<dt><a href="{$img.url}">{$img.title}</a></dt>
+				<dd>{$img.previewurl}</dd>
+			</phpcom:threadlist>
+			</dl>
+			<dl id="slideDataB" style="display:none">
+			<phpcom:threadlist value="$img" chanid="@chanid" image="1" top="hot" limit="5" length="50">
+				<dt><a href="{$img.url}">{$img.title}</a></dt>
+				<dd>{$img.previewurl}</dd>
+			</phpcom:threadlist>
+			</dl>
+			<script>playslide('slideDataA','slideshowA','slidenavA',6,'current',266,240);</script>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-450">
+			<div class="newbox">
+				<div class="hotbox">
+				<phpcom:threadlist value="$row" module="article" chanid="@chanid" digest="2" limit="2" length="43" ellipsis="">
+					<h1><a href="{$row.url}" target="_blank">{$row.title}</a></h1>
+					<div class="hotabout">{phpcom:value-of select="$row.summary" length="112" ellipsis="..." disable-output-escaping="yes"} <span><a href="{$row.url}" target="_blank">[阅读全文]</a></span></div>
+				</phpcom:threadlist>
+				</div>
+				<ul class="datlst">
+				<phpcom:threadlist value="$row" chanid="@chanid" limit="5" length="50" ellipsis="..." format="Y-m-d">
+					<li><span><a href="{$row.caturl}"{$row.target}{$row.color}>{$row.subname}</a></span> | <a href="{$row.url}"{$row.highlight}>{$row.title}</a> {$row.date}</li>
+				</phpcom:threadlist>
+				</ul>
+			</div></td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252">推荐</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" catid="0" digest="2" limit="10" length="32" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				</td>
+		</tr>
+	</table>
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-270">
+				<h2 class="h270">特别推荐</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" catid="0" top="0" limit="10" length="32" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-450s">
+			<div class="slide450">
+				<div class="slidebox">
+					<ul class="slideshow" id="slideshowA2"></ul>
+					<div class="slidefade"></div>
+					<ul class="slidenav" id="slidenavA2"></ul>
+				</div>
+			</div>
+			<script>playslide('slideDataB','slideshowA2','slidenavA2',6,'current',446,240,0);</script>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252-2">好评推荐</h2>
+				<ul class="bicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" top="voteup" field="1" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight} title="{$row.percentup}">{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				</td>
+		</tr>
+	</table>
+	
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<!--{phpcom:hotandnewmenu value="$hot" key="$key"}-->
+			<td class="td-360">
+				<h2 class="h360-{$hot.index}"><em class="more"><a href="{$hot.url}" target="_blank">more</a></em>{$hot.title}</h2>
+				<ul class="u lst datlst">
+					<phpcom:threadlist value="$row" chanid="0" limit="10" top="$key" length="35" ellipsis="..." format="m-d">
+					<li>[<a href="{$row.caturl}"{$row.target}{$row.color}>{$row.catname}</a>] <a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+					</phpcom:threadlist>
+				</ul>
+			</td>
+			<!--{phpcom:if test="$hot.index=1"}--><td class="sp10"></td><!--{/phpcom:if}-->
+			<!--{/phpcom:hotandnewmenu}-->
+			<td class="td-252">
+				<h2 class="h252-1">用户排行</h2>
+				<ul class="bicon">
+					<phpcom:member value="$row" limit="10" type="credits" format="Y-m-d">
+					<li><em>{$row.credits}</em><a href="{$row.url}" target="_blank"><strong>{$row.username}</strong></a> (<span class="c3">{$row.title}</span>)</li>
+					</phpcom:member>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-992">
+				<h2 class="h992">滚动图片</h2>
+				<div class="pic-cont-box">
+					<div class="picauto" id="picAutoContent">
+					<phpcom:threadlist value="$img" chanid="0" catid="0" top="img" limit="10" length="20">
+						<div class="pic-cont"> 
+							<table cellspacing="0"><tr><td><a href="{$img.url}" target="_blank"><img src="{$img.thumburl}" width="135" height="90" alt="{$img.subject}" /></a></td></tr></table> 
+							<p><a href="{$img.url}" target="_blank">{$img.title}</a></p> 
+						</div>
+					</phpcom:threadlist>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+<script type="text/javascript"> 
+if(imageAutoScroll){imageAutoScroll.stop()};
+var imageAutoScroll = {
+	frameId : "picAutoContent",
+	frameWidth : 980,//滚动框宽度
+	speed : 70, //移动速度(单位毫秒，越小越快)
+	space : 2, //每次移动像素(单位px，越大越快)
+	_timeoutObj : null,
+	$ : function(id){return document.getElementById(id)},
+	begin : function(){
+		if(!this.$(this.frameId)){return};
+		this.$(this.frameId).style.overflow = "hidden";
+		this.$(this.frameId).style.width = this.frameWidth + "px";
+		this._bigDiv = document.createElement("div");
+		this._bigDiv.style.zoom = 1;
+		this._bigDiv.style.overflow = "hidden";
+		this._bigDiv.style.width = "32765px";
+		this.div1 = document.createElement("div");
+		this.div2 = document.createElement("div");
+		this.div1.style.cssFloat = this.div1.style.styleFloat = this.div2.style.cssFloat = this.div2.style.styleFloat = "left";
+		tempHTML = this.$(this.frameId).innerHTML;
+		this.$(this.frameId).innerHTML = "";
+		this.$(this.frameId).appendChild(this._bigDiv);
+		this._bigDiv.appendChild(this.div1);
+		this._bigDiv.appendChild(this.div2);
+		this.div1.innerHTML = this.div2.innerHTML = tempHTML;
+ 
+		var tempThis = this;
+		this.$(this.frameId).onmouseover = function(){tempThis.stop()};
+		this.$(this.frameId).onmouseout = function(){tempThis.play()};
+		this.play();
+	},
+	play : function(){
+		var tempThis = this;
+		clearInterval(this._timeoutObj);
+		this._timeoutObj = setInterval(function(){tempThis.scrollNext()},this.speed);
+	},
+	stop : function(){
+		clearInterval(this._timeoutObj);
+	},
+	scrollNext : function(){
+		try{this.$(this.frameId).scrollLeft += this.space;}catch(e){this.stop();return;};
+		if(this.$(this.frameId).scrollLeft > this.div1.scrollWidth){
+			this.$(this.frameId).scrollLeft = this.$(this.frameId).scrollLeft - this.div1.scrollWidth;
+		};
+	}
+};
+imageAutoScroll.begin();
+</script> 
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+		<!--{phpcom:basecategory value="$cat" chanid="$chanid" limit="3" linked="0"}-->
+			<td class="td-324">
+			<h2 class="h324-{$cat.index}"><em class="more"><a href="{$cat.url}" target="_blank">more</a></em>{$cat.name}</h2>
+			<ul class="u datlst">
+				<phpcom:threadlist value="$row" chanid="0" rootid="$cat.catid" type="0" limit="10" length="38" ellipsis="..." format="m-d">
+				<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+				</phpcom:threadlist>
+			</ul>
+			</td>
+			<!--{phpcom:if test="$cat.index < 3"}--><td class="sp10"></td><!--{/phpcom:if}-->
+		<!--{/phpcom:basecategory}-->
+		</tr>
+	</table>
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-link">
+				<h2 class="h">友情链接</h2>
+				<div class="sharelink">
+					<ul class="logolink">
+					<phpcom:friendlink value="$link" limit="10" type="1" category="0">
+					<li><a href="{$link.url}" target="_blank" title="{phpcom:value-of select="$link.description"}"><img src="{$link.logo}" width="88" height="31" border="0" alt="{$link.name}" /></a></li>
+					</phpcom:friendlink>
+					</ul>
+					<div style="clear:both"></div>
+					<div class="wordlink">
+						<phpcom:friendlink value="$link" limit="10" type="0" category="0">
+						<a href="{$link.url}" target="_blank" title="{phpcom:value-of select="$link.description"}"{$link.color}>{$link.name}</a> 
+						</phpcom:friendlink>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

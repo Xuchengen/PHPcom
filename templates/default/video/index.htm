@@ -1,0 +1,89 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-302">
+			<h2 class="h302-1">焦点视频</h2>
+			<div class="slide302">
+				<script language="javascript" src="{@domain}misc/js/slideutil.js"></script>
+				<div class="slidebox vsbox">
+					<ul class="slideshow" id="slideshowA"></ul>
+					<div class="slidefade"></div>
+					<ul class="slidenav" id="slidenavA"></ul>
+				</div>
+			</div>
+			<dl id="slideDataA" style="display:none">
+			<phpcom:threadlist value="$img" chanid="@chanid" focus="1" image="1" limit="5" length="32">
+				<dt><a href="{$img.url}">{$img.title}</a></dt>
+				<dd>{$img.previewurl}</dd>
+			</phpcom:threadlist>
+			</dl>
+			<script>playslide('slideDataA','slideshowA','slidenavA',6,'current',298,378);</script>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-680">
+				<h2 class="h680">最近更新</h2>
+				<div class="b3">
+					<ul class="hotvodimg img-115x150">
+					<phpcom:fetchthread value="$row" chanid="@chanid" top="new" limit="10" length="18">
+						<li><a class="img-a1" href="{$row.purl}" target="_blank"><img onerror="javascript:this.src='{@domain}misc/images/noimage.jpg';" src="{$row.thumburl}" width="115" height="150" /></a><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:fetchthread>
+					</ul>
+					<div style="clear:both;"></div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<!--{phpcom:basecategory value="$cat" chanid="@chanid" limit="5" linked="0"}-->
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<h2 class="h730-2"><em class="more"><a href="{$cat.url}" target="_blank">more</a></em>{$cat.name}频道</h2>
+				<div class="b3">
+					<ul class="vodlstimg">
+					<phpcom:fetchthread value="$row" in="$i" chanid="@chanid" rootid="$cat.catid" limit="25" length="18">
+						<!--{phpcom:if test="$i < 6"}-->
+						<li class="im"><a class="img-a1" href="{$row.purl}" target="_blank"><img onerror="javascript:this.src='{@domain}misc/images/noimage.jpg';" src="{$row.thumburl}" width="115" height="150" /></a><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+						<!--{phpcom:else}-->
+						<li class="tx"><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+						<!--{/phpcom:if}-->
+					</phpcom:fetchthread>
+					</ul>
+					<div style="clear:both;"></div>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252-1">{$cat.name}热播榜</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="$cat.catid" top="hot" limit="12" length="22" ellipsis="..." format="m-d">
+					<li><a href="{$row.url}"{$row.highlight} target="_blank">{$row.title}</a>{$row.date}</li>
+					</phpcom:threadlist>
+				</ul>
+				<div style="clear:both;"></div>
+			</td>
+		</tr>
+	</table>
+	<!--{/phpcom:basecategory}-->
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-link">
+				<h2 class="h">友情链接</h2>
+				<div class="sharelink">
+					<ul class="logolink">
+					<phpcom:friendlink value="$link" limit="10" type="1" category="0">
+					<li><a href="{$link.url}" target="_blank" title="{phpcom:value-of select="$link.description"}"><img src="{$link.logo}" width="88" height="31" border="0" alt="{$link.name}" /></a></li>
+					</phpcom:friendlink>
+					</ul>
+					<div style="clear:both"></div>
+					<div class="wordlink">
+						<phpcom:friendlink value="$link" limit="10" type="0" category="0">
+						<a href="{$link.url}" target="_blank" title="{phpcom:value-of select="$link.description"}"{$link.color}>{$link.name}</a> 
+						</phpcom:friendlink>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

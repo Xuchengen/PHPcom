@@ -1,0 +1,354 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{#remoteupload_dlg.title}</title>
+	<meta http-equiv="expires" content="0" /> 
+	<meta http-equiv="cache-control" content="no-cache" /> 
+	<meta http-equiv="pragma" content="no-cache" />
+	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="js/remoteupload.js"></script>
+	<style type="text/css">
+    body {overflow: hidden; font-size: 12px; font-family: Arial; /*background-color: buttonface;*/  }
+    td { font-size: 12px; font-family: Arial;text-align: left;}
+	marquee table{font-size:0;line-height:0;}
+    #domProgressBarId{
+        width: 100%;
+        height: 15px;  
+        border-right: buttonhighlight 1px solid;
+        border-top: buttonshadow 1px solid; 
+        border-left: buttonshadow 1px solid; 
+        border-bottom: buttonhighlight 1px solid;
+        background: #b7d2ec url(img/loading.gif) center no-repeat;
+		text-align: center;
+		color:#fff;
+    }
+	#UploadingMarquee{
+		width:300px;
+		height:8px;
+		position:absolute;
+		top:5px;
+		left:50%;
+		margin-left:-150px;
+		text-align:center;
+		font-size:0;
+		line-height:0;
+		display:;
+	}
+	</style>
+<script type="text/javascript" language="javascript">
+var channelId=0;
+var userid=0;
+var elementId=window.parent.$("channelid");
+if (elementId != null) channelId=elementId.value;
+var eluid=window.parent.$("uid");
+if (eluid != null) userid=eluid.value;
+var filePath = '../../../../apps/';
+
+function btnStat() {
+	$('btnSaveRemote').disabled = ( GetCheckNum("imgs")==0 ) ;
+	$("domAllFilesCount").innerHTML = GetCheckNum("imgs");
+}
+
+function GetCheckNum(objName) {
+	var ii=0;
+	obj=eval("document.getElementsByName('"+objName+"')");
+	if(typeof obj != "object") return ii;
+	var inum=obj.length;
+	for(var i=0; i<inum; i++){
+		if(obj[i].checked == 1) ii=ii+1;
+	}
+	return ii;
+}
+
+function doInterfaceUpload(strLinkName, strValue){
+	if (strValue=="" || strValue=="0") return;
+	if (strLinkName){
+		var objLinkUpload = window.parent.document.getElementById(strLinkName);
+		if (objLinkUpload){
+			if (objLinkUpload.value!=""){
+				objLinkUpload.value = objLinkUpload.value + "|";
+			}
+			objLinkUpload.value = objLinkUpload.value + strValue;
+			//try{
+			//	objLinkUpload.fireEvent("onchange");
+			//} catch(e) {
+			//	objLinkUpload.onchange();
+			//}
+		}
+	}
+}
+
+function btnOk(e) {
+	if (e && e.value == "\u56FE\u7247\u4FDD\u5B58\u5B8C\u6210") return tinyMCEPopup.close();
+	if (document.getElementsByName('imgs').length == 0) return;
+	$("Uploading").style.display = "none";
+	$("btnSaveRemote").disabled = true;
+	$("btnCancel").value = "\u53D6\u6D88";
+	$("btnCancel").disabled = true;
+	$("btnRemoteSave").value = "\u6B63\u5728\u4E0B\u8F7D\u56FE\u7247";
+	$("btnRemoteSave").disabled = true;
+	var imgs = document.getElementsByName("imgs");
+
+	var xmlDoc = null;
+	if(typeof(window.ActiveXObject) != 'undefined') {
+		xmlDoc = new ActiveXObject("Msxml2.FreeThreadedDOMDocument");
+	}else if(document.implementation && document.implementation.createDocument) {
+		xmlDoc = document.implementation.createDocument("", "", null);
+	}
+	xmlDoc.async = false;
+	var p = xmlDoc.createProcessingInstruction("xml", "version='1.0' encoding='utf-8'");
+	xmlDoc.appendChild(p);
+	// 两种方式创建根接点
+	var root = xmlDoc.createElement("imgs");
+	//var root = xmlDoc.createNode(1, "imgs", "");
+	var status = xmlDoc.createElement("status");
+	var total = xmlDoc.createAttribute("total");
+	total.value = imgs.length;
+	status.setAttributeNode(total);
+	var curr = xmlDoc.createAttribute("curr");
+	curr.value = "";
+	status.setAttributeNode(curr);
+	var currfile = xmlDoc.createAttribute("currfile");
+	currfile.value = "";
+	status.setAttributeNode(currfile);
+	var chanid = xmlDoc.createAttribute("chanid");
+	chanid.value = channelId;
+	status.setAttributeNode(chanid);
+	var errno = xmlDoc.createAttribute("errno");
+	errno.value = 0;
+	status.setAttributeNode(errno);
+	var uid = xmlDoc.createAttribute("uid");
+	uid.value = userid;
+	status.setAttributeNode(uid);
+	root.appendChild(status);
+	for (var i = 0; i < imgs.length; i++) {
+		if (imgs[i].checked == 1) {
+			var n = xmlDoc.createElement("img");
+			var r = xmlDoc.createAttribute("src");
+			r.value = imgs[i].value;
+			n.setAttributeNode(r);
+			root.appendChild(n);
+		}
+	}
+	xmlDoc.appendChild(root);
+
+	var rndcode = new Date().getTime();
+	var url = filePath+"misc.php?action=saveimage&t=" + rndcode;
+	var ajax = new ajaxObject();
+	ajax.total = total.value;
+	ajax.send(url, xmlDoc);
+}
+
+function ajaxObject(){
+	var o = new Object();
+	o.progressbar = $("domProgressBarId");	//进度条对象
+	o.progressTimerID = null;
+	o.progressWidth = null;
+	o.progressmax = 600;				//进度条最大值
+	o.intervalTime = 100;				//进度条刷新时间
+	o.completeTime = 100;				//完成刷新时间
+	o.completeTimerID = null;			//完成时间ID
+	o.httpState = 0;
+	o.freed = true;
+	o.total = 0;
+	o.index = 0;
+	o.createXMLHttpRequest = function() {
+		var request = false;
+		if(window.XMLHttpRequest) {
+			request = new XMLHttpRequest();
+			if(request.overrideMimeType) {
+				request.overrideMimeType('text/xml');
+			}
+		} else if(window.ActiveXObject) {
+			var versions = ['Microsoft.XMLHTTP', 'MSXML.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.7.0', 'Msxml2.XMLHTTP.6.0', 'Msxml2.XMLHTTP.5.0', 'Msxml2.XMLHTTP.4.0', 'MSXML2.XMLHTTP.3.0', 'MSXML2.XMLHTTP'];
+			for(var i=0; i<versions.length; i++) {
+				try {
+					request = new ActiveXObject(versions[i]);
+					if(request) {
+						return request;
+					}
+				} catch(e) {}
+			}
+		}
+		return request;
+	};
+	o.xmlhttp = o.createXMLHttpRequest();
+	o.send = function(url, data){
+		try {
+			if (o.progressbar) {
+				o.progressmax = o.progressbar.offsetWidth; //保存可见宽度
+				o.progressWidth = o.progressbar.style.width; //可能会没有设置宽度,这时数据为空
+				o.progressbar.style.width = "0px";
+				o.progressbar.innerHTML = "0%";
+				o.progressbar.style.display = "";
+				o.httpState = 0;
+				if (o.progressTimerID) window.clearInterval(o.progressTimerID); //清空时钟
+				o.progressTimerID = window.setInterval(o.statusBar, o.intervalTime);
+			}
+			o.xmlhttp.open("POST", url, true);
+			o.xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			o.xmlhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			o.xmlhttp.onreadystatechange = o.recallHandle;
+			o.xmlhttp.send(data);
+			return true;
+		} catch(e) {
+			return false;
+		}
+	};
+	o.recallHandle = function(){
+		try {
+			if (o.xmlhttp.readyState) o.httpState = o.xmlhttp.readyState;
+			if (o.xmlhttp.readyState == 4 && o.xmlhttp.status == 200) {
+				if (o.progressTimerID) window.clearInterval(o.progressTimerID); //清空时钟
+				if (o.progressbar) {
+					o.progressbar.style.width = o.progressWidth;
+					o.progressbar.innerHTML = '100%';
+					if (o.completeTimerID) window.clearInterval(o.completeTimerID); //清空时钟
+					o.completeTimerID = window.setInterval(o.complete, o.completeTime);
+				} else {
+					if (o.freed) o.destroy();
+				}
+			}
+		} catch(e) {}
+	};
+	o.complete = function(){
+		if (o.completeTimerID) window.clearInterval(o.completeTimerID); //清空时钟
+		var responsexml = o.xmlhttp.responseXML;
+		var status = responsexml.selectSingleNode("//imgs/status");
+		if (status != null) {
+			var errno = status.selectSingleNode("./@errno");
+			if(errno.nodeValue){
+				$("Uploading").style.display = "block";
+				$("domCurrentFile").innerHTML = "\u60A8\u6CA1\u6709\u4E0B\u8F7D\u8FDC\u7A0B\u9644\u4EF6\u7684\u6743\u9650";
+				$("btnCancel").disabled = false;
+				$("btnRemoteSave").disabled = true;
+				$("btnRemoteSave").value = "\u6CA1\u6709\u6743\u9650";
+				o.destroy();
+			}
+		}
+		var items = responsexml.selectNodes("//imgs/img");
+		var old = tinyMCEPopup.editor.getContent({source_view : true});
+		for (var i = 0; i < items.length; i++) {
+			var ss = items[i].attributes[0].nodeValue.replace(/&amp;/g, "&").replace(/&/g, "&amp;");
+			var aid = items[i].attributes[1].nodeValue;
+			if(aid){
+				old = old.replace(/\[url=([^\]\s]+?)\]\s*([\s\S]+?)\s*\[\/url\]/ig, function(all, url, attr){
+					if(url == ss) return attr;
+					return all;
+				});
+				old = old.replace(/\[img\]\s*([\s\S]+?)\s*\[\/img\]/ig, function(all, attr){
+					if(attr != ss || aid == 0) return all;
+					var s = '\[attachimg\]'+aid+'\[\/attachimg\]';
+					return '<img width="300" src="'+attr+'" id="editor_attachimg_'+aid+'" style="max-width:600px"><\/img>';
+				});
+				old = old.replace(/\[img\s*=\s*(\d+),(\d+)\s*\]\s*([\s\S]+?)\s*\[\/img\]/ig, function(all, w, h, attr){
+					if(attr != ss || aid == 0) return all;
+					return '<img width="300" src="'+attr+'" id="editor_attachimg_'+aid+'" style="max-width:600px"><\/img>';
+				});
+			}
+		}
+		window.parent.updateImageList(null, null, userid);
+		tinyMCEPopup.editor.setContent(old, {source_view : true});
+		
+		if (status != null) {
+			var curr = status.selectSingleNode("./@curr");
+			var currfile = status.selectSingleNode("./@currfile");
+			$("domAlreadyDownloadFilesCount").innerHTML = curr.nodeValue;
+			$("domCurrentFile").innerHTML = currfile.nodeValue;
+		}
+		$("Uploading").style.display = "block";
+		$("btnCancel").value = "\u5B8C\u6210";
+		$("btnCancel").disabled = false;
+		$("btnRemoteSave").value = "\u56FE\u7247\u4FDD\u5B58\u5B8C\u6210";
+		$("btnRemoteSave").disabled = false;
+		
+		if (o.freed) o.destroy();
+	};
+	o.statusBar = function(){
+		try {
+			if (o.progressbar.offsetWidth >= o.progressmax) {
+				o.progressbar.innerHTML = "100%";
+				o.progressbar.style.width = o.progressWidth;
+				return;
+			}
+			//$("domAlreadyDownloadFilesCount").innerHTML = o.index++;
+			if (o.progressbar.offsetWidth < (o.httpState + 1) * Math.floor(o.progressmax / o.total)) {
+				var loading = o.progressbar.offsetWidth + Math.floor(o.progressmax / (o.total * 10)); //十分之一
+				o.progressbar.style.width = loading + "px";
+				var percen = Math.floor(loading / o.progressmax * 100);
+				o.progressbar.innerHTML = (percen > 100 ? 100 : percen) + "%";
+			} else {
+				o.progressbar.style.width = (o.httpState + 1) * Math.floor(o.progressmax / o.total) + "px";
+				o.progressbar.innerHTML = Math.floor(100 / (o.total - o.httpState)) + "%";
+			}
+			o.httpState++;
+		} catch(e) {}
+	};
+	o.destroy = function(){
+		if (o.progressTimerID) window.clearInterval(o.progressTimerID);
+		if (o.completeTimerID) window.clearInterval(o.completeTimerID);
+		delete o.xmlhttp;
+	};
+	return o;
+}
+</script>
+</head>
+<body onresize="RemoteUploadDialog.resize();" style="display:none; overflow:hidden;">
+<div id="UploadingMarquee"><marquee style="border:1px solid #000000;" onmouseout="this.start()" direction="right" width="200" scrollamount="5" scrolldelay="10" bgcolor="#ECF2FF">
+	<table cellspacing="1" cellpadding="0" style="height:8px;width:40px;font-size:1px;">
+		<tr>
+			<td style="width: 8px;background: #3399ff"></td>
+			<td></td>
+			<td style="width: 8px;background: #3399ff"></td>
+			<td></td>
+			<td style="width: 8px;background: #3399ff"></td>
+			<td></td>
+			<td style="width: 8px;background: #3399ff"></td>
+			<td></td>
+		</tr>
+	</table></marquee>
+</div>
+<div id="Uploading" style="position: absolute; width: 100%; height: 15px; top: 0px; left: 72px;font-size:1px;background: #F0F0EE"></div>
+	<form id="RemoteUPloadForm" style="margin:0;padding:0">
+		<div style="white-space: nowrap"><label>{#remoteupload_dlg.desc}</label>:&nbsp;<span id="domCurrentFile" style="position:absolute;display: inline; text-overflow: ellipsis"></span></div>
+		<div style="clear:both"></div>
+		<div style="float: center;text-align: left; width:600px;margin-top:5px;">
+			<div id="domProgressBarId"></div><div id="data"></div>
+		</div>
+		<div style="clear:both"></div>
+		<div  style="margin-top:5px;">
+			<div style="float: left">
+				<div>
+					<label>{#remoteupload_dlg.total}</label>:&nbsp;<span id="domAllFilesCount">0</span>&nbsp;&nbsp;<label>{#remoteupload_dlg.unit}</label>
+				</div>
+				<div>
+					<label>{#remoteupload_dlg.downloaded}</label>:&nbsp;<span id="domAlreadyDownloadFilesCount">0</span>&nbsp;&nbsp;<label>{#remoteupload_dlg.unit}</label>
+				</div>
+			</div>
+			<div style="float: right;margin-top:5px;">
+				<input id="btnRemoteSave" type="button" style="padding-right: 5px; padding-left: 5px" onclick="btnOk(this);" value="{#remoteupload_dlg.title}" />
+			</div>
+		</div>
+		<br style="clear: both" />
+		<div style="white-space:nowrap;margin-top:5px;height:315px;width:605px;overflow-x:auto;overflow-y:auto;">
+			<div id="Anylysis"><span>{#remoteupload_dlg.analysis}</span></div>
+		</div>
+		<br style="clear: both" />
+		<div class="mceActionPanel">
+			<div style="float: left">
+				<input id="btnSaveRemote" type="button" style="padding-right: 5px; padding-left: 5px" onclick="btnOk();" value="{#remoteupload_dlg.title}" />
+			</div>
+			<div style="float: right">
+				<input id="btnCancel" type="button" style="padding-right: 5px; padding-left: 5px" name="btnCancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+			</div>
+		</div>
+		<br style="clear: both" />
+	</form>
+</body> 
+</html>
+<iframe style="display:none;" frameborder="0" src="about:blank" id="admin_blankframe" name="admin_blankframe"></iframe>
+<script type="text/javascript">
+var frmaeEl=document.getElementById("admin_blankframe");
+//frmaeEl.src=filePath+'admin_bottom.asp';
+</script>

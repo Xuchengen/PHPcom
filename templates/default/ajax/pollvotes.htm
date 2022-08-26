@@ -1,0 +1,20 @@
+<form id="pollvoteform" name="pollvoteform" method="post" autocomplete="off" action="{@domain}apps/ajax.php?action=pollvotes&tid=$tid&pollid=$pollid" onsubmit="ajaxpost('pollvoteform', 'pollvotes');return false">
+	<table cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="pollicon"></td>
+			<td colspan="3" class="polltitle">$polltitle<em>（{$polltype}）共 $voters 人参与投票</em></td>
+		</tr>
+		<phpcom:for-each select="$polloptions" value="$poll">
+		<tr>
+			<td class="choicebox">{$poll.input}</td>
+			<td class="voteoption">{$poll.voteoption}</td>
+			<td class="percentbox" style="display:;"><div class="percentbg"><div class="percentbar" style="width:{$poll.width}"></div></div></td>
+			<td class="percents" style="display:;">{$poll.votes} ({$poll.percent}%)</td>
+		</tr>
+		</phpcom:for-each>
+		<tr>
+			<td colspan="4" class="votebutton"><button class="btnsubmit" type="submit" {phpcom:if test="$isvote"}disabled="disabled"{/phpcom:if} name="pollsubmit" id="pollsubmit" value="true">提交</button>
+			&nbsp; <a href="{$pollurl}" target="_blank">查看结果</a></td>
+		</tr>
+	</table>
+</form>

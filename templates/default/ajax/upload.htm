@@ -1,0 +1,21 @@
+<div class="uploadbox">
+<h3 class="fld">
+	<em>上传</em>
+	<span><a href="javascript:;" onclick="hideWindow('upload');" class="fclose" title="关闭">关闭</a></span>
+</h3>
+<div class="filebox">
+	<form name="uploadattachform" id="uploadattachform" target="uploadattachframe" enctype="multipart/form-data" action="apps/misc.php?action=swfupload&operation=upload&simple=2&chanid=$chanid&aid=$aid&type=$type" method="post">
+		<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+		<input type="hidden" value="$uid" name="uid" />
+		<input type="hidden" value="$hash" name="hash" />
+		<div class="filebtn">
+		<input type="file" size="1" name="Filedata" onchange="$('uploadattachform').submit()" />
+		<button class="btn" type="button" name="filesubmit"><strong>&nbsp;&nbsp;浏览...&nbsp;&nbsp;</strong></button>
+		</div>
+	</form>
+</div>
+<div class="desc">
+	大小: <span class="red">$filesizelimit</span>, 类型: <span class="red">$attachextensions</span>
+</div>
+</div>
+<iframe id="uploadattachframe" onload="loadUploadWindow(this);" style="display: none;" name="uploadattachframe"></iframe>

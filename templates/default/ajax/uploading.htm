@@ -1,0 +1,223 @@
+<!--{phpcom:if test="$type=='threadimage'"}-->
+<div class="uploadbox" style="width:380px">
+<h3 class="fld">
+	<em>图片上传</em>
+	<span><a href="javascript:;" onclick="hideWindow('uploading');" class="fclose" title="关闭">关闭</a></span>
+</h3>
+<div class="fbox">
+	<p><b>上传缩略图</b> &nbsp; <span class="blue">程序默认调用缩略图</span></p>
+	<div class="filewrap">
+		<input id="thumbtmpid_file" class="fileInput" type="text" style="width:260px;" name="thumbtmpid_file" value="$attachment" />
+		<div class="filebutton">
+		<form name="formUpload1" id="formUpload1" target="frameImageUpload" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&tid=$tid&do=thumb" method="post">
+			<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUpload1')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	</div>
+	<p><b>上传预览图</b> &nbsp; <span class="red">上传参数在频道管理中设置</span></p>
+	<div class="filewrap">
+		<input id="previewtmpid_file" class="fileInput" type="text" style="width:260px;" name="previewtmpid_file" value="$attachimg" />
+		<div class="filebutton">
+		<form name="formUpload2" id="formUpload2" target="frameAttachUpload" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&tid=$tid&do=preview" method="post">
+			<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUpload2')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	</div>
+</div>
+<div class="desc">
+	大小: <span class="red">$filesizelimit</span>, 类型: <span class="red">$attachextensions</span>
+</div>
+	<p class="flbtn">
+		<button type="button" name="btnCancel" onclick="hideWindow('uploading');" value="true" class="btn b2"><strong>确定</strong></button>
+	</p>
+</div>
+<iframe id="frameImageUpload" onload="loadUploadingWindow(this, 'thumbtmpid');" style="display: none;" name="frameImageUpload"></iframe>
+<iframe id="frameAttachUpload" onload="loadUploadingWindow(this, 'previewtmpid');" style="display: none;" name="frameAttachUpload"></iframe>
+<!--{phpcom:elseif test="$type=='topicimage'"}-->
+<div class="uploadbox" style="width:380px">
+<h3 class="fld">
+	<em>上传图片</em>
+	<span><a href="javascript:;" onclick="hideWindow('uploading');" class="fclose" title="关闭">关闭</a></span>
+</h3>
+<div class="fbox">
+	<div class="filewrap">
+		<input id="topictmpid_file" class="fileInput" type="text" style="width:260px;" name="topictmpid_file" value="$imageurl" />
+		<div class="filebutton">
+		<form name="formUploading" id="formUploading" target="frameUploading" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&dirname=$dirname" method="post">
+			<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUploading', 'thumbsetting')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	</div>
+	<!--{phpcom:if test="$type=='topicimage'"}-->
+	<div id="thumbsetting">
+		<div style="padding:3px 0;">
+			<label><input type="checkbox" class="checkbox" name="thumboriginal[ok]" value="1" {$imagechecked}/> 缩放原图片</label>&nbsp; &nbsp;
+			<input class="input" type="text" style="width:60px;" name="thumboriginal[width]" value="$imagewidth" /> 宽 x 高
+			<input class="input" type="text" style="width:60px;" name="thumboriginal[height]" value="$imageheight" />
+		</div>
+		<div style="padding:3px 0;">
+			<label><input type="checkbox" class="checkbox" name="thumbnail[ok]" value="1" {$thumbchecked}/> 生成缩略图</label>&nbsp; &nbsp;
+			<input class="input" type="text" style="width:60px;" name="thumbnail[width]" value="$thumbwidth" /> 宽 x 高
+			<input class="input" type="text" style="width:60px;" name="thumbnail[height]" value="$thumbheight" />
+		</div>
+	</div>
+	<!--{/phpcom:if}-->
+</div>
+<div class="desc">
+	大小: <span class="red">$filesizelimit</span>, 类型: <span class="red">$attachextensions</span>
+</div>
+	<p class="flbtn">
+		<button type="button" name="btnCancel" onclick="hideWindow('uploading');" value="true" class="btn b2"><strong>确定</strong></button>
+	</p>
+</div>
+<iframe id="frameUploading" onload="loadUploadingWindow(this, 'topictmpid');" style="display: none;" name="frameUploading"></iframe>
+<!--{phpcom:elseif test="$type=='adimage'"}-->
+<div class="uploadbox" style="width:380px">
+<h3 class="fld">
+	<em>广告图片上传</em>
+	<span><a href="javascript:;" onclick="hideWindow('uploading');" class="fclose" title="关闭">关闭</a></span>
+</h3>
+<div class="fbox">
+	<div class="filewrap">
+		<input id="fileurl" class="fileInput" type="text" style="width:260px;" name="fileurl" />
+		<div class="filebutton">
+		<form name="formUploading" id="formUploading" target="frameUploading" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&dirname=$dirname" method="post">
+			<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUploading', 'thumbsetting')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	</div>
+	<div id="thumbsetting">
+		<div style="padding:3px 0;">
+			<label><input type="checkbox" class="checkbox" name="thumboriginal[ok]" value="1" /> 缩放原图片</label>&nbsp; &nbsp;
+			<input class="input" type="text" style="width:60px;" name="thumboriginal[width]" value="0" /> 宽 x 高
+			<input class="input" type="text" style="width:60px;" name="thumboriginal[height]" value="0" />
+		</div>
+		<div style="padding:3px 0;">
+			<label><input type="checkbox" class="checkbox" name="thumbnail[ok]" value="1" /> 生成缩略图</label>&nbsp; &nbsp;
+			<input class="input" type="text" style="width:60px;" name="thumbnail[width]" value="0" /> 宽 x 高
+			<input class="input" type="text" style="width:60px;" name="thumbnail[height]" value="0" />
+		</div>
+	</div>
+</div>
+<div class="desc">
+	大小: <span class="red">$filesizelimit</span>, 类型: <span class="red">$attachextensions</span>
+</div>
+	<p class="flbtn">
+		<button type="button" name="btnCancel" onclick="hideWindow('uploading');" value="true" class="btn b2"><strong>确定</strong></button>
+	</p>
+</div>
+<iframe id="frameUploading" onload="loadUploadingWindow(this);" style="display: none;" name="frameUploading"></iframe>
+<!--{phpcom:elseif test="$type=='backgroundimage'"}-->
+<div class="uploadbox" style="width:380px">
+<h3 class="fld">
+	<em>图片上传</em>
+	<span><a href="javascript:;" onclick="hideWindow('uploading');" class="fclose" title="关闭">关闭</a></span>
+</h3>
+<div class="fbox">
+	<p><b>上传背景图片</b></p>
+	<div class="filewrap">
+		<input class="fileInput" type="text" style="width:260px;" name="backgroundtmpid_file" value="$attachment" />
+		<div class="filebutton">
+		<form name="formUpload1" id="formUpload1" target="frameImageUpload" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&tid=$tid&do=thumb" method="post">
+			<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="hidden" value="1" name="thumbnone" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUpload1')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	</div>
+	<p><b>上传横幅图片</b></p>
+	<div class="filewrap">
+		<input class="fileInput" type="text" style="width:260px;" name="bannertmpid_file" value="$attachimg" />
+		<div class="filebutton">
+		<form name="formUpload2" id="formUpload2" target="frameAttachUpload" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&tid=$tid&do=preview" method="post">
+			<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="hidden" value="1" name="thumbnone" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUpload2')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	</div>
+</div>
+<div class="desc">
+	大小: <span class="red">$filesizelimit</span>, 类型: <span class="red">$attachextensions</span>
+</div>
+	<p class="flbtn">
+		<button type="button" name="btnCancel" onclick="hideWindow('uploading');" value="true" class="btn b2"><strong>确定</strong></button>
+	</p>
+</div>
+<iframe id="frameImageUpload" onload="loadUploadingWindow(this, 'backgroundtmpid');" style="display: none;" name="frameImageUpload"></iframe>
+<iframe id="frameAttachUpload" onload="loadUploadingWindow(this, 'bannertmpid');" style="display: none;" name="frameAttachUpload"></iframe>
+<!--{phpcom:else}-->
+<div class="uploadbox" style="width:380px">
+<h3 class="fld">
+	<em>上传图片</em>
+	<span><a href="javascript:;" onclick="hideWindow('uploading');" class="fclose" title="关闭">关闭</a></span>
+</h3>
+<div class="fbox">
+	<div class="filewrap">
+	<!--{phpcom:if test="$type=='gameimage'"}-->
+		<input id="gameimagetmpid_file" class="fileInput" type="text" style="width:260px;" name="gameimagetmpid_file" value="$imageurl" />
+		<div class="filebutton">
+		<form name="formImageUploading" id="formImageUploading" target="frameImageUploading" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&dirname=$dirname" method="post">
+		<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formImageUploading', 'thumbsetting')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	<!--{phpcom:else}-->
+		<input id="imagetmpid_file" class="fileInput" type="text" style="width:260px;" name="imagetmpid_file" value="$imageurl" />
+		<div class="filebutton">
+		<form name="formUploading" id="formUploading" target="frameUploading" enctype="multipart/form-data" action="apps/misc.php?action=uploading&chanid=$chanid&type=$type&dirname=$dirname" method="post">
+		<input type="hidden" name="MAX_FILE_SIZE" value="$maxszie" />
+			<input type="hidden" value="$uid" name="uid" />
+			<input type="hidden" value="$hash" name="hash" />
+			<input type="file" name="Filedata" onchange="uploadingSubmit('formUploading', 'thumbsetting')" />
+			<button class="btn" type="button" name="filesubmit"><strong>&nbsp;上传...&nbsp;</strong></button>
+		</form>
+		</div>
+	<!--{/phpcom:if}-->
+	</div>
+	<div id="thumbsetting">
+		<div style="padding:3px 0;">
+			<label><input type="checkbox" class="checkbox" name="thumboriginal[ok]" value="1" /> 缩放原图片</label>&nbsp; &nbsp;
+			<input class="input" type="text" style="width:60px;" name="thumboriginal[width]" value="0" /> 宽 x 高
+			<input class="input" type="text" style="width:60px;" name="thumboriginal[height]" value="0" />
+		</div>
+	</div>
+</div>
+<div class="desc">
+	大小: <span class="red">$filesizelimit</span>, 类型: <span class="red">$attachextensions</span>
+</div>
+	<p class="flbtn">
+		<button type="button" name="btnCancel" onclick="hideWindow('uploading');" value="true" class="btn b2"><strong>确定</strong></button>
+	</p>
+</div>
+	<!--{phpcom:if test="$type=='gameimage'"}-->
+	<iframe id="frameImageUploading" onload="loadUploadingWindow(this, 'gameimagetmpid');" style="display: none;" name="frameImageUploading"></iframe>
+	<!--{phpcom:else}-->
+	<iframe id="frameUploading" onload="loadUploadingWindow(this, 'imagetmpid');" style="display: none;" name="frameUploading"></iframe>
+	<!--{/phpcom:if}-->
+<!--{/phpcom:if}-->

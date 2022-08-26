@@ -1,0 +1,156 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> <!--{phpcom:categorynav value="$nav"}-->
+			&rsaquo;&rsaquo; <a href="{$nav.url}">{$nav.name}</a> 
+			<!--{/phpcom:categorynav}--></em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<div class="contentbox">
+					<h1 class="title">{$title} &nbsp; <span class="c1">{$pagenow}</span>/{$count}</h1>
+					<div class="about">
+						$date &nbsp; 来源：$from &nbsp; 浏览：$hits &nbsp; 评论：<a href="{$commenturl}"><span style="color:red">$commentnum</span></a> &nbsp;
+						<!--{if $attached>1}--><span><a href="{$previewurl}">图片预览</a></span><!--{/if}-->
+					</div>
+					<div style="clear:both;"></div>
+					<!--{phpcom:if test="$imagemode"}-->
+					<div class="piclist">
+					<!--{phpcom:for-each select="$datalist" value="$result"}-->
+						<div class="lstcont">
+							<i><a href="{$result.url}" title="{$result.description}"><img src="{$result.thumburl}" /></a></i>
+						</div>
+					<!--{/phpcom:for-each}-->
+					</div>
+					<!--{phpcom:else}-->
+					<div class="picbox">
+					<script type="text/javascript">
+					function image_loaded(obj){
+						var mtop = obj.offsetHeight / 2 - 23;
+						var prevobj = document.getElementById('imgprevbox');
+						var nextobj = document.getElementById('imgnextbox');
+						prevobj.firstChild.style.height = obj.offsetHeight + "px";
+						nextobj.firstChild.style.height = obj.offsetHeight + "px";
+						prevobj.firstChild.firstChild.style.marginTop = mtop + 'px';
+						nextobj.firstChild.firstChild.style.marginTop = mtop + 'px';
+					}
+					</script>
+						<!--{phpcom:for-each select="$datalist" value="$result"}-->
+						<table class="pictable" cellspacing="0" align="center" onmouseout="document.getElementById('previewimage').style.display='none'" onmousemove="document.getElementById('previewimage').style.display=''">
+							<tr>
+								<td id="imgprevbox" class="tdbtn prevbox"><a title="上一张" href="{$result.prevurl}"><span>上一张</span></a></td>
+								<td class="tdimg"><a id="previewimage" target="_blank" title="查看原图" href="{$result.imageurl}" style="display: none;">查看原图</a><img onload="image_loaded(this)" src="{$result.imageurl}" alt="{$result.description}" /></td>
+								<td id="imgnextbox" class="tdbtn nextbox"><a title="下一张" href="{$result.nexturl}"><span>下一张</span></a></td>
+							</tr>
+						</table>
+						<div style="clear:both;"></div>
+						<div class="pagebox">
+							<table cellspacing="0" align="center"><tr><td>{$showpage}</td></tr></table>
+						</div>
+						<!--{/phpcom:if}-->
+					</div>
+					<!--{/phpcom:if}-->
+					<div style="clear:both;"></div>
+					<div class="textcontent" id="textcontent">
+					$content
+					</div>
+					<div style="clear:both;"></div>
+					<div class=""></div>
+					<div class="backnext">
+						<ul>
+							<li><b>上一篇：</b>{phpcom:prevthread chanid="@chanid" tid="$tid" length="35" ellipsis="..."}</li>
+							<li><b>下一篇：</b>{phpcom:nextthread chanid="@chanid" tid="$tid" length="35" ellipsis="..."}</li>
+						</ul>
+					</div>
+					<div style="clear:both;"></div>
+					<div id="diggbury" class="diggwrap">
+						<div class="diggbox digg" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=up&tid=$tid','diggbury')">
+							<div class="act">顶一下<em>($voteup)</em></div>
+							<div class="progress">
+								<div class="bar"><span style="width:$percentup"></span></div>
+								<div class="percent">$percentup</div>
+							</div>
+						</div>
+						<div class="diggbox bury" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=down&tid=$tid','diggbury')">
+							<div class="act">踩一下<em>($votedown)</em></div>
+							<div class="progress">
+								<div class="bar"><span style="width:$percentdown"></span></div>
+								<div class="percent">$percentdown</div>
+							</div>
+						</div>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="high10"></div>
+				<h2 class="h730"><span class="y"><a href="$commenturl" class="f12">已有 <span class="c1">$commentnum</span> 人参与评论</a>&nbsp;&nbsp;</span>网友评论</h2>
+				<div class="comment">
+					<div class="list">
+						<table width="100%">
+						<!--{phpcom:for-each select="@threadComments($tid)" key="$commentid" value="$comment"}-->
+							<tr>
+								<td width="100" class="ca"><span class="c2">{$comment.author}</span></td>
+								<td class="ct">
+									{$comment.content}
+									<p class="cb">
+										<span class="x">{$comment.date}</span>
+										<span class="y">
+											<a href="javascript:void(0)" onclick="ajaxget('{@instdir}comment.php?operation=voteup&tid=$tid&commentid=$commentid&id={$comment.id}','c.voteup_{$comment.id}')">支持(<span id="c.voteup_{$comment.id}" class="c1">{$comment.voteup}</span>)</a> &nbsp;
+											<a href="javascript:void(0)" onclick="showWindow('{@instdir}apps/ajax.php?action=comment&tid=$tid&commentid=$commentid', 'comment', 'get', 0);">回复</a>
+										</span>
+									</p>
+								</td>
+							</tr>
+						<!--{/phpcom:for-each}-->
+						</table>
+						<div class="clb"><a href="{$commenturl}" class="f14">查看所有评论 共 <span class="c1">$commentnum</span> 条</a></div>
+					</div>
+					<div style="padding:10px 0;">请自觉遵守互联网相关政策法规，评论内容只代表网友观点，与本站立场无关！</div>
+					<form id="pmform" name="pmform" method="post" autocomplete="off" action="{@instdir}apps/comment.php" onsubmit="ajaxpost(this, null, 'btnsubmitcomment');return false;">
+						<input type="hidden" name="postsubmit" value="true" />
+						<input type="hidden" name="operation" value="post" />
+						<input type="hidden" name="tid" value="$tid" />
+						<input type="hidden" name="formtoken" value="{@formtoken}" />
+						<div style="overflow:auto;vertical-align:top;"><textarea cols="60" name="content" rows="5" style="width:698px;height:80px;position:relative;" class="textarea"></textarea></div>
+						<div style="margin-top:8px;line-height:26px;">
+							<button type="submit" id="btnsubmitcomment" class="btn b1"><strong>发表评论</strong></button> &nbsp;
+							<!--{phpcom:if test="@iscaptcha"}-->
+							验证码：
+							<input type="text" size="5" name="verifycode" id="verifycode" onblur="checkCaptcha(this.id, '{@instdir}')" class="input vm" />
+							<img id="captcha" src="{@instdir}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@instdir}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+							&nbsp; <span id="checkCaptcha" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span>
+							<!--{/phpcom:if}-->
+							&nbsp; <a href="{@loginurl}">登录</a> &nbsp; <a href="{@registerurl}">注册</a>
+						</div>
+					</form>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252">栏目导航</h2>
+				<ul class="catmenu">
+				<phpcom:category value="$cat" rootid="@rootid" limit="0">
+					{phpcom:if test="$cat.catid == $this->catid"}
+					<li><a href="{$cat.url}"{$cat.color}><strong>{$cat.name}</strong></a></li>
+					{phpcom:else}
+					<li><a href="{$cat.url}"{$cat.color}>{$cat.name}</a></li>
+					{/phpcom:if}
+				</phpcom:category>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">本类排行</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="W" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<img src="{@domain}apps/count.php?image=yes&tid={$tid}" width="1" height="1" style="display: none" />
+<!--{phpcom:template include="common/footer"}-->

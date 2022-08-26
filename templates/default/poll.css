@@ -1,0 +1,49 @@
+*{margin:0;padding:0;word-wrap:break-word;outline:none;}
+html{background-color:#eaf0f6;border:none;margin:0;padding:0;}
+body{background:#eaf0f6 url(images/poll_bg.png) repeat-x;margin:0 auto;font-size:12px;font-family:Arial,tahoma,Verdana; color:#404040;line-height:1.5;}
+ul, dl {list-style:none;}
+img {border:none;}
+form{display:inline;margin:0;padding:0;}
+img{border:0;}
+table {border-collapse:collapse;border-spacing:0;empty-cells:show;}
+h1,h2,h3,h4,h5,h6 {font:12px Verdana;font-weight:400;}
+button::-moz-focus-inner{border:none;padding:0;}
+em,cite{font-style:normal;}
+a{text-decoration:none;color:#6f86a8;font-size:12px;}
+a:hover{text-decoration:underline;color:#c00}
+textarea,input,select,button{font:12px/1.5 Arial;vertical-align:middle;}
+.input{line-height:160%\9;text-indent:3px;height:21px;border:1px solid; border-color: #999 #e1e1e1 #e1e1e1 #999;background:#fff;font-size:1em;color:#333;}
+.input:hover,.textarea:hover{border:1px solid #23a6dd;}
+@media screen and (-webkit-min-device-pixel-ratio:0){} /* Safari And Google Chrome */
+@-moz-document url-prefix(){select{padding:3px;}} /* Firefox */
+@media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0){select{padding:3px;padding-top:2px;}} /* Opera */
+.btnsubmit,.button{background:url(images/pic-btn.png) no-repeat;margin-left:3px;width:56px;height:21px;text-align:center;border:none;cursor:pointer;}
+.button{background-position: right -50px;color:#666;}
+.btnsubmit{background-position: left -50px;color:#fff;}
+
+.pollhead, .pollwrap{width:790px;margin:0 auto;overflow:hidden;}
+.pollhead h1{font:normal 18px/2.0 Verdana, Arial;color:#255385;font-weight:700;}
+.pollwrap{background-color:#fff;border:1px #BBCEE4 solid;border-radius:3px;margin-top:1px;overflow:hidden;}
+.pollbox{border:2px #fff solid;border-radius:3px;overflow:hidden;}
+.pollwrap h2{display:block;color:#255385;background:url(images/poll-bg.png) repeat-x left top;padding:15px 5px;width:80;font:normal 18px/2.8 "Î¢ÈíÑÅºÚ","ºÚÌå",Arial,Verdana;text-align:center;font-weight:400;overflow:hidden;}
+.pollwrap h2 a{color:#255385;font-size:18px;font-family:"Î¢ÈíÑÅºÚ","ºÚÌå",Arial,Verdana;}
+.pollabout{padding:5px 10px;}
+.pollabout em{font:normal 12px/1.5 Verdana, Arial;color:red;}
+.polltable{padding:5px 10px;}
+.polltable table{width:100%;border:1px #c8d6e8 solid;border-top:none;}
+.polltable caption{padding:0 5px;line-height:34px;background:#f2f6fb url(images/poll-bg.png) repeat-x left -90px;text-align:left;font-size:14px;}
+.polltable caption{border-left:1px #c8d6e8 solid;border-right:1px #c8d6e8 solid;}
+.polltable caption span{padding-left:25px;background:url(images/vote-icon.gif) no-repeat 2px 1px;color:#111;}
+.polltable th{line-height:30px;color:#6f86a8;background:#f2f7fd url(images/poll-bg.png) repeat-x left -130px;font-weight:400;}
+.polltable td{padding:15px 0;border-bottom:1px #D4E4EE dashed;}
+.polltable .pollbutton{padding:10px 30px;}
+.pollfoot{padding:5px 10px;line-height:36px;background:#fbfcfe url(images/poll-bg.png) repeat-x left -198px;}
+
+.choicebox{text-align:center;padding:3px 0;width:20px;}
+.choicebox input{vertical-align:middle;}
+.voteoption{padding:3px 0;}
+.precent{}
+.percentbox{width:300px;font-size:1px;}
+.percentbg{background-color:#f1f1f1;height:12px;width:300px}
+.percentbar{background-color:#4cba4a;height:10px;border:1px solid #3a8938;}
+.percents{font-size:11px;text-indent:10px;-webkit-text-size-adjust:none;width:120px;}

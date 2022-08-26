@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<Title><![CDATA[默认模板]]></Title>
+	<Version>1.0.0</Version>
+	<Author><![CDATA[PHPcom]]></Author>
+	<Copyright><![CDATA[PHPcom All rights reserved]]></Copyright>
+	<Description><![CDATA[PHPcom 默认模板]]></Description>
+	<Extension>
+		<htm><![CDATA[HTML 模板文件]]></htm>
+		<html><![CDATA[HTML 文档]]></html>
+		<css><![CDATA[层叠样式文件]]></css>
+		<js><![CDATA[JScript 脚本文件]]></js>
+		<xml><![CDATA[XML 文件]]></xml>
+		<sxlt><![CDATA[XSL Transform]]></sxlt>
+		<gif><![CDATA[GIF 文件]]></gif>
+		<jpg><![CDATA[JPEG 图像]]></jpg>
+		<png><![CDATA[PNG 文件]]></png>
+		<ico><![CDATA[图标文件]]></ico>
+	</Extension>
+	<Template>
+		<item id="announce" name="announce.htm"><![CDATA[公告模板]]></item>
+		<item id="category" name="category.htm"><![CDATA[分类模板]]></item>
+		<item id="comment" name="comment.htm"><![CDATA[评论模板]]></item>
+		<item id="hotnew" name="hotnew.htm"><![CDATA[热门更新模板]]></item>
+		<item id="http404" name="http404.htm"><![CDATA[404错误模板]]></item>
+		<item id="index" name="index.htm"><![CDATA[网站首页模板]]></item>
+		<item id="mobile" name="mobile.htm"><![CDATA[手机介绍模板]]></item>
+		<item id="phone" name="phone.htm"><![CDATA[手机模板]]></item>
+		<item id="search" name="search.htm"><![CDATA[搜索结果模板]]></item>
+		<item id="search_index" name="search_index.htm"><![CDATA[搜索首页模板]]></item>
+		<item id="sitemap" name="sitemap.htm"><![CDATA[网站分类地图模板]]></item>
+		<item id="submission" name="submission.htm"><![CDATA[匿名投稿模板]]></item>
+		<item id="tag" name="tag.htm"><![CDATA[标签模板]]></item>
+		<item id="vote" name="vote.htm"><![CDATA[投票模板]]></item>
+		<ajax caption="Ajax 模板">
+			<item id="advert" name="advert.htm"><![CDATA[AJAX 广告模板]]></item>
+			<item id="attachlist" name="attachlist.htm"><![CDATA[附件列表模板]]></item>
+			<item id="comment" name="comment.htm"><![CDATA[评论回复模板]]></item>
+			<item id="digg" name="digg.htm"><![CDATA[评价(顶)模板]]></item>
+			<item id="login" name="login.htm"><![CDATA[用户登录模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="pollvotes" name="pollvotes.htm"><![CDATA[投票调查模板]]></item>
+			<item id="rate" name="rate.htm"><![CDATA[用户评分模板]]></item>
+			<item id="searchword" name="searchword.htm"><![CDATA[搜索关键字模板]]></item>
+			<item id="sendpasswd" name="sendpasswd.htm"><![CDATA[发送密码模板]]></item>
+			<item id="terms" name="terms.htm"><![CDATA[阅读条款模板]]></item>
+			<item id="upload" name="upload.htm"><![CDATA[上传更新模板]]></item>
+			<item id="uploading" name="uploading.htm"><![CDATA[文件上传模板]]></item>
+		</ajax>
+		<article caption="文章频道模板">
+			<item id="category" name="category.htm"><![CDATA[一级栏目模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[文章首页模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="preview" name="preview.htm"><![CDATA[图片预览模板]]></item>
+			<item id="threadlist" name="threadlist.htm"><![CDATA[栏目列表模板]]></item>
+			<item id="threadview" name="threadview.htm"><![CDATA[文章内容模板]]></item>
+			<item id="type" name="type.htm"><![CDATA[分类列表模板]]></item>
+			<item id="toplist" name="toplist.htm"><![CDATA[排行榜模板]]></item>
+		</article>
+		<common caption="公共模板">
+			<item id="footer" name="footer.htm"><![CDATA[底部公共模板]]></item>
+			<item id="header" name="header.htm"><![CDATA[顶部公共模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="showmessage" name="showmessage.htm"><![CDATA[公共消息模板]]></item>
+			<item id="uploadattach" name="uploadattach.htm"><![CDATA[上传附件模板]]></item>
+		</common>
+		<images caption="图片目录"></images>
+		<member caption="会员中心模板">
+			<images caption="图片目录"></images>
+			<item id="credit_basic" name="credit_basic.htm"><![CDATA[用户积分基模板]]></item>
+			<item id="credit_log" name="credit_log.htm"><![CDATA[积分日志模板]]></item>
+			<item id="favorite" name="favorite.htm"><![CDATA[收藏夹模板]]></item>
+			<item id="footer" name="footer.htm"><![CDATA[用户中心底部公共模板]]></item>
+			<item id="friend" name="friend.htm"><![CDATA[好友模板]]></item>
+			<item id="getpasswd" name="getpasswd.htm"><![CDATA[找回密码模板]]></item>
+			<item id="header" name="header.htm"><![CDATA[用户中心顶部公共模板]]></item>
+			<item id="home" name="home.htm"><![CDATA[用户信息模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[用户中心首页模板]]></item>
+			<item id="login" name="login.htm"><![CDATA[用户登录模板]]></item>
+			<item id="message" name="message.htm"><![CDATA[用户短信模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="notice" name="notice.htm"><![CDATA[用户通知模板]]></item>
+			<item id="password" name="password.htm"><![CDATA[修改密码模板]]></item>
+			<item id="post" name="post.htm"><![CDATA[发布主题模板]]></item>
+			<item id="profile" name="profile.htm"><![CDATA[用户资料模板]]></item>
+			<item id="register" name="register.htm"><![CDATA[用户注册模板]]></item>
+			<item id="submission" name="submission.htm"><![CDATA[用户投稿模板]]></item>
+			<item id="thread" name="thread.htm"><![CDATA[用户主题模板]]></item>
+			<item id="usergroup" name="usergroup.htm"><![CDATA[用户组模板]]></item>
+		</member>
+		<misc caption="其它模板">
+			<item id="advert" name="advert.htm"><![CDATA[JS 调用广告模板]]></item>
+		</misc>
+		<mobile caption="手机访问模板">
+			<item id="ask" name="ask.htm"><![CDATA[提交问题模板]]></item>
+			<item id="answer" name="answer.htm"><![CDATA[问题答案模板]]></item>
+			<item id="comment" name="comment.htm"><![CDATA[评论模板]]></item>
+			<item id="home" name="home.htm"><![CDATA[个人空间模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[手机版首页模板]]></item>
+			<item id="list" name="list.htm"><![CDATA[手机版列表模板]]></item>
+			<item id="login" name="login.htm"><![CDATA[手机登录模板]]></item>
+			<item id="message" name="message.htm"><![CDATA[用户消息模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[手机版其它模板]]></item>
+			<item id="passwd" name="passwd.htm"><![CDATA[用户密码设置模板]]></item>
+			<item id="phone" name="phone.htm"><![CDATA[手机介绍模板]]></item>
+			<item id="profile" name="profile.htm"><![CDATA[用户资料模板]]></item>
+			<item id="question" name="question.htm"><![CDATA[问题列表模板]]></item>
+			<item id="register" name="register.htm"><![CDATA[手机注册模板]]></item>
+			<item id="view" name="view.htm"><![CDATA[手机版浏览模板]]></item>
+		</mobile>
+		<photo caption="图片频道模板">
+			<item id="category" name="category.htm"><![CDATA[一级栏目模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[图片首页模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="preview" name="preview.htm"><![CDATA[图片预览模板]]></item>
+			<item id="threadlist" name="threadlist.htm"><![CDATA[栏目列表模板]]></item>
+			<item id="threadview" name="threadview.htm"><![CDATA[图片信息模板]]></item>
+			<item id="type" name="type.htm"><![CDATA[分类列表模板]]></item>
+			<item id="toplist" name="toplist.htm"><![CDATA[排行榜模板]]></item>
+		</photo>
+		<soft caption="软件频道模板">
+			<item id="category" name="category.htm"><![CDATA[一级栏目模板]]></item>
+			<item id="down" name="down.htm"><![CDATA[软件下载模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[软件首页模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="preview" name="preview.htm"><![CDATA[图片预览模板]]></item>
+			<item id="threadlist" name="threadlist.htm"><![CDATA[栏目列表模板]]></item>
+			<item id="threadview" name="threadview.htm"><![CDATA[软件信息模板]]></item>
+			<item id="type" name="type.htm"><![CDATA[分类列表模板]]></item>
+			<item id="toplist" name="toplist.htm"><![CDATA[排行榜模板]]></item>
+		</soft>
+		<special caption="专题频道模板">
+			<item id="category" name="category.htm"><![CDATA[一级栏目模板]]></item>
+			<item id="comment" name="comment.htm"><![CDATA[专题评论模板]]></item>
+			<item id="footer" name="footer.htm"><![CDATA[专题底部公共模板]]></item>
+			<item id="header" name="header.htm"><![CDATA[专题顶部公共模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[专题总汇首页模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="preview" name="preview.htm"><![CDATA[图片预览模板]]></item>
+			<item id="threadlist" name="threadlist.htm"><![CDATA[专题栏目列表模板]]></item>
+			<item id="threadview" name="threadview.htm"><![CDATA[专题详细内容模板]]></item>
+			<item id="topiclist" name="toplist.htm"><![CDATA[专题分类模板]]></item>
+			<item id="toplist" name="toplist.htm"><![CDATA[排行榜模板]]></item>
+		</special>
+		<video caption="视频频道模板">
+			<item id="category" name="category.htm"><![CDATA[一级栏目模板]]></item>
+			<item id="index" name="index.htm"><![CDATA[视频首页模板]]></item>
+			<item id="misc" name="misc.htm"><![CDATA[其它功能模板]]></item>
+			<item id="play" name="play.htm"><![CDATA[视频播放模板]]></item>
+			<item id="threadlist" name="threadlist.htm"><![CDATA[栏目列表模板]]></item>
+			<item id="threadview" name="threadview.htm"><![CDATA[视频信息模板]]></item>
+			<item id="type" name="type.htm"><![CDATA[分类列表模板]]></item>
+			<item id="toplist" name="toplist.htm"><![CDATA[排行榜模板]]></item>
+		</video>
+	</Template>
+</root>

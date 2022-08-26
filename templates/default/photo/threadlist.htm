@@ -1,0 +1,87 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> <!--{phpcom:categorynav value="$nav"}-->
+			&rsaquo;&rsaquo; <a href="{$nav.url}">{$nav.name}</a> 
+			<!--{/phpcom:categorynav}--></em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<h2 class="h730">$catname<span class="typecat">
+				<phpcom:threadclass value="$row" catid="@rootid" chanid="@chanid" type="1" assign="0" catdir="$catdir" prefix="$prefixurl" limit="16">
+					 | {phpcom:if test="$row.classid == $classid"}<a class="c1" href="{$row.url}">{$row.name}</a>{phpcom:else}<a href="{$row.url}">{$row.name}</a>{/phpcom:if}
+				</phpcom:threadclass></span></h2>
+				<div class="photolistwrap">
+					<div class="photolist">
+					<!--{phpcom:for-each select="$datalist" value="$thread"}-->
+						<div class="lstcont">
+							<a href="{$thread.url}" target="_blank"><img onerror="javascript:this.src='{@domain}misc/images/noimage.jpg';" src="{$thread.thumburl}" width="115" height="150" /></a>
+							<p class="tit"><a href="{$thread.url}"{$thread.highlight}>{$thread.title}</a></p>
+						</div>
+					<!--{/phpcom:for-each}-->
+					</div>
+				<div class="pagebox"><p>{$showpage}</p></div>
+				</div>
+<!--{phpcom:if test="$pagecount>1"}-->
+<script type="text/javascript">
+var maxpage = parseInt('$pagecount');
+var pagenow = parseInt('$pagenow');
+if(maxpage > 1) {
+	document.onkeyup = function(e){
+		e = e ? e : window.event;
+		var tagname = phpcom.isIE ? e.srcElement.tagName : e.target.tagName;
+		if(tagname == 'INPUT' || tagname == 'TEXTAREA') return;
+		var actualCode = e.keyCode ? e.keyCode : e.charCode;
+		if(pagenow < maxpage && actualCode == 39){
+			setTimeout(function(){window.location = '{echo sprintf($pageurl, $pagenow+1)}'.replace(/\{([0-9])\}/g, "$1");}, 500);
+		}
+		if(pagenow > 1 && actualCode == 37){
+			setTimeout(function(){window.location = '{echo sprintf($pageurl, $pagenow-1)}'.replace(/\{([0-9])\}/g, "$1");}, 500);
+		}
+		if(pagenow > 1 && actualCode == 38){
+			setTimeout(function(){window.location = '{echo sprintf($pageurl, 1)}'.replace(/\{([0-9])\}/g, "$1");}, 500);
+		}
+		if(pagenow < maxpage && actualCode == 40){
+			setTimeout(function(){window.location = '{echo sprintf($pageurl, $pagecount)}'.replace(/\{([0-9])\}/g, "$1");}, 500);
+		}
+	}
+}
+</script>
+<!--{/phpcom:if}-->
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252">栏目导航</h2>
+				<ul class="catmenu">
+				<phpcom:category value="$cat" rootid="@rootid" limit="0">
+					{phpcom:if test="$cat.catid == $this->catid"}
+					<li><a href="{$cat.url}"{$cat.color}><strong>{$cat.name}</strong></a></li>
+					{phpcom:else}
+					<li><a href="{$cat.url}"{$cat.color}>{$cat.name}</a></li>
+					{/phpcom:if}
+				</phpcom:category>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">最新的</h2>
+				<ul class="u list">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="new" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">热门的</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="hot" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

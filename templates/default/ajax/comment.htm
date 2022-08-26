@@ -1,0 +1,45 @@
+<!--{phpcom:if test="$type=='post'"}-->
+	<div style="padding:10px 0;">请自觉遵守互联网相关政策法规，评论内容只代表网友观点，与本站立场无关！</div>
+	<form id="form1" name="form1" method="post" autocomplete="off" action="{@domain}apps/comment.php" onsubmit="ajaxpost(this, null, 'btnsubmitcomment');return false;">
+		<input type="hidden" name="postsubmit" value="true" />
+		<input type="hidden" name="operation" value="post" />
+		<input type="hidden" name="tid" value="$tid" />
+		<input type="hidden" name="formtoken" value="{@formtoken}" />
+		<div style="overflow:auto;vertical-align:top;"><textarea cols="60" name="content" rows="5" style="width:698px;height:80px;position:relative;" class="textarea" onmousemove="this.focus();"></textarea></div>
+		<div style="margin-top:8px;line-height:26px;">
+			<button type="submit" id="btnsubmitcomment" class="btn b1"><strong>发表评论</strong></button> &nbsp;
+			<!--{phpcom:if test="$iscaptcha"}-->
+			验证码：
+			<input type="text" size="5" name="verifycode" id="verifycode" onblur="checkCaptcha(this.id, '{@domain}')" class="input vm" />
+			<img id="captcha" src="{@domain}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@domain}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+			&nbsp; <span id="checkCaptcha" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span>
+			<!--{/phpcom:if}-->
+			&nbsp; <a href="{@loginurl}">登录</a> &nbsp; <a href="{@registerurl}">注册</a>
+		</div>
+	</form>
+<!--{phpcom:else}-->
+	<h3 class="fld">
+		<em>回复评论</em>
+		<span><a href="javascript:;" onclick="hideWindow('comment');" class="fclose" title="关闭">关闭</a></span>
+	</h3>
+	<form id="form_$key" name="form_$key" method="post" autocomplete="off" action="{@domain}apps/comment.php" onsubmit="ajaxpost(this);return false;">
+		<input type="hidden" name="postsubmit" value="true" />
+		<input type="hidden" name="operation" value="post" />
+		<input type="hidden" name="tid" value="$tid" />
+		<input type="hidden" name="commentid" value="$commentid" />
+		<input type="hidden" name="formtoken" value="{@formtoken}" />
+		<div style="overflow:auto;vertical-align:top;padding:10px;"><textarea cols="60" name="content" rows="6" style="width:498px;height:100px;position:relative;" class="textarea"></textarea></div>
+		<p class="flbtn">
+		<!--{phpcom:if test="$iscaptcha"}-->
+			<span class="x">
+			验证码：
+			<input type="text" size="5" name="verifycode" id="verifycode_$key" onblur="checkCaptcha(this.id, '{@domain}', 'checkCaptcha_$key')" class="input vm" />
+			<img id="captcha_$key" src="{@domain}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@domain}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+			&nbsp; <span id="checkCaptcha_$key" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span> &nbsp;
+			</span>
+			<!--{/phpcom:if}-->
+			<button type="button" name="btnCancel" onclick="hideWindow('comment');" class="btn b3"><strong>取 消</strong></button> &nbsp; 
+			<button type="submit" name="btnsubmit" value="true" class="btn b1"><strong>提 交</strong></button>
+		</p>
+	</form>
+<!--{/phpcom:if}-->

@@ -1,0 +1,202 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="pagetab">
+	<dl>
+		<dt>短消息</dt>
+		<dd{$currents.private}><a href="member.php?action=message">私人短信</a></dd>
+		<dd{$currents.announce}><a href="member.php?action=message&do=announce">公共消息</a></dd>
+		<dd{$currents.send}><a href="member.php?action=message&do=send">发送消息</a></dd>
+		<dd><a href="member.php?action=notice&flag=1">系统通知</a></dd>
+	</dl>
+</div>
+<div>
+<!--{phpcom:if test="$do=='send'"}-->
+<form id="pmform" name="pmform" method="post" autocomplete="off" action="member.php?action=message&do=send" onsubmit="ajaxpost(this);return false;">
+<input type="hidden" name="formtoken" value="{@formtoken}" />
+<input type="hidden" name="pmsubmit" value="true" />
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>收件人</th>
+			<td><input type="text" name="username" id="pm_username" value="" class="input iw" /></td>
+		</tr>
+		<tr>
+			<th>标 题</th>
+			<td><input type="text" name="subject" id="pm_subject" value="" class="input iw" /></td>
+		</tr>
+		<tr>
+			<th>内 容</th>
+			<td>
+				<div class="edbox">
+					<div class="edbar">
+						<script src="misc/js/bbeditor.js" type="text/javascript"></script>
+						<a href="javascript:;" title="加粗" class="edbld" onclick="bbeditor_insertunit('send', '[b]', '[/b]');">B</a>
+						<a href="javascript:;" title="斜体" class="edita" onclick="bbeditor_insertunit('send', '[i]', '[/i]');">I</a>
+						<a href="javascript:;" title="下划线" class="edudl" onclick="bbeditor_insertunit('send', '[u]', '[/u]');">U</a>
+						<a href="javascript:;" title="设置文字颜色" class="edclr" id="sendforecolor" onclick="showColorBox(this.id, 2, 'send');">Color</a>
+						<a id="sendimg" href="javascript:;" title="图片" class="edimg" onclick="bbeditor_menu('send', 'img');">Image</a>
+						<a id="sendurl" href="javascript:;" title="添加链接" class="edlnk" onclick="bbeditor_menu('send', 'url');">Link</a>
+						<a id="sendquote" href="javascript:;" title="引用" class="edqt" onclick="bbeditor_menu('send', 'quote');">Quote</a>
+					</div>
+					<div class="edarea">
+						<textarea rows="8" cols="60" name="message" id="sendmessage" onkeydown="ctrlEnter(event, 'pmsubmit');"></textarea>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+				<button type="submit" name="btnsubmit" class="btn" value="true"><strong>发送</strong></button>
+				<span id="pmforum_return"></span>
+			</td>
+		</tr>
+	</table>
+</form>
+<!--{phpcom:elseif test="$do=='announce'"}-->
+	<!--{phpcom:if test="$count"}-->
+		<table cellspacing="0" cellpadding="0" class="tld">
+			<tr>
+				<td colspan="2" class="fb">共有 <span id="messagenum" class="c1">{$count}</span> 条公共消息</td>
+				<td width="30" class="tac">&nbsp;</td>
+			</tr>
+		<!--{phpcom:for-each select="$datalist" value="$result"}-->
+			<tr>
+				<td width="72" class="avt"><img src="misc/images/common/sysmsg.gif" /></td>
+				<td class="vat">
+					<span class="c4">{phpcom:value-of select="$result.dateline" output-date-value="yes" format="dt"}</span>
+					<p style="{$result['style']}">{$result.message}</p>
+				</td>
+				<td class="vat tac">
+				<!--{phpcom:if test="@groupid==1"}-->
+					<a title="删除" href="member.php?action=message&do=del&mid={$result['mid']}&pmid={$result['pmid']}" onclick="if(confirm('您确定要删除此消息吗?')){ajaxget(this.href);}return false;"><img src="misc/images/icons/trash.gif" /></a>
+				<!--{phpcom:else}-->&nbsp;<!--{/phpcom:if}--></td>
+			</tr>
+		<!--{/phpcom:for-each}-->
+		</table>
+		<!--{phpcom:if test="$pagecount>1"}--><div class="pagebox"><p>{$showpage}</p></div><!--{/phpcom:if}-->
+	<!--{phpcom:else}-->
+		<p class="pem f14">当前没有公共消息</p>
+	<!--{/phpcom:if}-->
+<!--{phpcom:elseif test="$do=='private'"}-->
+	<!--{phpcom:if test="$count"}-->
+		<table cellspacing="0" cellpadding="0" class="tld">
+			<tr>
+				<td colspan="2" class="fb">共有 <span id="messagenum" class="c1">{$count}</span> 条与 <a target="_blank" href="member.php?action=home&uid={$touid}">{$tousername}</a> 的交谈记录</td>
+				<td width="30" class="tac" title="删除所有">
+					<a href="member.php?action=message&do=del&mid={$mid}" onclick="if(confirm('您确定要删除所有消息吗?')){ajaxget(this.href);}return false;"><img src="misc/images/icons/trash_full.gif" /></a>
+				</td>
+			</tr>
+		<!--{phpcom:for-each select="$datalist" value="$result"}-->
+			<tr>
+				<td width="72" class="avt"><img src="misc/images/face/noavatar.gif" /></td>
+				<td class="vat">
+					<!--{phpcom:if test="$result.authorid==$uid"}-->
+						<span class="c2">您</span> &nbsp;
+					<!--{phpcom:else}-->
+						<a target="_blank" class="c2" href="member.php?action=home&uid={$touid}">{$tousername}</a> &nbsp;
+					<!--{/phpcom:if}-->
+					<span class="c4"><!--{phpcom:value-of select="$result.dateline" output-date-value="yes" format="dt"}--></span>
+					<p style="{$result.style}">{$result.message}</p>
+				</td>
+				<td class="vat tac" title="删除">
+					<a href="member.php?action=message&do=del&mid={$mid}&pmid={$result['pmid']}" onclick="if(confirm('您确定要删除此消息吗?')){ajaxget(this.href);}return false;"><img src="misc/images/icons/trash.gif" /></a>
+				</td>
+			</tr>
+		<!--{/phpcom:for-each}-->
+		</table>
+		<!--{phpcom:if test="$pagecount>1"}--><div class="pagebox"><p>{$showpage}</p></div><!--{/phpcom:if}-->
+		<form id="pmform" name="pmform" method="post" autocomplete="off" action="member.php?action=message&do=private" onsubmit="ajaxpost(this);return false;">
+		<input type="hidden" name="formtoken" value="{@formtoken}" />
+		<input type="hidden" name="pmsubmit" value="true" />
+		<input type="hidden" name="mid" value="$mid" />
+			<table cellspacing="0" cellpadding="0" class="formtable">
+				<tr>
+					<td width="72" class="avt">&nbsp;</td>
+					<td>
+						<div class="edbox" style="width:auto">
+							<div class="edbar">
+								<script src="misc/js/bbeditor.js" type="text/javascript"></script>
+								<a href="javascript:;" title="加粗" class="edbld" onclick="bbeditor_insertunit('reply', '[b]', '[/b]');">B</a>
+								<a href="javascript:;" title="斜体" class="edita" onclick="bbeditor_insertunit('reply', '[i]', '[/i]');">I</a>
+								<a href="javascript:;" title="下划线" class="edudl" onclick="bbeditor_insertunit('reply', '[u]', '[/u]');">U</a>
+								<a href="javascript:;" title="设置文字颜色" class="edclr" id="sendforecolor" onclick="showColorBox(this.id, 2, 'reply');">Color</a>
+								<a id="replyimg" href="javascript:;" title="图片" class="edimg" onclick="bbeditor_menu('reply', 'img');">Image</a>
+								<a id="replyurl" href="javascript:;" title="添加链接" class="edlnk" onclick="bbeditor_menu('reply', 'url');">Link</a>
+								<a id="replyquote" href="javascript:;" title="引用" class="edqt" onclick="bbeditor_menu('reply', 'quote');">Quote</a>
+							</div>
+							<div class="edarea">
+								<textarea rows="5" cols="60" name="message" id="replymessage" onkeydown="ctrlEnter(event, 'pmsubmit');"></textarea>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						<button type="submit" name="btnsubmit" class="btn" value="true"><strong>发送</strong></button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	<!--{phpcom:else}-->
+		<p class="pem f14">暂时没有私人消息</p>
+	<!--{/phpcom:if}-->
+<!--{phpcom:else}-->
+	<!--{if $count}-->
+		<form id="pmlistform" action="member.php?action=message&do=del" method="post" autocomplete="off" name="pmlistform">
+		<input type="hidden" name="formtoken" value="{@formtoken}" />
+		<input type="hidden" name="delsubmit" value="true" />
+		<table cellspacing="0" cellpadding="0" class="tld">
+		<!--{phpcom:if test="$page==1 && $announce"}-->
+			<tr id="pmlist_{$announce['mid']}" class="cp">
+				<td width="72" class="avt"><img src="misc/images/common/sysmsg.gif" /></td>
+				<td width="15">&nbsp;</td>
+				<td class="vat" style="line-height:20px;">
+					<p>{$announce.subject}</p>
+					<span class="c4"><!--{phpcom:value-of select="$announce.dateline" output-date-value="yes" format="dt"}--></span>
+						&nbsp; <a id="pmlist_{$announce['mid']}_a" href="member.php?action=message&do=announce">回复</a>
+				</td>
+				<td width="80" class="vat tac wsn" title="删除">
+				<!--{phpcom:if test="@groupid==1"}-->
+					<a class="c4 trash" href="member.php?action=message&do=del&mid={$announce.mid}" onclick="if(confirm('您确定要删除此消息吗?')){ajaxget(this.href);}return false;">共 {$announce.pmcount} 条</a>
+				<!--{phpcom:else}-->
+					<span class="c4">共 {$announce.pmcount} 条</span>
+				<!--{/phpcom:if}-->
+				</td>
+			</tr>
+		<!--{/phpcom:if}-->
+		<!--{phpcom:for-each select="$datalist" value="$result"}-->
+			<tr id="pmlist_{$result['mid']}" class="cp">
+				<td width="72" class="avt"><a target="_blank" href="member.php?action=home&uid={$result.uid}"><img src="misc/images/face/noavatar.gif" /></a></td>
+				<td width="15" class="vat"><input type="checkbox" name="delete[]" class="checkbox" value="{$result.mid}" /></td>
+				<td class="vat" style="line-height:20px;">
+					<!--{phpcom:if test="$result.senderid==$uid"}-->
+						<span class="c2">我</span> 对 <a target="_blank" href="member.php?action=home&uid={$result.uid}">{$result.username}</a> 说：
+					<!--{phpcom:else}-->
+						<a target="_blank" href="member.php?action=home&uid={$result.senderid}">{$result.sender}</a> 对 我 说：
+					<!--{/phpcom:if}-->
+					<p style="{$result['style']}">{$result.subject}</p>
+					<span class="c4"><!--{phpcom:value-of select="$result.dateline" output-date-value="yes" format="dt"}--></span>
+						&nbsp; <a id="pmlist_{$result['mid']}_a" href="member.php?action=message&do=private&mid={$result.mid}&touid={$result.touid}">回复</a>
+				</td>
+				<td width="80" class="vat tac wsn" title="删除">
+					<a class="c4 trash" href="member.php?action=message&do=del&mid={$result.mid}" onclick="if(confirm('您确定要删除此消息吗?')){ajaxget(this.href);}return false;">共 {$result.pmcount} 条 </a>
+				</td>
+			</tr>
+		<!--{/phpcom:for-each}-->
+			<tr class="tbb">
+				<td>&nbsp;</td>
+				<td colspan="3">
+					<label for="delete_all" onclick="checkall(this.form,this.name,'delete');"><input type="checkbox" name="chkall" id="delete_all" class="checkbox" /> 全选</label> &nbsp;
+					<button onclick="return confirm('您确定要删除选择的消息吗?');" type="submit" name="btnsubmit" class="btn b1" value="true"><strong>删除</strong></button> &nbsp;
+				</td>
+			</tr>
+		</table>
+		</form>
+		<script type="text/javascript">appendBlockLink('pmlistform', 'tr');</script>
+		<!--{phpcom:if test="$pagecount>1"}--><div class="pagebox"><p>{$showpage}</p></div><!--{/phpcom:if}-->
+	<!--{phpcom:else}-->
+		<p class="pem f14">暂时没有新消息</p>
+	<!--{/phpcom:if}-->
+<!--{/phpcom:if}-->
+<div>
+<!--{phpcom:template include="member/footer"}-->

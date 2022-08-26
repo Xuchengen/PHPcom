@@ -1,0 +1,23 @@
+<!--{if $uid > 0}-->
+<dl class="login">
+<dt><a href="{@domain}member.php" class="img_50"><img src="{@domain}misc/images/face/none.gif" /></a></dt>
+<dd>
+<p>欢迎：<b>{$username}</b>  | <!--{if $allowadmin}--><a href="{@domain}{$adminscript}">管理中心</a><!--{else}--><a href="{@domain}member.php?action=profile">设置</a><!--{/if}--> | <a href="{@domain}member.php?action=logout">退出</a></p>
+<p><a href="{@domain}member.php?action=credit">积分：$credits</a> | 身份：<a href="{@domain}member.php?action=usergroup">{$usergroup}</a></p>
+</dd>
+<!--{else}-->
+<form name="formlogin" action="{@domain}member.php?action=login" method="post" target="_self">
+<input type="hidden" name="formtoken" value="{@formtoken}" />
+<table>
+<tr><td>
+<div class="login_row1"><input class="input uidtxt gray" type="text" name="username" value="请输用户名" autocomplete="off" onfocus="checkUserInput(this);" onblur="checkUserInput(this);" /></div>
+<div class="login_row2"><input class="input pwdtxt" type="password" name="password" value="" autocomplete="off" /></div>
+</td>
+<td>
+<div class="login_row1"><label><input name="cookietime" type="checkbox" title="记住登陆状态" value="2592000"/> 记住我</label>
+<a href="javascript:void(0)" onclick="showWindow('{@domain}apps/ajax.php?action=sendpasswd','sendpasswd')">找回密码</a></div>
+<div class="login_row_btn"><button class="btnlogin" name="btnlogin" type="submit" value="yes">登录</button><button class="btnreg" type="button" onClick="location.href='{@registerurl}';">注册</button></div>
+</td></tr>
+</table>
+</form>
+<!--{/if}-->

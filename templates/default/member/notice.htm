@@ -1,0 +1,28 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="pagetab">
+	<dl>
+		<dt>系统通知</dt>
+		<dd{$currents[1]}><a href="member.php?action=notice">未读通知</a></dd>
+		<dd{$currents[0]}><a href="member.php?action=notice&flag=1">已读通知</a></dd>
+		<dd><a href="member.php?action=message">我的消息</a></dd>
+	</dl>
+</div>
+<div>
+<!--{phpcom:if test="$count"}-->
+	<table cellspacing="0" cellpadding="0" class="tld">
+	<!--{phpcom:for-each select="$datalist" value="$notice"}-->
+		<tr>
+			<td width="52" class="avt"><img src="misc/images/common/sysmsg.gif" /></td>
+			<td>
+				<span class="c4">{phpcom:value-of select="$notice.dateline" output-date-value="yes" format="dt" type="u"}</span>
+				<p style="{$notice.style}">{$notice.message}</p>
+			</td>
+		</tr>
+	<!--{/phpcom:for-each}-->
+	</table>
+	<!--{phpcom:if test="$pagecount>1"}--><div class="pagebox"><p>{$showpage}</p></div><!--{/phpcom:if}-->
+<!--{phpcom:else}-->
+	<p class="pem f14">暂时没有新的通知，<a href="member.php?action=notice&flag=1" class="f14">点此查看已读通知</a></p>
+<!--{/phpcom:if}-->
+</div>
+<!--{phpcom:template include="member/footer"}-->

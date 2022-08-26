@@ -1,0 +1,49 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; {$catname}</em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<!--{phpcom:for-each select="$datalist" key="$cid" value="$cat"}-->
+					<h2 class="h730-2"><em class="more"><a href="{$cat.curl}" target="_blank">more</a></em><a href="{$cat.curl}">{$cat.catname}</a></h2>
+					<ul class="b3 vodlstimg">
+						<phpcom:fetchthread value="$row" chanid="@chanid" catid="$cid" limit="5" length="20" ellipsis="" format="m-d">
+						<li><a class="img-a1" href="{$row.url}"><img onerror="javascript:this.src='{@domain}misc/images/noimage.jpg';" src="{$row.thumburl}" width="115" height="150" /></a><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+						</phpcom:fetchthread>
+					</ul>
+				<div class="p10"></div>
+				<!--{/phpcom:for-each}-->
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252">栏目导航</h2>
+				<ul class="catmenu">
+					<phpcom:category value="$cat" rootid="@rootid" limit="0">
+					<li><a href="{$cat.url}"{$cat.color}>{$cat.name}</a></li>
+					</phpcom:category>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">本类推荐</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="rcmd" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">热门排行</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="hot" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+					</phpcom:threadlist>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

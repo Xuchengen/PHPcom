@@ -1,0 +1,46 @@
+<!--{phpcom:if test="$limit>1"}-->
+	<ul>
+<!--{/phpcom:if}-->
+<!--{phpcom:adverts value="$advert" name="$name"}-->
+	<!--{phpcom:php}-->
+		$s = $advert['content'];
+		if($advert['type'] == 0){
+			$s = "$start<a href=\"{$advert['url']}\"{$advert['highlight']} target=\"_blank\">{$advert['word']}</a>$end";
+		}elseif($advert['type'] == 1){
+			$s = "$start<a href=\"{$advert['url']}\" target=\"_blank\"><img src=\"{$advert['src']}\"{$advert['style']} /></a>$end";
+		}elseif($advert['type'] == 2){
+			$s = "$start<object{$advert['style']} data=\"{$advert['src']}\" type=\"application/x-shockwave-flash\">";
+			$s .= "<param name=\"src\" value=\"{$advert['src']}\" /></object>$end";
+		}elseif($advert['type'] == 4){
+			$s = "$start<iframe marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" scrolling=\"no\" src=\"{$advert['url']}\"{$advert['style']}></iframe>$end";
+		}else{
+			$s = $start.$advert['content'].$end;
+		}
+		echo display_advertisement($name, $s, $advert['width'], $advert['height']);
+	<!--{/phpcom:php}-->
+<!--{/phpcom:adverts}-->
+<!--{phpcom:if test="$limit>1"}-->
+	</ul>
+<!--{/phpcom:if}-->
+
+<!--{phpcom:php}-->
+function display_advertisement($name, $html, $width, $height){
+	$content = '';
+	if($name === 'FixedBottomLeft'){
+		$html = str_replace(array("'", "\r", "\n", "/"), array("\'", "", "", "\\/"), $html);
+		$content .= "<script type=\"text/javascript\">displayFixedAdLayer('$html', '{$width}', '{$height}', 0);</script>\n";
+	}elseif($name === 'FixedBottomRight'){
+		$html = str_replace(array("'", "\r", "\n", "/"), array("\'", "", "", "\\/"), $html);
+		$content .= "<script type=\"text/javascript\">displayFixedAdLayer('$html', '{$width}', '{$height}', 1);</script>\n";
+	}elseif($name === 'CoupletAdLeft'){
+		$html = str_replace(array("'", "\r", "\n", "/"), array("\'", "", "", "\\/"), $html);
+		$content .= "<script type=\"text/javascript\">displayFixedAdLayer('$html', '{$width}', '{$height}', 2);</script>\n";
+	}elseif($name === 'CoupletAdRight'){
+		$html = str_replace(array("'", "\r", "\n", "/"), array("\'", "", "", "\\/"), $html);
+		$content .= "<script type=\"text/javascript\">displayFixedAdLayer('$html', '{$width}', '{$height}', 3);</script>\n";
+	}else{
+		$content .= $html;
+	}
+	return $content;
+}
+<!--{/phpcom:php}-->

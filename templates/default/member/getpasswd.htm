@@ -1,0 +1,31 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="mbox">
+	<form action="member.php?action=getpasswd&uid=$userid&key=$hashkey" method="post" autocomplete="off">
+	<input type="hidden" name="formtoken" value="{@formtoken}" />
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<tr>
+			<th>用户名</th>
+			<td><strong>{$username}</strong></td>
+		</tr>
+		<tr>
+			<th>新密码</th>
+			<td>
+				<input type="password" name="password1" id="user_password1" class="input iw" />
+				<p class="d">请在此设置你的新密码</p>
+			</td>
+		</tr>
+		<tr>
+			<th>确认新密码</th>
+			<td>
+				<input type="password" name="password2" id="user_password2" class="input iw" />
+				<p class="d">确认您的新密码，请牢记你的新密码</p>
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><button type="submit" name="btnsubmit" value="true" class="btn bn2" /><strong>保 存</strong></button></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<!--{phpcom:template include="member/footer"}-->

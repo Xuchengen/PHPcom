@@ -1,0 +1,88 @@
+<phpcom:eval>
+if($this->servname){
+	$this->title .= ' ' . $this->servname;
+}
+</phpcom:eval>
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; 首页 &rsaquo;&rsaquo; <a href="$curl">$catname</a> &rsaquo;&rsaquo; <a href="$url">$title</a></em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle down">
+		<tr>
+			<td class="td-360">
+				<h2 class="h360">软件信息</h2>
+				<div class="downinfo">
+				<table width="100%" align="center" class="downinfotable">
+					<tr>
+						<td><b>软件语言：</b><a target="_blank" href="{phpcom:echo @getMiscOfUrl($softlang, 'softlang', 4)}">{$softlang}</a></td>
+						<td><b>软件大小：</b>$size</td>
+					</tr>
+					<tr>
+						<td><b>软件类型：</b><a target="_blank" href="{phpcom:echo @getMiscOfUrl($softtype, 'softtype', 2)}">{$softtype}</a></td>
+						<td><b>授权方式：</b><a target="_blank" href="{phpcom:echo @getMiscOfUrl($license, 'license', 3)}">{$license}</a></td>
+					</tr>
+					<tr>
+						<td><b>更新时间：</b>$lastdate</td>
+						<td><b>推荐星级：</b><img src="{@domain}misc/images/star/star{$star}.gif" /></td>
+					</tr>
+				</table>
+				</div>
+				<div class="high10"></div>
+				<h2 class="h360">下载地址</h2>
+				<div class="downbox">
+				<table width="100%" align="center" class="downtable">
+					<tr>
+						<td class="sp10"></td>
+						<td class="downlist">
+						<dl>
+						<!--{phpcom:download value="$down" tid="$tid" display="0" sid="$servid"}-->
+						<!--{phpcom:if test="$down.depth"}-->
+							<!--{phpcom:if test="$down.child"}-->
+								<dt><a href="{$down.url}">{$down.name}</a></dt>
+							<!--{phpcom:else}-->
+								<dd><a href="{$down.url}">{$down.name}</a></dd>
+							<!--{/phpcom:if}-->
+						<!--{/phpcom:if}-->
+						<!--{/phpcom:download}-->
+						</dl>
+						<div style="clear:both;"></div>
+						</td>
+						<td class="sp10"></td>
+					</tr>
+				</table>
+				</div>
+				<div style="clear:both;"></div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-622">
+				<h2 class="h622">$title</h2>
+				<div class="downcontent">
+					<div id="diggbury" class="diggwrap">
+						<div class="diggbox digg" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=up&tid=$tid&type=soft','diggbury')">
+							<div class="txt">这款软件不错<em>($voteup)</em></div>
+							<div class="progress">
+								<div class="bar"><span style="width:$percentup"></span></div>
+								<div class="percent">$percentup</div>
+							</div>
+						</div>
+						<div class="diggbox bury" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=down&tid=$tid&type=soft','diggbury')">
+							<div class="txt">这款软件很差<em>($votedown)</em></div>
+							<div class="progress">
+								<div class="bar"><span style="width:$percentdown"></span></div>
+								<div class="percent">$percentdown</div>
+							</div>
+						</div>
+					</div>
+					<div style="clear:both;"></div>
+					<div class="textcontent" id="textcontent">$content</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

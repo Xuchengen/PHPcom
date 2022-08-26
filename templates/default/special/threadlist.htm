@@ -1,0 +1,33 @@
+<!--{phpcom:template include="special/header"}-->
+<div class="headwrap">
+	<div class="headers">
+		<table width="100%" align="center">
+			<tr>
+				<td><h1>{$title}</h1></td>
+			</tr>
+		</table>
+		<div class="menu">
+			<a href="{@channelurl}">Ê×Ò³</a> 
+			<!--{phpcom:basecategory value="$cat" chanid="@chanid" limit="12" variable="basecategory"}-->
+			<!--{phpcom:if test="$cat.catid == $this->rootid"}-->
+			| <a href="{$cat.url}"{$cat.target}><strong>{$cat.name}</strong></a>
+			<!--{phpcom:else}-->
+			| <a href="{$cat.url}"{$cat.target}{$cat.color}>{$cat.name}</a>
+			<!--{/phpcom:if}-->
+			<!--{/phpcom:basecategory}-->
+		</div>
+		
+	</div>
+</div>
+<div class="mainwrap">
+	<div class="listbox">
+		<h2 class="hbg">{$title}</h2>
+		<ul class="u lst d2">
+		<!--{phpcom:for-each select="$datalist" value="$thread"}-->
+			<li><a target="_blank" href="{$thread.url}"{$row.highlight}>{$thread.title}</a>{$thread.date}</li>
+		<!--{/phpcom:for-each}-->
+		</ul>
+	</div>
+	<div class="pagebox"><p>{$showpage}</p></div>
+</div>
+<!--{phpcom:template include="special/footer"}-->

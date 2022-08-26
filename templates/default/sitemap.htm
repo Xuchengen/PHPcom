@@ -1,0 +1,40 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; <a href="{@sitemapurl}">{$title}</a></em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+			<!--{phpcom:for-each select="$datalist" value="$chan"}-->
+				<h2 class="h730-1">{$chan.subname}栏目</h2>
+				<dl class="u allcat">
+				<!--{phpcom:fullcategory value="$cat" chanid="$chan.chanid" depth="3" limit="0" first="0"}-->
+				<!--{phpcom:if test="$cat.depth==0"}-->
+					<dt style="font-weight:700;clear:both;background:#f9faff;"><a target="_blank" href="{$cat.url}">{$cat.name}</a></dt>
+				<!--{phpcom:else}-->
+					<dd style="float:left;margin-right:5px;"><a target="_blank" href="{$cat.url}"{$cat.color}>{$cat.name}</a></dd>
+				<!--{/phpcom:if}-->
+				<!--{/phpcom:fullcategory}-->
+				</dl>
+				<div class="high10"></div>
+			<!--{/phpcom:for-each}-->
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252-1">热门的</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="1" limit="10" length="30" ellipsis="..." format="m-d">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

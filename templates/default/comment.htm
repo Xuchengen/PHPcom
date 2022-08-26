@@ -1,0 +1,85 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; <a href="{@thread.curl}">{@thread.catname}</a></em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<h2 class="h730">评论参与 <span class="c1">$commentnum</span> 人，回复 <span class="c1">$replycount</span> 条</h2>
+				<div class="clbox">
+					<p class="tit"><a href="{@thread.url}">{$title}</a></p>
+					<form id="pmform" name="pmform" method="post" autocomplete="off" action="{@domain}apps/comment.php" onsubmit="ajaxpost(this, null, 'btnsubmitcomment');return false;">
+						<input type="hidden" name="postsubmit" value="true" />
+						<input type="hidden" name="operation" value="post" />
+						<input type="hidden" name="tid" value="$tid" />
+						<input type="hidden" name="formtoken" value="$formtoken" />
+						<div style="overflow:auto;vertical-align:top;"><textarea cols="60" name="content" rows="5" style="width:698px;height:80px;position:relative;" class="textarea"></textarea></div>
+						<div style="margin-top:8px;line-height:26px;">
+							<button type="submit" id="btnsubmitcomment" class="btn b1"><strong>发表评论</strong></button> &nbsp;
+							<phpcom:if test="@iscaptcha">
+							验证码：
+							<input type="text" size="5" name="verifycode" id="verifycode" onblur="checkCaptcha(this.id, '{@domain}')" class="input vm" />
+							<img id="captcha" src="{@domain}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@domain}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+							&nbsp; <span id="checkCaptcha" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span>
+							</phpcom:if>
+							&nbsp; <a href="{@loginurl}">登录</a> &nbsp; <a href="{@registerurl}">注册</a>
+						</div>
+					</form>
+					<div class="lst">
+						<h2>网友评论</h2>
+						<dl>
+						<phpcom:for-each select="$datalist"  key="$commentid" value="$comment">
+							<dt>{$comment.date} &nbsp; 网友：<span class="c2">{$comment.username}</span></dt>
+							<dd>
+							<phpcom:if test="$comment.num && isset($replydata[$commentid])">
+								<phpcom:for-each select="$replydata[$commentid]" value="$value">
+								<div class="quoting">
+								</phpcom:for-each>
+								<div class="quoting prime">
+									<div class="ct"><span class="num">1</span>原帖： {$comment.datetime} &nbsp; {$comment.author} <!--{phpcom:if test="@permission"}--> &nbsp; IP：{$comment.userip}<!--{/phpcom:if}--></div>
+									<p class="cc">{$comment.content}</p>
+								</div>
+								<phpcom:for-each select="$replydata[$commentid]" key="$id" value="$reply" in="$i">
+									<div class="ct"><span class="num">{phpcom:value-of select="$i+1" disable-output-escaping="yes"}</span>{$reply.date} &nbsp; {$reply.author} <!--{phpcom:if test="@permission"}--> &nbsp; IP：{$reply.userip}<!--{/phpcom:if}--></div>
+									<p class="cc">{$reply.content}</p>
+									<p class="cb">
+										<a href="javascript:void(0)" onclick="ajaxget('{@domain}apps/comment.php?operation=voteup&tid=$tid&commentid=$commentid&id=$id','voteup_{$id}')">支持(<span id="voteup_{$id}" class="c1">{$reply.voteup}</span>)</a> &nbsp;
+										<a href="javascript:void(0)" onclick="ajaxget('{@domain}apps/comment.php?operation=votedown&tid=$tid&commentid=$commentid&id=$id', 'votedown_{$id}');">反对(<span id="votedown_{$id}" class="c1">{$reply.votedown}</span>)</a> &nbsp;
+										<!--{phpcom:if test="@permission"}--><a href="javascript:void(0)" onclick="ajaxget('{@domain}apps/comment.php?operation=del&tid=$tid&commentid=$commentid&id=$id')">删除</a><!--{/phpcom:if}-->
+									</p>
+									</div>
+								</phpcom:for-each>
+							<phpcom:else />
+								{$comment.content}
+							</phpcom:if>
+								<p class="cb">
+									<span class="sbtn"><a href="javascript:void(0)" onclick="ajaxget('{@domain}apps/comment.php?operation=voteup&tid=$tid&commentid=$commentid&id={$comment.id}','voteup_{$comment.id}')">支持(<span id="voteup_{$comment.id}" class="c1">{$comment.voteup}</span>)</a></span> &nbsp;
+									<span class="sbtn"><a href="javascript:void(0)" onclick="showWindow('{@domain}apps/ajax.php?action=comment&tid=$tid&commentid=$commentid', 'comment', 'get', 0);">回复</a></span> &nbsp;
+									<!--{phpcom:if test="@permission"}--><span class="sbtn"><a href="javascript:void(0)" onclick="ajaxget('{@domain}apps/comment.php?operation=del&tid=$tid&commentid=$commentid')">删除</a></span><!--{/phpcom:if}-->
+								</p>
+							</dd>
+						</phpcom:for-each>
+						</dl>
+					</div>
+					<div class="pagebox"><p>{$showpage}</p></div>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252-1">热门的</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="0" catid="0" type="0" limit="10" length="30" ellipsis="..." format="m-d">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

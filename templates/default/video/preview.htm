@@ -1,0 +1,43 @@
+<!--{phpcom:eval}-->
+$this->title .= '  ”∆µÕº∆¨‰Ø¿¿';
+$this->keyword .= ', ”∆µÕº∆¨‰Ø¿¿';
+$this->description .= ', ”∆µÕº∆¨‰Ø¿¿';
+<!--{/phpcom:eval}-->
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav">
+				<em>µ±«∞Œª÷√ &rsaquo;&rsaquo;  ◊“≥ &rsaquo;&rsaquo;
+					<a href="$curl">{$catname}</a>
+					&rsaquo;&rsaquo;
+					<a href="$url">{$title}</a>
+				</em>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-992">
+			<h2 class="h992-1">{@title}</h2>
+			<div class="picviewbox">
+				<dl>
+				<!--{phpcom:for-each select="$datalist" value="$result"}-->
+					<dd><a href="{$result.imageurl}" target="_black"><img src="{$result.imageurl}" /></a></dd>
+				<!--{/phpcom:for-each}-->
+				</dl>
+				<div style="clear:both;"></div>
+				<!--{phpcom:if test="$pagenow"}-->
+				<div class="pagebox">
+					<table cellspacing="0" align="center"><tr><td>{$showpage}</td></tr></table>
+				</div>
+				<!--{/phpcom:if}-->
+			</div>
+			</td>
+		</tr>
+	</table>
+	<div style="clear:both;"></div>
+</div>
+<!--{phpcom:template include="common/footer"}-->

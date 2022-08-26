@@ -1,0 +1,33 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="pagetab">
+	<dl>
+		<dt>我的主题</dt>
+		<dd><a href="?action=thread">主题列表</a></dd>
+		<dd class="current">我的投稿</dd>
+		<dd><a href="?action=post">发布主题</a></dd>
+	</dl>
+</div>
+<div>
+	<table cellspacing="0" cellpadding="0" class="tlb tm10">
+	<tr>
+		<th>标题</th>
+		<th width="120" class="tac">时间</th>
+		<th width="90" class="tac">审核</th>
+		<th width="50" class="tac">操作</th>
+	</tr>
+	<!--{phpcom:if test="$count"}-->
+		<!--{phpcom:for-each select="$datalist" value="$result"}-->
+		<tr{$result.alt}>
+			<td><img src="misc/images/icons/{$result.icons}" /> <a class="lst" href="{$result.url}">{$result.title}</a></td>
+			<td align="center"><em class="f10">{$result.date}</em></td>
+			<td align="center">{phpcom:if test="$result.status == 0"}<span class="c1">待审{phpcom:else}<span class="c2">通过{/phpcom:if}</span></td>
+			<td align="center"><a href="member.php?action=post&do={$result.modname}&postid={$result.postid}&chanid={$result.chanid}">编辑</a></td>
+		</tr>
+		<!--{/phpcom:for-each}-->
+	<!--{phpcom:else}-->
+		<tr><td colspan="4"><p class="pem f14">您还没有提交投稿或所有投稿已审核通过</p></td></tr>
+	<!--{/phpcom:if}-->
+	</table>
+	<!--{phpcom:if test="$pagecount>1"}--><div class="pagebox"><p>{$showpage}</p></div><!--{/phpcom:if}-->
+</div>
+<!--{phpcom:template include="member/footer"}-->

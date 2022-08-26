@@ -1,0 +1,32 @@
+<!--{phpcom:if test="$do"}-->
+	<div class="diggbox digg" onclick="showMessage('您已经顶过，感谢您的支持!');">
+<!--{phpcom:else}-->
+	<div class="diggbox digg" onclick="ajaxget('{@domain}apps/ajax.php?action=digg&do=up&tid=$tid&type=$type','diggbury')" onmouseout="this.style.backgroundPosition='left top';" onmousemove="this.style.backgroundPosition='left bottom';">
+<!--{/phpcom:if}-->
+
+<!--{phpcom:if test="$type == 'soft'"}-->
+	<div class="txt">这款软件不错<em>($voteup)</em></div>
+<!--{phpcom:else}-->
+	<div class="act">顶一下<em>($voteup)</em></div>
+<!--{/phpcom:if}-->
+	<div class="progress">
+		<div class="bar"><span style="width:$percentup"></span></div>
+		<div class="percent">$percentup</div>
+	</div>
+</div>
+<!--{phpcom:if test="$do"}-->
+	<div class="diggbox bury" onclick="showMessage('您已经顶过，感谢您的支持!');">
+<!--{phpcom:else}-->
+	<div class="diggbox bury" onclick="ajaxget('{@domain}apps/ajax.php?action=digg&do=down&tid=$tid&type=$type','diggbury')" onmouseout="this.style.backgroundPosition='right top';" onmousemove="this.style.backgroundPosition='right bottom';">
+<!--{/phpcom:if}-->
+
+<!--{phpcom:if test="$type == 'soft'"}-->
+	<div class="txt">这款软件很差<em>($votedown)</em></div>
+<!--{phpcom:else}-->
+	<div class="act">踩一下<em>($votedown)</em></div>
+<!--{/phpcom:if}-->
+	<div class="progress">
+		<div class="bar"><span style="width:$percentdown"></span></div>
+		<div class="percent">$percentdown</div>
+	</div>
+</div>

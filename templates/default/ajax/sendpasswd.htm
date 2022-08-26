@@ -1,0 +1,30 @@
+<ul id="fdrag_sendpasswd" class="flh" autoresize="1" style="margin-top: 0pt; cursor: move;">
+	<li class="y"><a class="fclose" onclick="hideWindow('sendpasswd')" href="javascript:;" onmousedown="return false;">关闭</a></li>
+	<li class="x">找回密码</li>
+</ul>
+<form name="pwsendform" id="pwsendform" action="{@domain}member.php?action=misc&do=sendpasswd" method="post" onsubmit="checkpwsend();return false;">
+<input type="hidden" name="formtoken" value="{@formtoken}" />
+<input type="hidden" name="ok" value="1">
+	<table class="pwsend">
+		<tr>
+			<th class="bbd">用户名：</th>
+			<td class="bbd"><input type="text" name="username" class="input" /></td>
+		</tr>
+		<tr>
+			<th class="bbd">Email：</th>
+			<td class="bbd"><input type="text" name="email" class="input" /></td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td><button type="submit" name="btnsubmit" value="true" class="btn bn2" /><strong>提 交</strong></button></td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+function checkpwsend(){
+	ajaxpost('pwsendform', null, null, function(s){
+		showMessage(s);
+	});
+	return false;
+}
+</script>

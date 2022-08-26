@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="keywords" content="{@keyword}"/>
+<meta name="description" content="{@description}"/>
+<meta name="author" content="PHPcom Team and cnxinyun UI Team" />
+<meta name="copyright" content="2003-2012 cnxinyun Inc." />
+<link href="{@domain}{@tpldir}/search.css" rel="stylesheet" type="text/css"/>
+<link href="{@domain}misc/css/common.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{@domain}misc/js/common.js"></script>
+</head>
+<body>
+<div class="topstrap">
+	<table width="100%" align="center">
+		<tr>
+			<td class="t1"><a href="search.php">返回首页</a> | +您 &nbsp;
+				<a href="?word={$word}{phpcom:if test="$isimage"}&image=1{/phpcom:if}"{phpcom:if test="!$tn || $tn=='all'"} class="c"{/phpcom:if}>搜索</a> &nbsp;
+				<a href="?word={$word}&tn=article{phpcom:if test="$isimage"}&image=1{/phpcom:if}"{phpcom:if test="$tn=='article'"} class="c"{/phpcom:if}>文章</a> &nbsp;
+				<a href="?word={$word}&tn=soft{phpcom:if test="$isimage"}&image=1{/phpcom:if}"{phpcom:if test="$tn=='soft'"} class="c"{/phpcom:if}>软件</a> &nbsp;
+				<a href="?word={$word}&tn=photo{phpcom:if test="$isimage"}&image=1{/phpcom:if}"{phpcom:if test="$tn=='photo'"} class="c"{/phpcom:if}>图片</a> &nbsp;
+				<a href="?word={$word}&tn=video{phpcom:if test="$isimage"}&image=1{/phpcom:if}"{phpcom:if test="$tn=='video'"} class="c"{/phpcom:if}>视频</a>
+			</td>
+			<td class="t2"><phpcom:if test="@uid">
+				欢迎：<a href="{@domain}member.php"><b>{@username}</b></a><phpcom:if test="@allowadmin"> | <a href="{@domain}{@adminscript}">管理中心</a></phpcom:if> | 
+				<a href="{@domain}member.php?action=profile">设置</a> | <a href="{@domain}member.php?action=logout">退出</a>
+			<phpcom:else />
+				<a href="{@loginurl}">登录</a> | <a href="{@registerurl}">立即注册</a>
+			</phpcom:if></td>
+		</tr>
+	</table>
+</div>
+<div class="header">
+	<div class="logo"><a href="{@domain}"><img src="{@domain}{@tpldir}/images/logo.gif"></a></div>
+	<div class="shbox">
+		<form name="searchform" method="get" autocomplete="off" action="search.php">
+		<ul>
+			<li class="shtxt"><input type="text" id="searchword" name="word" value="{@title}" autocomplete="off" /></li>
+			<li class="shbtn"><button type="submit" name="submit" value="yes"><span>搜索</span></button></li>
+			<li class="shlst"></li>
+		</ul>
+		</form>
+	</div>
+	<div style="clear:both"></div>
+</div>
+<div class="result"><strong>搜索结果：</strong> 找到约 $count 条结果 （用时 $timer 秒）</div>
+<div class="shbody">
+	<div class="shlist">
+		<ul>
+		<phpcom:for-each select="$datalist" value="$result">
+			<li>
+				<h3><a href="{$result.url}" target="_blank">{$result.title}</a></h3>
+				<p>{$result.summary}<phpcom:if test="$result.image"><span class="thumb"><a href="{$result.url}" target="_blank"><img src="{$result.thumburl}" /></a></span></phpcom:if></p>
+				<div>{$result.date} {$result.url} - <em><a href="{$result.caturl}" target="_blank">{$result.catname}</a></em></div>
+			</li>
+		</phpcom:for-each>
+		</ul>
+	</div>
+	<div class="shside"></div>
+	<div class="shpage"><div class="pagebox">$showpage</div></div>
+</div>
+<div class="footer">
+	<div class="copyright">
+		<p>{phpcom::$setting['copyright']} <a class="icp" href="http://www.miibeian.gov.cn" target="_blank">{phpcom::$setting['icp']}</a> <span class="stat">{phpcom::$setting['statcode']}</span></p>
+		<p class="f10">{phpcom:value-of select="@processedTime()" disable-output-escaping="yes"}</p>
+	</div>
+</div>
+</body>
+</html>

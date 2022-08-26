@@ -1,0 +1,29 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="pagetab">
+	<dl>
+		<dt>$subject</dt>
+		<dd><a href="member.php?action=credit&do=basic">我的积分</a></dd>
+		<dd><a href="member.php?action=credit&do=buy">积分充值</a></dd>
+		<dd class="current"><a href="member.php?action=credit&do=rule">积分规则</a></dd>
+	</dl>
+</div>
+<div>
+	<ul class="creditl mt10 bbd cl">
+		<li class="c1 cl"><em> {$tradecredit_title}:</em>$tradecredit $tradecredit_unit &nbsp; <a href="member.php?action=credit&do=buy" class="c2">立即充值&raquo;</a></li>
+		<!--{phpcom:for-each test="$creditdata" value="$credit"}-->
+		<li><em> {$credit.title}:</em>{$credit.value} {$credit.unit}</li>
+		<!--{/phpcom:for-each}-->
+		<li class="cl"><em>积分:</em>$credits</li>
+	</ul>
+	<table cellspacing="0" cellpadding="0" class="tl">
+	<caption>积分记录</caption>
+	<tr>
+		<th width="80">操作</th>
+		<th width="80">积分变更</th>
+		<th>详情</th>
+		<th width="100">变更时间</th>
+	</tr>
+	<tr><td colspan="4"><p class="pem">目前没有积分交易记录</p></td></tr>
+	</table>
+</div>
+<!--{phpcom:template include="member/footer"}-->

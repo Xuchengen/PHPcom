@@ -1,0 +1,215 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> <!--{phpcom:categorynav value="$nav"}-->
+			&rsaquo;&rsaquo; <a href="{$nav.url}">{$nav.name}</a> 
+			<!--{/phpcom:categorynav}--></em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<h2 class="h730 ht">{$title}</h2>
+				<table width="100%" align="center" class="tablesoft">
+					<tr>
+						<td class="trow1"><b>软件语言：</b>{phpcom:echo @getListAnchor($softlang, 'softlang', 1)}</td><td class="trow1"><b>软件大小：</b>$size</td>
+						<td width="302" rowspan="8" class="rowspan" id="previewimg"><!--{phpcom:if test="$image"}--><a href="{$previewurl}"><img src="{$picurl}" /></a><!--{phpcom:else}-->{phpcom:advert name="Square"}<!--{/phpcom:if}--></td>
+					</tr>
+					<tr>
+						<td class="trow2"><b>软件类型：</b>{phpcom:echo @getListAnchor($softtype, 'softtype', 1)}</td><td class="trow2"><b>授权方式：</b>{phpcom:echo @getListAnchor($license, 'license', 1)}</td>
+					</tr>
+					<tr>
+						<td class="trow1"><b>更新时间：</b>$datetime</td><td class="trow1 star"><b>推荐星级：</b><img src="{@domain}misc/images/star/star{$star}.gif" /></td>
+					</tr>
+					<tr>
+						<td class="trow2"><b>软件厂商：</b>$developers</td><td class="trow2"><b>联系方式：</b>$contact</td>
+					</tr>
+					<tr>
+						<td class="trow1" colspan="2"><b>运行环境：</b>$runsystem</td>
+					</tr>
+					<tr>
+						<td class="trow2" colspan="2"><b>软件MD5：</b>$md5sums</td>
+					</tr>
+					<tr>
+						<td class="trow2 softauthtest" colspan="2" id="softauthtest">
+						<span class="softauth"><b>软件检测：</b></span>
+						<ul>
+						<!--{phpcom:for-each select="$testlist" value="$test"}-->
+							<!--{phpcom:if test="$test.url"}-->
+							<li><a href="{$test.url}"{$test.colors} target="_blank"><img src="{@domain}{@tpldir}/images/icons/{$test.icons}.gif" />{$test.caption}</a>
+							<!--{phpcom:else}-->
+							<li{$test.colors}><img src="{@domain}{@tpldir}/images/icons/{$test.icons}.gif" />{$test.caption}
+							<!--{/phpcom:if}-->
+						</li>
+						<!--{/phpcom:for-each}-->
+						</ul>
+						<div style="clear:both;"></div>
+						</td>
+					</tr>
+					<tr>
+						<td width="428" colspan="2">
+							<div id="diggbury" class="diggwrap">
+								<div class="diggbox digg" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=up&tid=$tid&type=soft','diggbury')">
+									<div class="txt">这款软件不错<em>($voteup)</em></div>
+									<div class="progress">
+										<div class="bar"><span style="width:$percentup"></span></div>
+										<div class="percent">$percentup</div>
+									</div>
+								</div>
+								<div class="diggbox bury" onclick="ajaxget('{@instdir}apps/ajax.php?action=digg&do=down&tid=$tid&type=soft','diggbury')">
+									<div class="txt">这款软件很差<em>($votedown)</em></div>
+									<div class="progress">
+										<div class="bar"><span style="width:$percentdown"></span></div>
+										<div class="percent">$percentdown</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class="a_high10">{phpcom:advert name="DownloadBottom"}</div>
+				<h2 class="h730">下载地址</h2>
+				<div class="downbox">
+				<table width="100%" align="center" class="downtable">
+					<tr>
+						<td class="sp10"></td>
+						<td class="downlist">
+						<dl>
+						<!--{phpcom:download value="$down" tid="$tid" display="0" sid="0"}-->
+						<!--{phpcom:if test="$down.depth"}-->
+							<!--{phpcom:if test="$down.child"}-->
+								<dt><a href="{$down.url}" target="_blank">{$down.name}</a></dt>
+							<!--{phpcom:else}-->
+								<dd><a href="{$down.url}">{$down.name}</a></dd>
+							<!--{/phpcom:if}-->
+						<!--{/phpcom:if}-->
+						<!--{/phpcom:download}-->
+						</dl>
+						<div style="clear:both;"></div>
+						</td>
+						<td class="sp10"></td>
+						<td class="downside">{phpcom:advert name="DownloadSide"}</td>
+					</tr>
+				</table>
+				</div>
+				{phpcom:if test="$attached == 2"}
+				<div class="high10"></div>
+				<h2 class="h730">软件截图</h2>
+				<div class="screenshot">
+					<ul>
+					{phpcom:attachimg value="$im" chanid="@chanid" tid="$tid" limit="5"}
+						<li><a href="{$im.pageurl}"><img src="{$im.thumburl}" /></a></li>
+					{/phpcom:attachimg}
+				</ul>
+				</div>
+				{/phpcom:if}
+				<div class="high10"></div>
+				<h2 class="h730">软件简介</h2>
+				<div class="softcontent">
+					<div class="textcontent" id="textcontent">$content</div>
+					<div class="tags"><span>Tags：<!--{phpcom:value-of select="@showTags($tags)" disable-output-escaping="yes"}--></span></div>
+					<div style="clear:both;"></div>
+					<div class="backnext">
+						<ul>
+							<li><b>上一软件：</b><!--{phpcom:prevthread chanid="@chanid" tid="$tid" length="33" ellipsis="..."}--></li>
+							<li><b>下一软件：</b><!--{phpcom:nextthread chanid="@chanid" tid="$tid" length="33" ellipsis="..."}--></li>
+						</ul>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+				<div class="high10"></div>
+				<h2 class="h730"><span class="y"><a href="$commenturl" class="f12">已有 <span class="c1">$commentnum</span> 人参与评论</a>&nbsp;&nbsp;</span>网友评论</h2>
+				<div class="comment">
+					<div class="list">
+						<table width="100%">
+						<!--{phpcom:for-each select="@threadComments($tid)" key="$commentid" value="$comment"}-->
+							<tr>
+								<td width="100" class="ca"><span class="c2">{$comment.author}</span></td>
+								<td class="ct">
+									{$comment.content}
+									<p class="cb">
+										<span class="x">{$comment.date}</span>
+										<span class="y">
+											<a href="javascript:void(0)" onclick="ajaxget('{@instdir}apps/comment.php?operation=voteup&tid=$tid&commentid=$commentid&id={$comment.id}','c.voteup_{$comment.id}')">支持(<span id="c.voteup_{$comment.id}" class="c1">{$comment.voteup}</span>)</a> &nbsp;
+											<a href="javascript:void(0)" onclick="showWindow('{@instdir}apps/ajax.php?action=comment&tid=$tid&commentid=$commentid', 'comment', 'get', 0);">回复</a>
+										</span>
+									</p>
+								</td>
+							</tr>
+						<!--{/phpcom:for-each}-->
+						</table>
+						<div class="clb"><a href="$commenturl" class="f14">查看所有评论 共 <span class="c1">$commentnum</span> 条</a></div>
+					</div>
+					<div style="clear:both;"></div>
+					<div id="postcomment" class="postcomment">
+					<div style="padding:10px 0;">请自觉遵守互联网相关政策法规，评论内容只代表网友观点，与本站立场无关！</div>
+					<form id="pmform" name="pmform" method="post" autocomplete="off" action="{@instdir}apps/comment.php" onsubmit="ajaxpost(this, null, 'btnsubmitcomment');return false;">
+						<input type="hidden" name="postsubmit" value="true" />
+						<input type="hidden" name="operation" value="post" />
+						<input type="hidden" name="tid" value="$tid" />
+						<input type="hidden" name="formtoken" value="{@formtoken}" />
+						<div style="overflow:auto;vertical-align:top;"><textarea cols="60" name="content" rows="5" style="width:698px;height:80px;position:relative;" class="textarea"></textarea></div>
+						<div style="margin-top:8px;line-height:26px;">
+							<button type="submit" id="btnsubmitcomment" class="btn b1"><strong>发表评论</strong></button> &nbsp;
+							<!--{phpcom:if test="@iscaptcha"}-->
+							验证码：
+							<input type="text" size="5" name="verifycode" id="verifycode" onblur="checkCaptcha(this.id, '{@instdir}')" class="input vm" />
+							<img id="captcha" src="{@instdir}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@instdir}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+							&nbsp; <span id="checkCaptcha" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span>
+							<!--{/phpcom:if}-->
+							&nbsp; <a href="{@loginurl}">登录</a> &nbsp; <a href="{@registerurl}">注册</a>
+						</div>
+					</form>
+					</div>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252">栏目导航</h2>
+				<ul class="catmenu">
+				<phpcom:category value="$cat" rootid="@rootid" limit="0">
+					{phpcom:if test="$cat.catid == $this->catid"}
+					<li><a href="{$cat.url}"{$cat.color}><strong>{$cat.name}</strong></a></li>
+					{phpcom:else}
+					<li><a href="{$cat.url}"{$cat.color}>{$cat.name}</a></li>
+					{/phpcom:if}
+				</phpcom:category>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">本类排行</h2>
+				<ul class="aicon">
+					<phpcom:threadlist value="$row" chanid="@chanid" rootid="@rootid" top="hot" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:threadlist>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h252-1">相关软件</h2>
+				<ul class="u list">
+					<phpcom:relatedtags value="$row" chanid="@chanid" tags="$tags" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:relatedtags>
+				</ul>
+				<div class="high10"></div>
+				<h2 class="h302-1">软件评分</h2>
+				<div class="b3">
+					<ul class="rating">
+						<li id="rating" class="big"><span class="star"><span class="rate" style="width:{$percent}"></span></span>
+						<span id="rategrade" class="grade">
+							<em rate="1" title="很差" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=1&type=video','rating')"></em>
+							<em rate="2" title="较差" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=2&type=video','rating')"></em>
+							<em rate="3" title="一般" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=3&type=video','rating')"></em>
+							<em rate="4" title="推荐" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=4&type=video','rating')"></em>
+							<em rate="5" title="力荐" onclick="ajaxget('{@instdir}apps/ajax.php?action=rate&tid=$tid&score=5&type=video','rating')"></em>
+						</span>
+						<strong class="score">{$scores}</strong>分 (<span class="c1">{$voters}</span>人评价)</li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<img src="{@domain}apps/count.php?image=yes&tid={$tid}" width="1" height="1" style="display: none" />
+<!--{phpcom:template include="common/footer"}-->

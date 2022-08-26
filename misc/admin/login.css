@@ -1,0 +1,41 @@
+*{outline:none;word-wrap:break-word}
+html {font-size:12px;border:0;margin:0; padding:0;padding-top:28px}
+body{border:none;background:#357FA6;color:#555555;font-family:Verdana, Arial, Trebuchet MS;margin:3px auto;}
+body, div, dl, dt, dd, ul, ol, li,form, button, textarea {margin: 0 auto;padding: 0;}
+img {border: 0;}
+input,button,textarea,select{font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;}
+input,button,textarea,select{*font-size: 100%;}
+ol, ul, dl {list-style: none;}
+table {border-collapse: collapse;border-spacing: 0;}
+.logintips{font:normal 14px/1.5 Verdana, Arial;color:#ff6600;}
+#login-header{height:120px;width:100%;}
+#login-main{height:260px;width:750px;}
+	#login-main .leftbox,#login-main .logobox,#login-main .linebox,#login-main .loginbox,#login-main .rightbox{
+		float:left;margin:0;height:260px;background:url(images/login_pic.png);
+	}
+	#login-main .leftbox {width:70px;background-repeat:no-repeat;background-position:0 0;}
+	#login-main .logobox {width:303px;background-repeat:repeat-x;background-position:left -780px;}
+	#login-main .linebox {width:5px;background-repeat:no-repeat;background-position:left -520px;}
+	#login-main .loginbox {width:302px;background-repeat:repeat-x;background-position:left -780px;}
+	#login-main .rightbox {width:70px;background-repeat:no-repeat;background-position:left -260px;}
+
+	#login-logo{margin-top:70px;margin-left:10px;}
+	#login-logo a{display:block;height:60px;width:186px;background:url(images/login_logo.gif) no-repeat;}
+	#login-text{margin-top:15px;margin-left:5px;line-height:20px;text-indent:20px}
+	#login-box table{}
+	#login-box{margin-top:70px;margin-left:10px;}
+		#login-box .input{font-size:13px;vertical-align:middle;height:17px;width:160px;margin-top:1px;border:1px solid #fff;color:#666;background:#fff;}
+		#login-box select{font-size:13px;vertical-align:middle;height:20px;margin-top:0px;border:1px solid #fff;color:#666;}
+		#login-box .login-select{float:left;border: 1px solid; border-color: #8cb7e1 #e3f0fc #e3f0fc #8cb7e1;margin-left:1.5em;_margin-left:0.3em;background:#fff;overflow:hidden;}
+		#login-box .login-select select{width:188px;*margin:-2px;*width:192px;}
+		#login-box .login-icon{width:188px;border: 1px solid; border-color: #8cb7e1 #e3f0fc #e3f0fc #8cb7e1;margin-left:1.5em;_margin-left:.7em;background:#fff;padding-right:0px;overflow:hidden;white-space:nowrap;}
+		#login-box .login-icon div{float:left;width:18px;height:20px;background:#fff url(images/login_icon.png);margin-top:2px;margin-left:3px;display:inline;}
+		#login-box .login-icon div.name{background-position:1px 2px;}
+		#login-box .login-icon div.pwd{background-position:1px -37px;}
+		#login-box .login-icon div.answer{background-position:1px -77px;}
+		#login-box .submit-button{margin-left:1.5em;margin-top:.6em;+margin-top:.3em;width:74px;height:25px;}
+
+
+#login-footer{text-align:center;margin:30px auto;}
+	#login-footer .copyright{color:#fff;}
+	#login-footer .copyright a{color:#ccc;text-decoration:none;}

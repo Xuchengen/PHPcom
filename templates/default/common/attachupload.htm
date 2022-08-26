@@ -1,0 +1,108 @@
+<div id="fbox_uploadattach" class="fwrap" style="display: none;">
+	<table id="fbox_uploadattach_table" class="fltable" cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="ftl"></td>
+			<td class="ftc"></td>
+			<td class="ftr"></td>
+		</tr>
+		<tr>
+			<td class="fml"></td>
+			<td id="ajax_content_uploadattach" class="flbody">
+				<ul id="fdrag_uploadattach" class="tab" autoresize="1" style="width: 570px; margin-top: 0pt;">
+					<li class="y"><a class="fclose" onclick="hideAttachWindow('uploadattach')" href="javascript:;" onmousedown="return false;"> 关闭 </a></li>
+					<li id="btn_swfupload" class="current"><a onclick="toggleAttachTabs('swfupload');" href="javascript:;"> 添加图片 </a></li>
+				</ul>
+				<script type="text/javascript">
+					function loadSWFUpload() {
+						var settings = {
+							flash_url : "{$instdir}misc/images/swfupload/swfupload.swf",
+							upload_url : "{$instdir}apps/misc.php?action=swfupload&operation=upload&chanid=$chanid&type=$type",
+							post_params : {
+								"uid" : "{$uid}",
+								"hash" : "{$hash}"
+							},
+							file_size_limit : "$filesizelimit",
+							file_types : "$attachextensions",
+							file_types_description : "$depiction",
+							file_upload_limit : 100,
+							file_queue_limit : 0,
+							custom_settings : {
+								progressTarget : "fsUploadProgress",
+								uploadButtonId : "btnUpload"
+							},
+							debug : false,
+
+							button_image_url : "{$instdir}misc/images/swfupload/swf-button.png",
+							button_width : "78",
+							button_height : "26",
+							button_placeholder_id : "spanButtonPlaceHolder",
+							button_text : '<span class="theFont">选择文件</span>',
+							button_text_style : ".theFont { font-size: 12; }",
+							button_text_left_padding : 12,
+							button_text_top_padding : 3,
+							button_cursor : SWFUpload.CURSOR.HAND,
+
+							file_queued_handler : fileQueued,
+							file_queue_error_handler : fileQueueError,
+							file_dialog_complete_handler : fileDialogComplete,
+							upload_start_handler : uploadStart,
+							upload_progress_handler : uploadProgress,
+							upload_error_handler : uploadError,
+							upload_success_handler : uploadSuccess,
+							upload_complete_handler : uploadComplete,
+							queue_complete_handler : uploadDone
+						};
+						window.swfu = new SWFUpload(settings);
+					}
+					setTimeout(function() {
+						if (typeof window.swfu == 'undefined' || !window.swfu) {
+							var script = document.createElement('script');
+							script.src = '{$instdir}misc/js/swfupload-min.js';
+							script.charset = '{$charset}';
+							script.onloadDone = false;
+							script.onload = function() {
+								script.onloadDone = true;
+								loadSWFUpload();
+							};
+							script.onreadystatechange = function() {
+								if ((script.readyState == 'loaded' || script.readyState == 'complete')
+										&& !script.onloadDone) {
+									script.onloadDone = true;
+									loadSWFUpload();
+								}
+							};
+							document.getElementsByTagName("head")[0].appendChild(script);
+						} else {
+							loadSWFUpload();
+						}
+					}, 200);
+
+					function uploadDone() {
+						window.location.href="?m=attachment&action=addimg&chanid={$chanid}&uid={$uid}&tid={$tid}&posttime={$posttime}";
+					}
+				</script>
+				<div id="tab_swfupload" class="panel-opt">
+					<form id="swfuploadform" method="post" enctype="multipart/form-data">
+						<div>
+							<span id="spanButtonPlaceHolder"> </span>
+							<button id="btnUpload" class="btnUpload" type="button" onclick="swfu.startUpload();">
+							<b> 开始上传 </b>
+							</button>
+							<span> 提示: 单个文件大小限制 <span class="red"> $filesizelimit </span> , 可以选择多个文件上传. </span>
+						</div>
+						<div class="uploadQueueHead">
+							上传列队 <span id="divStatus"> </span>
+						</div>
+						<div class="uploadQueue" id="fsUploadProgress"></div>
+					</form>
+				</div> <iframe id="uploadframe" style="display: none;" name="uploadframe" onload="uploadCallback();"> </iframe></td>
+			<td class="fmr"></td>
+		</tr>
+		<tr>
+			<td class="fbl"></td>
+			<td class="fbc"></td>
+			<td class="fbr"></td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">setTimeout(function(){appendAttachQueue('image');}, 100);</script>

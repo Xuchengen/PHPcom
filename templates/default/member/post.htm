@@ -1,0 +1,231 @@
+<!--{phpcom:template include="member/header"}-->
+<div class="pagetab">
+	<dl>
+		<dt>投稿</dt>
+		<dd{@currents.article}><a href="member.php?action=post&do=article">发布文章</a></dd>
+		<dd{@currents.soft}><a href="member.php?action=post&do=soft">发布软件</a></dd>
+		<dd><a href="member.php?action=thread">我的主题</a></dd>
+	</dl>
+</div>
+<script src="misc/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script type="text/javascript">
+phpcom.tid = {$tid};
+phpcom.chanid = {$chanid};
+
+if(typeof tinyMCE == "object") {
+	tinyMCE.init({
+		language : "zh-cn",
+		mode : "exact",
+		elements : "editor_content",
+		theme : "advanced",
+
+		plugins : "remoteupload,blockcode,noneditable,safari,pagebreak,table,save,advhr,advimage,advlink,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,nonbreaking,xhtmlxtras,wordcount",
+		theme_advanced_buttons1 : "code,|,bold,italic,underline,|,justifyleft,justifycenter,justifyright,|,blockquote,blockcode,image,|,link,unlink,selectall,removeformat,|,forecolor,backcolor,fontsizeselect",
+		theme_advanced_buttons2 : "",
+		theme_advanced_buttons3 : "",
+		theme_advanced_buttons4 : "",
+
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",
+		theme_advanced_resizing : true,
+		remove_linebreaks : false,
+		convert_urls : false,
+		relative_urls : true
+
+	});
+}
+
+function changeRunSystem(s){
+	if(!s) return false;
+	var runsystem = document.getElementById('runsystemtext');
+	var curvalue = runsystem.value;
+	if(curvalue == ''){
+		runsystem.value = s;
+	}else{
+		if(curvalue.indexOf(s) == -1){
+			runsystem.value += ', '+s;
+		}
+	}
+	runsystem.focus();
+	return false;
+}
+
+function formSubmit(form) {
+	if (form.title.value.trim() == '') {
+	{phpcom:if test="$do == 'soft'"}
+		showMessage("软件名称不能为空!");
+	{phpcom:else}
+		showMessage("文章标题不能为空!");
+	{/phpcom:if}
+		form.title.focus();
+		return false;
+	}
+	var iLength = tinyMCE.get('editor_content').getContent().length;
+	if (iLength == 0) {
+		showMessage("内容不能为空!");
+		return false;
+	}
+	return true;
+}
+</script>
+<div>
+	<form action="member.php?action=post&do={$do}&tid={$tid}&chinaid={$chanid}&postid={$postid}" method="post" name="form1" onsubmit="return formSubmit(this);" autocomplete="off">
+	<input type="hidden" name="formtoken" value="{@formtoken}" />
+	<table cellspacing="0" cellpadding="0" class="post">
+	<caption>{$title}</caption>
+		<tr>
+			<th>选择栏目</th>
+			<td><select class="select iw" name="catid">
+			{$select_category}
+			</select></td>
+		</tr>
+	<!--{phpcom:if test="$do == 'soft'"}-->
+		<tr>
+			<th>软件名称</th>
+			<td><input type="text" name="title" id="title" value="{phpcom:value-of select="$thread.title"}" class="input iw" />
+			<span class="d"><em>*</em> 软件名称必填</span></td>
+		</tr>
+		<tr>
+			<th>运行环境</th>
+			<td><input type="text" name="runsystem" id="runsystemtext" value="{$thread.runsystem}" class="input iw" />
+				<select class="select" name="selrunsystem" onChange="changeRunSystem(this.value)">
+					<option value="">请选择运行环境</option>
+					<option value="WinXP">WinXP</option>
+					<option value="Win2003">Win2003</option>
+					<option value="Vista">Vista</option>
+					<option value="Win7">Win7</option>
+					<option value="Win8">Win8</option>
+					<option value="Win2008">Win2008</option>
+					<option value="Dos">Dos</option>
+					<option value="Unix">Unix</option>
+					<option value="Linux">Linux</option>
+					<option value="Java">Java</option>
+					<option value="Android">Android</option>
+					<option value="Symbian">Symbian</option>
+					<option value="WinPhone">WinPhone</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>软件性质</th>
+			<td>
+			<select class="select" name="softlang" title="请选择软件语言"><optgroup label="请选择软件语言">
+				<option value="简体中文"{phpcom:if test="$thread.softlang == '简体中文'"} SELECTED{/phpcom:if}>简体中文</option>
+				<option value="繁体中文"{phpcom:if test="$thread.softlang == '繁体中文'"} SELECTED{/phpcom:if}>繁体中文</option>
+				<option value="英文"{phpcom:if test="$thread.softlang == '英文'"} SELECTED{/phpcom:if}>英文</option>
+				<option value="多国语言"{phpcom:if test="$thread.softlang == '多国语言'"} SELECTED{/phpcom:if}>多国语言</option>
+			</optgroup></select>
+			<select class="select" name="softtype" title="请选择软件类型"><optgroup label="请选择软件类型">
+				<option value="国产软件"{phpcom:if test="$thread.softtype == '国产软件'"} SELECTED{/phpcom:if}>国产软件</option>
+				<option value="国外软件"{phpcom:if test="$thread.softtype == '国外软件'"} SELECTED{/phpcom:if}>国外软件</option>
+				<option value="汉化补丁"{phpcom:if test="$thread.softtype == '汉化补丁'"} SELECTED{/phpcom:if}>汉化补丁</option>
+			</optgroup></select>
+			<select class="select" name="license" title="请选择授权方式"><optgroup label="请选择授权方式">
+				<option value="共享软件"{phpcom:if test="$thread.license == '共享软件'"} SELECTED{/phpcom:if}>共享软件</option>
+				<option value="免费软件"{phpcom:if test="$thread.license == '免费软件'"} SELECTED{/phpcom:if}>免费软件</option>
+				<option value="试用软件"{phpcom:if test="$thread.license == '试用软件'"} SELECTED{/phpcom:if}>试用软件</option>
+				<option value="商业软件"{phpcom:if test="$thread.license == '商业软件'"} SELECTED{/phpcom:if}>商业软件</option>
+				<option value="特别软件"{phpcom:if test="$thread.license == '特别软件'"} SELECTED{/phpcom:if}>特别软件</option>
+				<option value="绿色软件"{phpcom:if test="$thread.license == '绿色软件'"} SELECTED{/phpcom:if}>绿色软件</option>
+			</optgroup></select>
+			<select class="select" name="star" title="推荐星级"><optgroup label="推荐星级">
+				<option value="5"{phpcom:if test="$thread.star == 5"} SELECTED{/phpcom:if}>★★★★★</option>
+				<option value="4"{phpcom:if test="$thread.star == 4"} SELECTED{/phpcom:if}>★★★★</option>
+				<option value="3"{phpcom:if test="$thread.star == 3"} SELECTED{/phpcom:if}>★★★</option>
+				<option value="2"{phpcom:if test="$thread.star == 2"} SELECTED{/phpcom:if}>★★</option>
+				<option value="1"{phpcom:if test="$thread.star == 1"} SELECTED{/phpcom:if}>★</option>
+			</optgroup></select>
+			</td>
+		</tr>
+		<tr>
+			<th>软件大小</th>
+			<td><input type="text" name="softsize" value="{$thread.softsize}" class="input iw3" />
+				<label><input class="radio" type="radio" name="sizeunit" value="0" checked />&nbsp;KB&nbsp;</label>
+				<label><input class="radio" type="radio" name="sizeunit" value="1" />&nbsp;MB&nbsp;</label>
+				<label><input class="radio" type="radio" name="sizeunit" value="2" />&nbsp;GB&nbsp;</label>
+			</td>
+		</tr>
+		<tr>
+			<th>官方主页</th>
+			<td><input type="text" name="homepage" value="{$thread.homepage}" class="input iw" />
+			<span class="d">* 填写官方的网站网址，以“http://”开头，没有网站请留空</span></td>
+		</tr>
+		<tr>
+			<th>预 览 图</th>
+			<td><input type="text" name="imageurl" value="{$thread.imageurl}" class="input iw" />
+			<span class="d">* 填写预览图 URL，以“http://”开头，没有预览图请留空</span></td>
+		</tr>
+	<!--{phpcom:else}-->
+		<tr>
+			<th>文章标题</th>
+			<td><input type="text" name="title" id="title" value="{phpcom:value-of select="$thread.title"}" class="input iw" />
+			<span class="d"><em>*</em> 文章标题必填</span></td>
+		</tr>
+		<tr>
+			<th>文章作者</th>
+			<td><input type="text" name="author" id="authortext" value="{$thread.author}" class="input iw3" />
+				<select class="select" name="selauthortext" onChange="authortext.value=this.value;">
+					<option value="选择文章作者" SELECTED>选择文章作者</option>
+					<option value="佚名">佚名</option>
+					<option value=" 本站"> 本站</option>
+					<option value=" 不详"> 不详</option>
+					<option value=" 未知"> 未知</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>文章来源</th>
+			<td><input type="text" name="source" id="sourcetext" value="{$thread.source}" class="input iw3" />
+				<select class="select" name="selsourcetext" onChange="sourcetext.value=this.value;">
+					<option value="选择文章来源" SELECTED>选择文章来源</option>
+					<option value=" 原创"> 原创</option>
+					<option value=" 不详"> 不详</option>
+					<option value=" 转载"> 转载</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>引用网址</th>
+			<td><input type="text" name="trackback" value="{$thread.trackback}" class="input iw" />
+			<span class="d">* 如果你的文章是转载其它网站，填写转载的网址</span></td>
+		</tr>
+	<!--{/phpcom:if}-->
+		<tr>
+			<th>相关标签</th>
+			<td><input type="text" name="tags" value="{$thread.tags}" class="input iw" />
+			<span class="d">* 多个标签请用英文逗号或空格分开，最多 5 个标签</span></td>
+		</tr>
+		<tr>
+			<td colspan="2"><textarea id="editor_content" name="content" style="width:99%;height:300px;">{phpcom:value-of select="$thread.content" disable-output-escaping="no"}</textarea></td>
+		</tr>
+	<!--{phpcom:if test="$do == 'soft'"}-->
+		<!--{phpcom:for-each select="$downloads" key="$key" value="$down"}-->
+		<tr>
+			<th>下载地址 {$down.index}</th>
+			<td><input type="text" name="download[$key][downurl]" value="{$down.downurl}" class="input iw" />
+			下载说明：<input type="text" name="download[$key][dname]" value="{$down.dname}" class="input iw2" />
+			<input type="hidden" name="download[$key][id]" value="{$down.id}" /></td>
+		</tr>
+		<!--{/phpcom:for-each}-->
+	<!--{/phpcom:if}-->
+	</table>
+	<table cellspacing="0" cellpadding="0" class="post">
+	<!--{phpcom:if test="phpcom::$setting['captchastatus'][3]"}-->
+		<tr>
+			<th>验证码</th>
+			<td class="captcha">
+				<input type="text" name="verifycode" id="verifycode" onblur="checkVerifyCode(this.id)" class="input" />
+				<img id="captcha" src="apps/misc.php?action=captcha" onclick="updateCaptcha(this)" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" /><a href="javascript:void(0)" onclick="updateCaptcha(this.previousSibling);">刷新验证码</a>
+				&nbsp; <span id="checkCaptcha" style="display:none"><img src="misc/images/none.gif" width="16" height="16" class="vam" /></span>
+			</td>
+		</tr>
+	<!--{/phpcom:if}-->
+		<tr>
+			<th>&nbsp;</th>
+			<td><button type="submit" name="btnsubmit" value="true" class="btn bn2" /><strong>提 交</strong></button></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<!--{phpcom:template include="member/footer"}-->

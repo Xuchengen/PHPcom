@@ -1,0 +1,70 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="generator" content="PHPcom 1.0" />
+<link href="{@instdir}{@tpldir}/member/images/member.css" rel="stylesheet" type="text/css"/>
+<link href="{@instdir}misc/css/common.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{@instdir}misc/js/common.js"></script>
+<script type="text/javascript" src="{@instdir}misc/js/member.js"></script>
+</head>
+<body onkeydown="if(event.keyCode==27) return false;">
+<div class="header">
+	<table width="100%" align="center" class="ht">
+		<tr>
+			<td class="logo"><a href="{@website}"><img src="{@instdir}{@tpldir}/member/images/logo.gif"></a></td>
+			<td class="banner"><div></div></td>
+			<td class="nav"><div>
+				<a href="{@instdir}">网站首页</a> | <a href="{@domain}member.php?action=logout">退出</a> | 帮助 |
+				<!--{phpcom:if test="@allowadmin"}--> <a href="{@adminscript}" target="_blank">管理</a> | <!--{/phpcom:if}-->
+				&nbsp; 你好，{@groupname} &nbsp; <strong>{@username}</strong>
+			</div></td>
+		</tr>
+	</table>
+</div>
+<div class="navbar">
+	<table width="100%" align="center">
+		<tr>
+			<td class="guide">
+				<a class="home" href="{@website}"><span>当前位置：</span></a>
+				<a href="{@instdir}"><span>{@webname}首页</span></a> 
+				<!--{phpcom:if test="@action != 'index'"}--><span class="separator">&raquo;</span> <span><a href="member.php">个人中心</a></span><!--{/phpcom:if}-->
+				<span class="separator">&raquo;</span> <span class="current">{@title}</span>
+			</td>
+			<td class="info"></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" height="500" align="center" class="tablemain">
+		<tr>
+			<td class="menubox">
+				<h1>用户管理</h1>
+				<div class="line"></div>
+				<dl>
+					<dd><a href="member.php?action=index">用户首页</a></dd>
+					<dd><a href="member.php?action=profile">个人资料</a></dd>
+					<dd><a href="member.php?action=password">密码安全</a></dd>
+				</dl>
+				<div class="line"></div>
+				<dl>
+					<dd><a href="member.php?action=credit">用户积分</a></dd>
+					<dd><a href="member.php?action=usergroup">用户组</a></dd>
+					<dd><a href="member.php?action=thread">我的主题</a></dd>
+					<dd><a href="member.php?action=post">投稿</a></dd>
+				</dl>
+				<div class="line"></div>
+				<dl>
+					<dd><a href="member.php?action=notice">通知</a></dd>
+					<dd><a href="member.php?action=message">短消息</a></dd>
+					<dd><a href="member.php?action=friend">我的好友</a></dd>
+					<dd><a href="member.php?action=favorite">收藏夹</a></dd>
+				</dl>
+				<div class="line"></div>
+				<dl>
+					<dd><a href="member.php?action=logout">退出</a></dd>
+				</dl>
+			</td>
+			<td class="partition"></td>
+			<td class="mainbox">

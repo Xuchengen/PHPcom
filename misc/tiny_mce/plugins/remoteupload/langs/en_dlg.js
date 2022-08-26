@@ -1,0 +1,11 @@
+tinyMCE.addI18n('zh.remoteupload_dlg',{
+title:"\u4FDD\u5B58\u8FDC\u7A0B\u56FE\u7247",
+desc:"\u5F53\u524D\u6587\u4EF6",
+unit:"\u4E2A\u6587\u4EF6",
+total:"\u603B\u5171\u6709",
+downloaded:"\u5DF2\u4E0B\u8F7D",
+analysis:"\u6B63\u5728\u5206\u6790\u4E2D...",
+message:"\u6587\u4EF6\u6B63\u5728\u4E0A\u4F20\u5904\u7406\u4E2D.\u8BF7\u8010\u5FC3\u7B49...",
+complete:"\u5B8C\u6210",
+cancel:"\u53D6\u6D88"
+});

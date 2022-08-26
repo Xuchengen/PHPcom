@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={@charset}" />
+<title>{@title} - {@webname} - Powered by PHPcom</title>
+<meta name="description" content="{@description}" />
+<link type="text/css" rel="stylesheet" href="{@domain}{@tpldir}/special.css" />
+<link type="text/css" rel="stylesheet" href="{@domain}misc/css/common.css" />
+<script type="text/javascript" src="{@domain}misc/js/common.js"></script>
+<script type="text/javascript" src="{@domain}misc/js/slideutil.js"></script>
+
+<style type="text/css">
+body {background:url(background) repeat;}
+</style>
+
+</head>
+<body>
+<div class="topwrap" id="navigation">
+	<div class="topstrap">
+		<table width="100%">
+			<tr>
+				<td class="t1"><a href="{@domain}">
+				<img src="{@domain}{@tpldir}/images/special/logo.png" style="width:150px;height:30px;border:none;vertical-align:middle;" />
+				</a></td>
+				<td class="t2"></td>
+				<td class="t3"><a href="{@domain}">首页</a> | 
+				<!--{phpcom:channel value="$menu"}-->
+				<a href="{$menu.url}"{$menu.target}{$menu.color}>{$menu.name}</a> | 
+				<!--{/phpcom:channel}-->
+				<a href="{@memberurl}">会员中心</a></td>
+			</tr>
+		</table>
+	</div>
+</div>

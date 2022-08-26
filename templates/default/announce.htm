@@ -1,0 +1,33 @@
+<!--{phpcom:template include="common/header"}-->
+<div class="nav">
+	<table width="100%" align="center">
+		<tr>
+			<td class="td-nav"><em>当前位置 &rsaquo;&rsaquo; <a href="{@domain}">首页</a> &rsaquo;&rsaquo; 公告</em></td>
+		</tr>
+	</table>
+</div>
+<div class="container">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="td-730">
+				<h2 class="h730" style="font-size:14px">{@title}</h2>
+				<div class="lstbox">
+					<div style="font:normal 14px/1.5 Verdana, Arial;">{$content}</div>
+					<div class="high10"></div>
+					<div style="text-align:right;over">{$dateline}</div>
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="td-252">
+				<h2 class="h252-1">最新公告</h2>
+				<ul class="aicon">
+					<phpcom:announce value="$row" limit="10" length="30" ellipsis="...">
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					</phpcom:announce>
+				</ul>
+				<div class="high10"></div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:template include="common/footer"}-->

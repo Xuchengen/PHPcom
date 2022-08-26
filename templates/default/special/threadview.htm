@@ -1,0 +1,230 @@
+<!--{phpcom:template include="special/header"}-->
+<div class="headwrap">
+	<div class="header">
+		<table width="100%" align="center">
+			<tr>
+				<td{phpcom:if test="$banner"} style="background:url({$banner}) repeat;"{/phpcom:if}><h1>{@title}</h1></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--{phpcom:if test="$existclass"}-->
+<div class="mainwrap nav">
+	<ul>
+		<li class="home"><a href="$currenturl">专题首页</a></li>
+		<!--{phpcom:specialclass value="$class" tid="$tid" domain="$domain" urlargs="$defurlargs" variable="specialclass"}-->
+		<li><a href="{$class.url}" target="{$class.target}">{$class.name}</a></li>
+		<!--{/phpcom:specialclass}-->
+		<li class="last"></li>
+	</ul>
+</div>
+<!--{/phpcom:if}-->
+<div class="mainwrap">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="tw302">
+				<div class="slide302">
+					<div class="slidebox">
+						<ul class="slideshow" id="slideshowA"></ul>
+						<div class="slidefade"></div>
+						<ul class="slidenav" id="slidenavA"></ul>
+					</div>
+				</div>
+				<dl id="slideDataA" style="display:none">
+				<!--{phpcom:fetchthread value="$img" chanid="1" focus="1" specid="$tid" image="yes" limit="5" length="32"}-->
+					<dt><a href="{$img.url}">{$img.title}</a></dt>
+					<dd>{$img.previewurl}</dd>
+				<!--{/phpcom:fetchthread}-->
+				</dl>
+				<script type="text/javascript">playslide('slideDataA','slideshowA','slidenavA',6,'current',298,240);</script>
+				<script type="text/javascript">
+				var player = {
+					$: function(id){return !id ? null : document.getElementById(id);},
+					url: '',
+					width: '100%',
+					height: '270',
+					domain: '{@domain}',
+					html: null,
+					loadscript: function(src){
+						var script = document.createElement('script');
+						script.type = "text/javascript";
+						script.charset = '{@charset}';
+						script.src = src;
+						document.getElementsByTagName("head")[0].appendChild(script);
+					},
+					load: function(id, url){
+						this.url = url;
+						this.loadscript(this.domain + 'misc/player/' + id + '.js');
+					},
+					show: function(html){this.$('videocontent').innerHTML = this.html;}
+				};
+				
+				</script>
+				<!--{phpcom:fetchvideo value="$vod" address="yes" limit="1"}-->
+				<script type="text/javascript">setTimeout(function(){player.load('{$vod.player}', '{$vod.playurl}')}, 500);</script>
+				<!--{/phpcom:fetchvideo}-->
+				<div class="high10"></div>
+				<div id="videocontent" class="vodbox">
+				</div>
+			</td>
+			<td class="sp10"></td>
+			<td class="tw400">
+				<div class="hotbox">
+					<dl>
+					<!--{phpcom:fetchthread value="$row" chanid="1" specid="$tid" topline="1" limit="2" length="42" ellipsis=""}-->
+						<dt><a href="{$row.url}" target="_blank"{$row.highlight}>{$row.title}</a></dt>
+						<dd>{phpcom:value-of select="$row.summary" length="110" ellipsis="..." disable-output-escaping="yes"} <span><a href="{$row.url}" target="_blank" class="c2">[详细]</a></span></dd>
+					<!--{/phpcom:fetchthread}-->
+					</dl>
+				</div>
+				<div class="high10"></div>
+				<div class="hotbox">
+					<dl class="dl400">
+					<!--{phpcom:formatthread value="$row" chanid="1" specid="$tid" key="$index" limit="38" length="55" rows="3" target="1" first="1" start="" end=" "}-->
+						<!--{phpcom:if test="$index==0"}-->
+						<dt>{$row.title}</dt>
+						<!--{phpcom:else}-->
+						<dd><a href="{$row.curl}" target="_blank">{$row.name}</a>：{$row.title}</dd>
+						<!--{/phpcom:if}-->
+					<!--{/phpcom:formatthread}-->
+					</dl>
+				</div>
+				<div class="high10"></div>
+				<div class="hotbox">
+					<dl class="dl400">
+					<!--{phpcom:formatthread value="$row" chanid="0" specid="$tid" key="$index" top="hot" limit="38" length="56" rows="3" target="1" first="1" start="" end=" "}-->
+						<!--{phpcom:if test="$index==0"}-->
+						<dt>{$row.title}</dt>
+						<!--{phpcom:else}-->
+						<dd><a href="{$row.curl}" target="_blank">{$row.name}</a>：{$row.title}</dd>
+						<!--{/phpcom:if}-->
+					<!--{/phpcom:formatthread}-->
+					</dl>
+				</div>
+				<div class="high10"></div>
+				<h2 class="hbg"><em class="more"><a href="" target="_blank">more</a></em>最新消息</h2>
+				<ul class="u lst d2">
+				<!--{phpcom:threadlist value="$row" chanid="1" specid="$tid" limit="5" length="46" ellipsis="..." format="Y-m-d"}-->
+					<li>[<a href="{$row.caturl}"{$row.target}{$row.color}>{$row.subname}</a>] <a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+				<!--{/phpcom:threadlist}-->
+				</ul>
+			</td>
+			<td class="sp10"></td>
+			<td class="tw270">
+				<h2 class="hbg">热点排行</h2>
+				<ul class="u idx">
+					<!--{phpcom:threadlist value="$row" chanid="0" specid="$tid" top="hot" limit="10" length="34" ellipsis="..." format="m-d"}-->
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					<!--{/phpcom:threadlist}-->
+				</ul>
+				<div class="high10"></div>
+				<h2 class="hbg">本周热点</h2>
+				<ul class="u idx">
+					<!--{phpcom:threadlist value="$row" chanid="0" catid="0" top="W" limit="10" length="34" ellipsis="..." format="m-d"}-->
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					<!--{/phpcom:threadlist}-->
+				</ul>
+			</td>
+		<tr>
+	</table>
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="tw302">
+				<h2 class="hbg">最新文章</h2>
+				<ul class="u lst d1">
+				<!--{phpcom:threadlist value="$row" chanid="1" catid="0" limit="10" length="35" ellipsis="..." format="m-d"}-->
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+				<!--{/phpcom:threadlist}-->
+				</ul>
+			</td>
+			<td class="sp10"></td>
+			<td class="tw400">
+				<h2 class="hbg"><em class="more"><a href="#" target="_blank">more</a></em>最近更新</h2>
+				<ul class="u lst d2">
+				<!--{phpcom:threadlist value="$row" chanid="0" catid="0" limit="10" length="46" ellipsis="..." format="Y-m-d"}-->
+					<li>[<a href="{$row.caturl}"{$row.target}{$row.color}>{$row.subname}</a>] <a href="{$row.url}"{$row.highlight}>{$row.title}</a>{$row.date}</li>
+				<!--{/phpcom:threadlist}-->
+				</ul>
+			</td>
+			<td class="sp10"></td>
+			<td class="tw270">
+				<h2 class="hbg">热点新闻</h2>
+				<ul class="u idx">
+					<!--{phpcom:threadlist value="$row" chanid="1" catid="0" top="y" limit="10" length="34" ellipsis="..." format="m-d"}-->
+					<li><a href="{$row.url}"{$row.highlight}>{$row.title}</a></li>
+					<!--{/phpcom:threadlist}-->
+				</ul>
+			</td>
+		<tr>
+	</table>
+	<!--#div>$content</div#-->
+</div>
+<div class="mainwrap">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="tw992">
+				<h2 class="hbg-1">相关图片</h2>
+				<div class="pic-cont-box">
+					<div class="picauto" id="picAutoContent">
+					<!--{phpcom:fetchthread value="$img" chanid="0" specid="$tid" image="yes" limit="6" length="22"}-->
+						<div class="pic-cont"> 
+							<a href="{$img.url}" target="_blank"><img src="{$img.thumburl}" width="135" height="90" alt="{$img.subject}" alt="{$img.subject}" /></a> 
+							<p><a href="{$img.url}" target="_blank">{$img.title}</a></p> 
+						</div>
+					<!--{/phpcom:fetchthread}-->
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<!--{phpcom:if test="!$bancomment"}-->
+<div class="mainwrap">
+	<table width="100%" align="center" class="tablestyle">
+		<tr>
+			<td class="tw992">
+				<h2 class="hbg-2">网友评论</h2>
+				<div class="commentbox">
+					<div class="postcomment">
+						<p style="padding:5px 0;">共有 <span class="c1">$commentnum</span> 人参与评论，<a href="{$commenturl}" class="c2" target="_blank">查看所有评论</a>，请自觉遵守互联网相关政策法规，评论内容只代表网友观点，与本站立场无关！</p>
+						<form id="pmform" name="pmform" method="post" autocomplete="off" action="{@domain}apps/comment.php" onsubmit="ajaxpost(this, null, 'btnsubmitcomment');return false;">
+						<input type="hidden" name="postsubmit" value="true" />
+						<input type="hidden" name="operation" value="post" />
+						<input type="hidden" name="tid" value="{$tid}" />
+						<input type="hidden" name="formtoken" value="{@formtoken}" />
+						<p><textarea cols="60" name="content" rows="5" style="width:98%;height:80px;position:relative;" class="textarea"></textarea></p>
+						<p style="padding:10px 0 0;"><button type="submit" id="btnsubmitcomment" class="btn b1"><strong>发表评论</strong></button> &nbsp;
+							<!--{phpcom:if test="@iscaptcha"}-->
+							验证码：
+							<input type="text" size="5" name="verifycode" id="verifycode" onblur="checkCaptcha(this.id, '{@domain}')" class="input vm" />
+							<img id="captcha" src="{@domain}apps/misc.php?action=captcha" onclick="updateCaptcha(this, '{@domain}')" style="cursor:pointer" title="看不清楚，换一张" align="absmiddle" />
+							&nbsp; <span id="checkCaptcha" style="display:none"><img src="{@domain}misc/images/none.gif" width="16" height="16" class="vm" align="absmiddle" /></span>
+							<!--{/phpcom:if}-->
+							&nbsp; <a href="{@loginurl}">登录</a> &nbsp; <a href="{@registerurl}">注册</a></p>
+						</form>
+					</div>
+					<dl class="cmntlst">
+					<!--{phpcom:for-each select="@threadComments($tid)" key="$commentid" value="$comment"}-->
+						<dt>{$comment.date} &nbsp; <span class="c2">{$comment.author}</span></dt>
+						<dd>{$comment.content}
+							<p class="cb">
+								<span class="y">
+									<a href="javascript:void(0)" onclick="ajaxget('{@domain}apps/comment.php?action=comment&operation=voteup&tid=$tid&commentid=$commentid&id={$comment.id}','c.voteup_{$commentid}')">支持(<span id="c.voteup_{$commentid}" class="c1">{$comment.voteup}</span>)</a> &nbsp;
+									<a href="javascript:void(0)" onclick="showWindow('{@domain}apps/ajax.php?action=comment&tid=$tid&commentid=$commentid', 'comment', 'get', 0);">回复</a>
+								</span>
+							</p>
+						</dd>
+					<!--{/phpcom:for-each}-->
+					</dl>
+					<div class="clb"><a href="{$commenturl}" class="f14">查看所有评论 共 <span class="c1">$commentnum</span> 条</a></div>
+				</div>
+			</td>
+		<tr>
+	</table>
+	<div class="high10"></div>
+</div>
+<!--{phpcom:else}-->
+	<div class="high10"></div>
+<!--{/phpcom:if}-->
+<img src="{@domain}apps/count.php?image=yes&tid={$tid}" width="1" height="1" style="display: none" />
+<!--{phpcom:template include="special/footer"}-->
